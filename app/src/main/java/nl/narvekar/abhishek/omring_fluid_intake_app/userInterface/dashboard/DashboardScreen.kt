@@ -23,39 +23,23 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import nl.narvekar.abhishek.omring_fluid_intake_app.R
+import nl.narvekar.abhishek.omring_fluid_intake_app.navigation.AppBottomNav
 
-@Preview(showBackground = true, widthDp = 774, heightDp = 800)
+@Preview(showBackground = true, widthDp = 774, heightDp = 900)
 @Composable
 fun DashBoardScreen() {
-    val gradientBlueWhite = Brush.verticalGradient(0f to Color(0xFF1BAEEE), 1000f to Color(
-        0xFFFFFFFF
+    val gradientBlueWhite = Brush.verticalGradient(
+        0f to Color(0xFF1BAEEE),
+        1000f to Color(0xFFFFFFFF)
     )
-    )
-//    Row(modifier = Modifier
-//        .fillMaxWidth()
-//        .background(gradientBlueWhite)
-//        .height(80.dp),
-//        horizontalArrangement = Arrangement.Center
-//    ) {
-//        Column() {
-//            Spacer(modifier = Modifier.height(20.dp))
-//            Text(
-//                text = "Dashboard",
-//                fontSize = 22.sp,
-//                color = Color(0xFF1B7D71),
-//                fontWeight = FontWeight.Bold
-//            )
-//        }
-//    }
-
-    //Spacer(modifier = Modifier.width(70.dp))
-    
     Column(Modifier.fillMaxSize()) {
         Box(modifier = Modifier
             .fillMaxWidth()
             .background(gradientBlueWhite)
             .height(80.dp)) {
-            Column(modifier = Modifier.align(Alignment.Center)) {
+            Column(
+                modifier = Modifier.align(Alignment.Center)
+            ) {
                 Text(
                     text = "Dashboard",
                     fontSize = 32.sp,
@@ -103,67 +87,42 @@ fun DashBoardScreen() {
        }
        Spacer(modifier = Modifier.height(20.dp))
 
-        Column(modifier = Modifier
-            .border(BorderStroke(5.dp, Color.Red))
-            .width(320.dp)
-            .height(390.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Image(
-                painter = painterResource(R.drawable.omring_logo),
-                contentDescription = ""
-            )
+        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
+            // Fluid Intake Button
+            Column(modifier = Modifier
+                .border(BorderStroke(5.dp, Color(0xFF1B7D71)))
+                .width(270.dp)
+                .height(390.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ) {
+                Spacer(modifier = Modifier.height(40.dp))
+                Image(
+                    painter = painterResource(R.drawable.water_intake),
+                    contentDescription = "water intake image"
+                )
+                Spacer(modifier = Modifier.height(40.dp))
+                Text(text = "Fluid Intake", fontSize = 35.sp)
+            }
+            Spacer(modifier = Modifier.width(30.dp))
+            // Recipe Button
+            Column(modifier = Modifier
+                .border(BorderStroke(5.dp, Color(0xFF1B7D71)))
+                .width(270.dp)
+                .height(390.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ) {
+                Spacer(modifier = Modifier.height(10.dp))
+                Image(
+                    painter = painterResource(R.drawable.recipe),
+                    contentDescription = "water intake image"
+                )
+                Spacer(modifier = Modifier.height(20.dp))
+                Text(text = "Recipes", fontSize = 35.sp)
+            }
         }
-
-//        Column(
-//            modifier = Modifier
-//                .fillMaxWidth()
-//                .fillMaxHeight(),
-//            verticalArrangement = Arrangement.Center,
-//            horizontalAlignment = Alignment.CenterHorizontally
-//        ) {
-//            Row(
-//                horizontalArrangement = Arrangement.Center,
-//                verticalAlignment = Alignment.Top
-//            ) {
-//                OutlinedButton(
-//                    onClick = {
-//                        // navigate to fluid intake popup
-//                    },
-//                    border = BorderStroke(5.dp, Color.Red),
-//                    modifier = Modifier.height(320.dp)
-//
-//                ) {
-//                    Column(
-//                        horizontalAlignment = Alignment.CenterHorizontally,
-//                        verticalArrangement = Arrangement.Top
-//                    ) {
-//                        Image(
-//                            painter = painterResource(R.drawable.omring_logo),
-//                            contentDescription = "random icon"
-//                        )
-//                    }
-//
-//                    Text(text = "Fluid Intake", fontSize = 35.sp)
-//
-//                }
-//                Spacer(modifier = Modifier.width(50.dp))
-//                OutlinedButton(
-//                    onClick = {
-//                        // navigate to fluid intake popup
-//                    },
-//                    border = BorderStroke(5.dp, Color.Red)
-//                ) {
-//                    Column(Modifier.height(290.dp)) {
-//                        Image(
-//                            painter = painterResource(R.drawable.target_icon),
-//                            contentDescription = "random icon"
-//                        )
-//                    }
-//
-//                    Text(text = "Fluid Intake", textAlign = TextAlign.Center, fontSize = 35.sp)
-//                }
-//            }
-//        }
+        Spacer(modifier = Modifier.height(20.dp))
+        AppBottomNav()
     }
 }
