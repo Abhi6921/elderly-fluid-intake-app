@@ -1,5 +1,6 @@
 package nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.dashboard.components
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
@@ -9,6 +10,8 @@ import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Cancel
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -20,12 +23,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 
-@Preview(showBackground = true)
+
 @Composable
-fun SelectDrinkDialog() {
+fun SelectDrinkDialog(value: String, setShowDialog: (Boolean) -> Unit, setValue: (Float) -> Unit) {
 
     Dialog(
-        onDismissRequest = { /*TODO*/ }
+        onDismissRequest = { setShowDialog(false) }
     ) {
         Surface(
             shape = RoundedCornerShape(16.dp),
@@ -50,6 +53,7 @@ fun SelectDrinkDialog() {
                         modifier = Modifier
                             .width(30.dp)
                             .height(30.dp)
+                            .clickable { setShowDialog(false) }
                     )
                 }
 
@@ -58,7 +62,8 @@ fun SelectDrinkDialog() {
                     Box(modifier = Modifier.padding(40.dp, 60.dp, 40.dp, 0.dp)) {
                         Button(
                             onClick = {
-
+                                setValue(0.1f)
+                                setShowDialog(false)
                             },
                             shape = RoundedCornerShape(50.dp),
                             modifier = Modifier
@@ -72,7 +77,8 @@ fun SelectDrinkDialog() {
                     Box(modifier = Modifier.padding(40.dp, 15.dp, 40.dp, 0.dp)) {
                         Button(
                             onClick = {
-
+                                setValue(0.2f)
+                                setShowDialog(false)
                             },
                             shape = RoundedCornerShape(50.dp),
                             modifier = Modifier
@@ -86,7 +92,8 @@ fun SelectDrinkDialog() {
                     Box(modifier = Modifier.padding(40.dp, 15.dp, 40.dp, 0.dp)) {
                         Button(
                             onClick = {
-
+                                setValue(0.3f)
+                                setShowDialog(false)
                             },
                             shape = RoundedCornerShape(50.dp),
                             modifier = Modifier
@@ -97,15 +104,15 @@ fun SelectDrinkDialog() {
                         }
                     }
 
-                    Spacer(modifier = Modifier.height(10.dp))
-                    Column(
-                        modifier = Modifier.fillMaxWidth(),
-                        verticalArrangement = Arrangement.Center,
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        Button(onClick = {}, shape = RoundedCornerShape(9.dp))
-                        { Text("OK") }
-                    }
+//                    Spacer(modifier = Modifier.height(10.dp))
+//                    Column(
+//                        modifier = Modifier.fillMaxWidth(),
+//                        verticalArrangement = Arrangement.Center,
+//                        horizontalAlignment = Alignment.CenterHorizontally
+//                    ) {
+//                        Button(onClick = {}, shape = RoundedCornerShape(9.dp))
+//                        { Text("OK") }
+//                    }
 
                 }
             }
