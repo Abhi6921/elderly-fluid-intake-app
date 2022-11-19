@@ -25,7 +25,7 @@ import androidx.compose.ui.unit.sp
 import nl.narvekar.abhishek.omring_fluid_intake_app.R
 import nl.narvekar.abhishek.omring_fluid_intake_app.navigation.AppBottomNav
 
-@Preview(showBackground = true, widthDp = 774, heightDp = 900)
+
 @Composable
 fun DashBoardScreen() {
     val gradientBlueWhite = Brush.verticalGradient(
@@ -35,10 +35,10 @@ fun DashBoardScreen() {
     Column(Modifier.fillMaxSize()) {
         Box(modifier = Modifier
             .fillMaxWidth()
-            .background(gradientBlueWhite)
-            .height(80.dp)) {
+            //.background(gradientBlueWhite)
+            .height(380.dp)) {
             Column(
-                modifier = Modifier.align(Alignment.Center)
+                modifier = Modifier.align(Alignment.TopCenter)
             ) {
                 Text(
                     text = "Dashboard",
@@ -46,8 +46,11 @@ fun DashBoardScreen() {
                     color = Color(0xFF1B7D71),
                     fontWeight = FontWeight.Bold
                 )
+                Spacer(modifier = Modifier.height(80.dp))
+                Text(text = "Today's goal: 800ml", textAlign = TextAlign.Start, fontSize = 35.sp)
             }
-            Column(modifier = Modifier.align(Alignment.CenterEnd)) {
+
+            Column(modifier = Modifier.align(Alignment.TopEnd)) {
                 Image(
                     painter = painterResource(id = R.drawable.omring_logo),
                     contentDescription = "user profile picture",
@@ -59,15 +62,8 @@ fun DashBoardScreen() {
                 )
             }
         }
-        //Spacer(modifier = Modifier.height(20.dp))
-        Column(modifier = Modifier.fillMaxWidth(),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Spacer(modifier = Modifier.height(20.dp))
-            Text(text = "Today's goal: 800ml", textAlign = TextAlign.Right, fontSize = 35.sp)
-       }
-        Spacer(modifier = Modifier.height(70.dp))
-       Row {
+       Row(verticalAlignment = Alignment.Top,
+           horizontalArrangement = Arrangement.Center) {
            Image(
                painter = painterResource(R.drawable.progressstate),
                contentDescription = "progress state",
@@ -101,7 +97,7 @@ fun DashBoardScreen() {
                     painter = painterResource(R.drawable.water_intake),
                     contentDescription = "water intake image"
                 )
-                Spacer(modifier = Modifier.height(40.dp))
+                Spacer(modifier = Modifier.height(2.dp))
                 Text(text = "Fluid Intake", fontSize = 35.sp)
             }
             Spacer(modifier = Modifier.width(30.dp))
@@ -122,7 +118,7 @@ fun DashBoardScreen() {
                 Text(text = "Recipes", fontSize = 35.sp)
             }
         }
-        Spacer(modifier = Modifier.height(20.dp))
+        Spacer(modifier = Modifier.height(150.dp))
         AppBottomNav()
     }
 }
