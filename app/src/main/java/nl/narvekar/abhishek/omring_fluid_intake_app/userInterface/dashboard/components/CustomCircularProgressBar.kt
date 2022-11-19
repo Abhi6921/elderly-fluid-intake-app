@@ -32,7 +32,7 @@ fun CircularProgressBar(
     // state where animation is played or not
     var animationPlayed by remember { mutableStateOf(false) }
     val curPercentage = animateFloatAsState(
-        targetValue = if (animationPlayed) percentage else 0f,
+        targetValue = if (animationPlayed) percentage else if(percentage.equals(1.0f)) 0f else 0f,
         animationSpec = tween(
             durationMillis = animDuration,
             delayMillis = animDelay
