@@ -26,7 +26,7 @@ import nl.narvekar.abhishek.omring_fluid_intake_app.R
 @Preview(showBackground = true, widthDp = 1180, heightDp = 1200)
 @Composable
 fun LoginUI() {
-
+    // some changes
     Column(
         modifier = Modifier
             .fillMaxSize()
