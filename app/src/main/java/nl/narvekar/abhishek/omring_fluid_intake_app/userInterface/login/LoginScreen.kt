@@ -1,4 +1,4 @@
-package nl.narvekar.abhishek.omring_fluid_intake_app.userInterface
+package nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.login
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -23,9 +23,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import nl.narvekar.abhishek.omring_fluid_intake_app.R
 
-//@Preview(showBackground = true, widthDp = 1180, heightDp = 1200)
+@Preview(showBackground = true, widthDp = 1180, heightDp = 1200)
 @Composable
 fun LoginUI() {
+
     Column(
         modifier = Modifier
             .fillMaxSize()

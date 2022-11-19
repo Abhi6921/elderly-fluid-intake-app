@@ -6,8 +6,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.Button
-import androidx.compose.material.OutlinedButton
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -19,11 +17,11 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import nl.narvekar.abhishek.omring_fluid_intake_app.R
 import nl.narvekar.abhishek.omring_fluid_intake_app.navigation.AppBottomNav
+import nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.dashboard.components.CircularProgressBar
 
 
 @Composable
@@ -48,6 +46,14 @@ fun DashBoardScreen() {
                 )
                 Spacer(modifier = Modifier.height(80.dp))
                 Text(text = "Today's goal: 800ml", textAlign = TextAlign.Start, fontSize = 35.sp)
+                Image(
+                   painter = painterResource(R.drawable.rain_drop),
+                   contentDescription = "drop emoji",
+                   alignment = Alignment.Center,
+                   contentScale = ContentScale.Fit,
+                   modifier = Modifier.size(160.dp)
+                )
+                Text(text = "Chat box will be here", fontSize = 35.sp, textAlign = TextAlign.End)
             }
 
             Column(modifier = Modifier.align(Alignment.TopEnd)) {
@@ -62,26 +68,12 @@ fun DashBoardScreen() {
                 )
             }
         }
-       Row(verticalAlignment = Alignment.Top,
-           horizontalArrangement = Arrangement.Center) {
-           Image(
-               painter = painterResource(R.drawable.progressstate),
-               contentDescription = "progress state",
-               alignment = Alignment.Center,
-               contentScale = ContentScale.Fit,
-               modifier = Modifier.size(200.dp)
-           )
-           Spacer(modifier = Modifier.width(20.dp))
-           Image(
-               painter = painterResource(R.drawable.rain_drop),
-               contentDescription = "drop emoji",
-               alignment = Alignment.Center,
-               contentScale = ContentScale.Fit,
-               modifier = Modifier.size(160.dp)
-           )
-           Text(text = "Chat box will be here", fontSize = 35.sp)
-       }
-       Spacer(modifier = Modifier.height(20.dp))
+        Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxWidth()) {
+
+            CircularProgressBar(percentage = 0.8f, number = 100)
+        }
+        
+       Spacer(modifier = Modifier.height(120.dp))
 
         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
             // Fluid Intake Button
@@ -122,3 +114,4 @@ fun DashBoardScreen() {
         AppBottomNav()
     }
 }
+

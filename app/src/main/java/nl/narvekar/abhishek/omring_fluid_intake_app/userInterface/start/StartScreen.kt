@@ -1,4 +1,4 @@
-package nl.narvekar.abhishek.omring_fluid_intake_app.userInterface
+package nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.start
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background

@@ -23,7 +23,7 @@ import androidx.compose.ui.window.Dialog
 @Preview(showBackground = true)
 @Composable
 fun SelectDrinkDialog() {
-    // change on a new branch
+
     Dialog(
         onDismissRequest = { /*TODO*/ }
     ) {
