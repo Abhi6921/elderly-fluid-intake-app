@@ -14,11 +14,13 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import nl.narvekar.abhishek.omring_fluid_intake_app.R
+import nl.narvekar.abhishek.omring_fluid_intake_app.navigation.Routes
 
 //@Preview(showBackground = true, widthDp = 1280, heightDp = 1500, backgroundColor = (0x39CCFF))
 @Composable
-fun StartScreen() {
+fun StartScreen(navController: NavController) {
     Column(
         modifier = Modifier.fillMaxSize().background(Color(0xFF39CCFF)),
         horizontalAlignment = Alignment.CenterHorizontally
@@ -47,7 +49,13 @@ fun StartScreen() {
         )
         //Spacer(modifier = Modifier.height(30.dp))
         Button(
-            onClick = { /* navigate to login screen*/ },
+            onClick = {
+                navController.navigate(Routes.Login.route) {
+                    popUpTo(Routes.Start.route) {
+                        inclusive = true
+                    }
+                }
+            },
             colors = ButtonDefaults.buttonColors(backgroundColor = Color(0xFF1B7D71)),
             modifier = Modifier
                 .height(90.dp)

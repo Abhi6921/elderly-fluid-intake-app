@@ -12,7 +12,7 @@ sealed class Routes(val route: String) {
     object Share: Routes("Share")
 
     companion object {
-        fun getDestination() = Login.route
+        fun getDestination() = Start.route
     }
 
 }
