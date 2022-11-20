@@ -41,6 +41,7 @@ fun StartScreen(navController: NavController) {
             contentScale = ContentScale.Fit,
             modifier = Modifier.size(300.dp)
         )
+
         Spacer(modifier = Modifier.height(60.dp))
         Text(text = "Already have an account",
             fontSize = 35.sp,
@@ -72,7 +73,11 @@ fun StartScreen(navController: NavController) {
         )
         Button(
             onClick = {
-                /*Navigate to register screen */
+                navController.navigate(Routes.Register.route) {
+                    popUpTo(Routes.Start.route) {
+                        inclusive = true
+                    }
+                }
             },
             colors = ButtonDefaults.buttonColors(backgroundColor = Color(0xFF1B7D71)),
             modifier = Modifier

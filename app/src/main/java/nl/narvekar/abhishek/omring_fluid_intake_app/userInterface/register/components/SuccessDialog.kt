@@ -16,10 +16,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
+import androidx.navigation.NavController
+import nl.narvekar.abhishek.omring_fluid_intake_app.navigation.Routes
 
 //@Preview(showBackground = true)
 @Composable
-fun RegisterConfirmDialog() {
+fun RegisterConfirmDialog(setShowDialog: (Boolean) -> Unit, navController: NavController) {
 
     Dialog(onDismissRequest = { /*TODO*/ }) {
 
@@ -44,7 +46,7 @@ fun RegisterConfirmDialog() {
 
                     Button(
                         onClick = {
-                            // Navigate to loginscreen
+                            navController.navigate(Routes.Login.route)
                         },
                         colors = ButtonDefaults.buttonColors(backgroundColor = Color(0xFF1B7D71)),
                         modifier = Modifier
