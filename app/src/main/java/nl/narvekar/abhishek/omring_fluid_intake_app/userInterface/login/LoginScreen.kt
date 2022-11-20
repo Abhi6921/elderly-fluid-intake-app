@@ -3,6 +3,7 @@ package nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.login
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Lock
@@ -12,21 +13,27 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.navArgument
 import nl.narvekar.abhishek.omring_fluid_intake_app.R
+import nl.narvekar.abhishek.omring_fluid_intake_app.data.Login
+import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.LoginViewModel
 
-@Preview(showBackground = true, widthDp = 1180, heightDp = 1200)
 @Composable
-fun LoginUI() {
-    // some changes
+fun LoginUI(loginViewModel: LoginViewModel, navController: NavController) {
+
+    val context = LocalContext.current
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -57,7 +64,7 @@ fun LoginUI() {
         )
         Spacer(modifier = Modifier.height(30.dp))
 
-        var username by remember { mutableStateOf("") }
+        var phonenumber by remember { mutableStateOf("") }
         var password by remember { mutableStateOf("") }
 
         // Username field
@@ -65,9 +72,8 @@ fun LoginUI() {
             modifier = Modifier
                 .height(81.dp)
                 .width(400.dp),
-            value = username,
+            value = phonenumber,
             colors = TextFieldDefaults.textFieldColors(backgroundColor = MaterialTheme.colors.surface.copy(Color.White.alpha)),
-
             textStyle = TextStyle.Default.copy(fontSize = 28.sp),
             leadingIcon = { Icon(
                 imageVector = Icons.Default.Person,
@@ -76,8 +82,9 @@ fun LoginUI() {
                     .width(60.dp)
                     .height(40.dp)
             ) },
+            keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
             onValueChange = {
-                username = it
+                phonenumber = it
             },
             label = { Text(text = "Username", fontSize = 20.sp) }
         )
@@ -104,7 +111,7 @@ fun LoginUI() {
         Spacer(modifier = Modifier.height(35.dp))
         Button(
             onClick = {
-                /*Navigate to Home screen */
+                loginViewModel.loginUser(context, Login(phonenumber, password), navController)
             },
             colors = ButtonDefaults.buttonColors(backgroundColor = Color(0xFF1B7D71)),
             modifier = Modifier
