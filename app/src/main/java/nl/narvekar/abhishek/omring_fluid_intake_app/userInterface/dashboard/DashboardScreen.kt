@@ -27,15 +27,17 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import nl.narvekar.abhishek.omring_fluid_intake_app.R
 import nl.narvekar.abhishek.omring_fluid_intake_app.navigation.AppBottomNav
+import nl.narvekar.abhishek.omring_fluid_intake_app.navigation.Routes
 import nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.dashboard.components.CircularProgressBar
 import nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.dashboard.components.SelectDrinkDialog
 
 
-@Preview(showBackground = true, widthDp = 900, heightDp = 1180)
+
 @Composable
-fun DashBoardScreen() {
+fun DashBoardScreen(navController: NavController) {
     val showDialog = remember { mutableStateOf(false) }
 
     var inputValue = remember { mutableStateOf(0.0f) }
@@ -112,14 +114,21 @@ fun DashBoardScreen() {
                     Column(modifier = Modifier
                         .border(BorderStroke(5.dp, Color(0xFF1B7D71)))
                         .width(270.dp)
-                        .height(390.dp),
+                        .height(390.dp)
+                        .clickable {
+                             navController.navigate(Routes.Recipes.route) {
+                                 popUpTo(Routes.Home.route) {
+                                     inclusive = true
+                                 }
+                             }
+                        },
                         horizontalAlignment = Alignment.CenterHorizontally,
                         verticalArrangement = Arrangement.Center
                     ) {
                         Spacer(modifier = Modifier.height(10.dp))
                         Image(
                             painter = painterResource(R.drawable.recipe),
-                            contentDescription = "water intake image"
+                            contentDescription = " recipe image"
                         )
                         Spacer(modifier = Modifier.height(20.dp))
                         Text(text = "Recipes", fontSize = 35.sp)

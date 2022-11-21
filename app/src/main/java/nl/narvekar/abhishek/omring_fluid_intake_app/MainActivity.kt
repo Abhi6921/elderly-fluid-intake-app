@@ -35,9 +35,9 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    RecipeList(recipes = recipeViewModel.recipeListResponse)
+//                    RecipeList(recipes = recipeViewModel.recipeListResponse)
+                    AppNavigation(loginViewModel = loginViewModel, registerViewModel, recipeViewModel)
                     recipeViewModel.getRecipeList()
-                    //AppNavigation(loginViewModel = loginViewModel, registerViewModel)
                 }
             }
         }
