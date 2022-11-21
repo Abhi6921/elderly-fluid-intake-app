@@ -14,14 +14,17 @@ import androidx.compose.ui.tooling.preview.Preview
 import nl.narvekar.abhishek.omring_fluid_intake_app.navigation.AppNavigation
 import nl.narvekar.abhishek.omring_fluid_intake_app.ui.theme.ElderlyfluidintakeappTheme
 import nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.dashboard.DashBoardScreen
+import nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.recipes.RecipeList
 import nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.register.RegisterScreen
 import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.LoginViewModel
+import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.RecipeViewModel
 import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.RegisterViewModel
 
 class MainActivity : ComponentActivity() {
 
     val loginViewModel by viewModels<LoginViewModel>()
     val registerViewModel by viewModels<RegisterViewModel>()
+    val recipeViewModel by viewModels<RecipeViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,7 +35,9 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    AppNavigation(loginViewModel = loginViewModel, registerViewModel)
+                    RecipeList(recipes = recipeViewModel.recipeListResponse)
+                    recipeViewModel.getRecipeList()
+                    //AppNavigation(loginViewModel = loginViewModel, registerViewModel)
                 }
             }
         }
