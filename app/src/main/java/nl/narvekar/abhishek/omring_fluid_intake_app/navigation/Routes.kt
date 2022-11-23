@@ -8,6 +8,7 @@ sealed class Routes(val route: String) {
     object Register: Routes("Register")
     object Home: Routes("Home")
     object Recipes: Routes("Recipe")
+    object RecipeDetail: Routes("RecipeDetail")
     object Favorite: Routes("Favorite")
     object Drink: Routes("Drink Record")
     object Share: Routes("Share")

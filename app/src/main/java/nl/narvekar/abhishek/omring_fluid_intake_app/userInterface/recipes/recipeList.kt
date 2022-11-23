@@ -1,7 +1,10 @@
 package nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.recipes
 
+import android.widget.Toast
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -11,6 +14,7 @@ import androidx.compose.material.icons.filled.Share
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import nl.narvekar.abhishek.omring_fluid_intake_app.data.Recipe
@@ -21,29 +25,35 @@ import nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.recipes.compon
 
 @Composable
 fun RecipeList(recipes: List<Recipe>, navController: NavController) {
-
+    val context = LocalContext.current
     Scaffold(
         topBar = {
-            TopAppBarRecipes(navController)
+            TopAppBarRecipes()
         },
         content = { innerPadding ->
-            LazyColumn(Modifier.padding(innerPadding)) {
-                itemsIndexed(items = recipes) { index, item ->
-                    RecipeItem(item)
+            if (recipes.isEmpty()) {
+                Text(text = "Recipes is empty")
+            }
+            else {
+                LazyColumn(Modifier.padding(innerPadding)) {
+
+                    items(recipes) {item ->
+                        RecipeItem(item) {
+                            navController.navigate(Routes.RecipeDetail.route + "/${it.recipeId}")
+                        }
+                    }
                 }
             }
+
         },
         bottomBar = {
             AppBottomNav()
         }
     )
-
-
-
 }
 
 @Composable
-fun TopAppBarRecipes(navController: NavController) {
+fun TopAppBarRecipes() {
     TopAppBar(
         elevation = 4.dp,
         title = {
@@ -52,11 +62,11 @@ fun TopAppBarRecipes(navController: NavController) {
         backgroundColor =  Color(0xFF1BAEEE),
         navigationIcon = {
             IconButton(onClick = {
-                navController.navigate(Routes.Home.route) {
-                    popUpTo(Routes.Recipes.route) {
-                        inclusive = true
-                    }
-                }
+//                navController.navigate(Routes.Home.route) {
+//                    popUpTo(Routes.Recipes.route) {
+//                        inclusive = true
+//                    }
+//                }
             }) {
                 Icon(Icons.Filled.ArrowBack, null)
             }

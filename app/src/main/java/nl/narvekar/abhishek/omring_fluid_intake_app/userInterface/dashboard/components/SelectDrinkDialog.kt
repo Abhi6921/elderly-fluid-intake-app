@@ -10,29 +10,40 @@ import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Cancel
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
+
+
 
 
 @Composable
-fun SelectDrinkDialog(value: String, setShowDialog: (Boolean) -> Unit, setValue: (Float) -> Unit) {
+fun SelectDrinkDialog(
+    setShowDialog: (Boolean) -> Unit,
+    setDateTime: String,
+    setValue: (Float) -> Unit,
+
+) {
 
     Dialog(
-        onDismissRequest = { setShowDialog(false) }
+        onDismissRequest = { setShowDialog(false) },
     ) {
         Surface(
             shape = RoundedCornerShape(16.dp),
-            color = Color.White
+            color = Color.White,
+            modifier = Modifier
+                .width(1150.dp)
+                .height(400.dp)
         ) {
             Box(modifier = Modifier.padding(20.dp)) {
                 Row(
@@ -40,82 +51,110 @@ fun SelectDrinkDialog(value: String, setShowDialog: (Boolean) -> Unit, setValue:
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Text(text = "Please select a cup",
+                    Text(text = "Please select a amount",
                         style = TextStyle(
-                            fontSize = 24.sp,
-                            fontWeight = FontWeight.Bold
-                        )
+                            fontSize = 35.sp,
+                            fontWeight = FontWeight.Bold,
+                            textAlign = TextAlign.Center
+                        ),
+                        textAlign = TextAlign.Center
                     )
-
+                    Spacer(modifier = Modifier.width(10.dp))
                     Icon(imageVector = Icons.Filled.Cancel,
                         contentDescription = "close button",
                         tint = colorResource(android.R.color.darker_gray),
                         modifier = Modifier
-                            .width(30.dp)
-                            .height(30.dp)
+                            .width(50.dp)
+                            .height(60.dp)
                             .clickable { setShowDialog(false) }
                     )
                 }
-
-                Column {
+                Spacer(modifier = Modifier.height(20.dp))
+                Column(Modifier.fillMaxWidth()) {
                     // 100 ml button
                     Box(modifier = Modifier.padding(40.dp, 60.dp, 40.dp, 0.dp)) {
                         Button(
                             onClick = {
                                 setValue(0.1f)
                                 setShowDialog(false)
+                                setDateTime
                             },
                             shape = RoundedCornerShape(50.dp),
                             modifier = Modifier
-                                .fillMaxWidth()
-                                .height(50.dp)
+                                //.fillMaxWidth()
+                                .height(70.dp)
+                                .width(500.dp)
                         ) {
-                            Text(text = "100ml")
+                            Text(text = "100ml", fontSize = 24.sp)
                         }
                     }
+                    Spacer(modifier = Modifier.height(10.dp))
                     // 150 ml button
                     Box(modifier = Modifier.padding(40.dp, 15.dp, 40.dp, 0.dp)) {
                         Button(
                             onClick = {
                                 setValue(0.2f)
                                 setShowDialog(false)
+                                setDateTime
                             },
                             shape = RoundedCornerShape(50.dp),
                             modifier = Modifier
-                                .fillMaxWidth()
-                                .height(50.dp)
+                                .height(70.dp)
+                                .width(500.dp)
                         ) {
-                            Text(text = "150ml")
+                            Text(text = "150ml", fontSize = 24.sp)
                         }
                     }
-                    // 200ml
+                    Spacer(modifier = Modifier.height(10.dp))
+                    // 200ml button
                     Box(modifier = Modifier.padding(40.dp, 15.dp, 40.dp, 0.dp)) {
                         Button(
                             onClick = {
                                 setValue(0.3f)
                                 setShowDialog(false)
+                                setDateTime
                             },
                             shape = RoundedCornerShape(50.dp),
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .height(50.dp)
+                                .height(70.dp)
+                                .width(500.dp)
                         ) {
-                            Text(text = "200ml")
+                            Text(text = "200ml", fontSize = 24.sp)
                         }
                     }
-
-//                    Spacer(modifier = Modifier.height(10.dp))
-//                    Column(
-//                        modifier = Modifier.fillMaxWidth(),
-//                        verticalArrangement = Arrangement.Center,
-//                        horizontalAlignment = Alignment.CenterHorizontally
-//                    ) {
-//                        Button(onClick = {}, shape = RoundedCornerShape(9.dp))
-//                        { Text("OK") }
-//                    }
 
                 }
             }
         }
     }
+}
+
+@OptIn(ExperimentalComposeUiApi::class)
+@Composable
+fun MyCustomDialog(
+    onDismissRequest: () -> Unit,
+    properties: DialogProperties = DialogProperties(),
+    content: @Composable () -> Unit
+) {
+    Dialog(
+        onDismissRequest = onDismissRequest,
+        // We are copying the passed properties
+        // then setting usePlatformDefaultWidth to false
+        properties = properties.let {
+            DialogProperties(
+                dismissOnBackPress = it.dismissOnBackPress,
+                dismissOnClickOutside = it.dismissOnClickOutside,
+                securePolicy = it.securePolicy,
+                usePlatformDefaultWidth = false
+            )
+        },
+        content = {
+            Surface(
+                color = Color.Transparent,
+                modifier = Modifier.width(250.dp), // Customize your width here
+                content = content
+            )
+        }
+    )
 }

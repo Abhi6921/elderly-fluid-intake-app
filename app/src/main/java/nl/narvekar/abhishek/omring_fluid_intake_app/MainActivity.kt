@@ -1,9 +1,13 @@
 package nl.narvekar.abhishek.omring_fluid_intake_app
 
+import android.content.ContentValues.TAG
+import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
@@ -26,6 +30,7 @@ class MainActivity : ComponentActivity() {
     val registerViewModel by viewModels<RegisterViewModel>()
     val recipeViewModel by viewModels<RecipeViewModel>()
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -35,7 +40,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-//                    RecipeList(recipes = recipeViewModel.recipeListResponse)
+                   //RecipeList(recipes = recipeViewModel.recipeListResponse)
                     AppNavigation(loginViewModel = loginViewModel, registerViewModel, recipeViewModel)
                     recipeViewModel.getRecipeList()
                 }

@@ -1,19 +1,26 @@
 package nl.narvekar.abhishek.omring_fluid_intake_app.navigation
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
+import androidx.navigation.NavType
 import androidx.navigation.compose.ComposeNavigator
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.dashboard.DashBoardScreen
 import nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.login.LoginUI
 import nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.recipes.RecipeList
+import nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.recipes.components.RecipeDetailView
 import nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.register.RegisterScreen
 import nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.start.StartScreen
 import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.LoginViewModel
 import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.RecipeViewModel
 import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.RegisterViewModel
 
+const val recipeId = "recipeId"
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun AppNavigation(
     loginViewModel: LoginViewModel,
@@ -38,6 +45,16 @@ fun AppNavigation(
         }
         composable(Routes.Recipes.route) {
             RecipeList(recipes = recipeViewModel.recipeListResponse, navController)
+        }
+        composable(
+            route = Routes.RecipeDetail.route + "/{$recipeId}",
+            arguments = listOf(navArgument(recipeId) {
+                type = NavType.StringType
+            })
+        ) { navBackStackEntry ->
+            navBackStackEntry.arguments!!.getString(
+                recipeId)
+                ?.let { RecipeDetailView(recipeViewModel = recipeViewModel, detailId = it, navController) }
         }
     }
 }

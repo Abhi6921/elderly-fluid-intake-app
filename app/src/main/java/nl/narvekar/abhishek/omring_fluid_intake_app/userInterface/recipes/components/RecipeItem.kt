@@ -1,6 +1,7 @@
 package nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.recipes.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -20,7 +21,10 @@ import nl.narvekar.abhishek.omring_fluid_intake_app.data.Recipe
 
 
 @Composable
-fun RecipeItem(recipe: Recipe) {
+fun RecipeItem(
+    recipe: Recipe,
+    onClickAction: (Recipe) -> Unit
+) {
     Card(
         modifier = Modifier
             // The space between each card and the other
@@ -34,6 +38,7 @@ fun RecipeItem(recipe: Recipe) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
         ) {
+
             AsyncImage(
                 model = recipe.imageLink,
                 contentDescription = "recipe images",
@@ -45,19 +50,22 @@ fun RecipeItem(recipe: Recipe) {
             )
             Column(Modifier.padding(8.dp)) {
                 Text(
-                    text = recipe.name,
+                    text = recipe.name + " " + recipe.ingredients.keys,
                     style = MaterialTheme.typography.h6,
                     modifier = Modifier
                         .padding(bottom = 8.dp)
                         .fillMaxWidth(),
                     color = MaterialTheme.colors.onSurface,
                 )
+
                 Spacer(modifier = Modifier.height(12.dp))
                 Row {
                     FavoritesButton()
                     Spacer(modifier = Modifier.width(32.dp))
                     Button(
-                        onClick = { /*TODO*/ },
+                        onClick = {
+                              onClickAction(recipe)
+                        },
                         shape = RoundedCornerShape(40),
                         colors = ButtonDefaults.buttonColors(backgroundColor = Color(0xFF1B7D71))
                     ) {

@@ -1,15 +1,13 @@
 package nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.dashboard
 
-import android.content.ContentValues.TAG
-import android.util.Log
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Settings
-import androidx.compose.material.icons.filled.Share
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -19,12 +17,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -33,19 +27,24 @@ import nl.narvekar.abhishek.omring_fluid_intake_app.navigation.AppBottomNav
 import nl.narvekar.abhishek.omring_fluid_intake_app.navigation.Routes
 import nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.dashboard.components.CircularProgressBar
 import nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.dashboard.components.SelectDrinkDialog
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 
-
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun DashBoardScreen(navController: NavController) {
     val showDialog = remember { mutableStateOf(false) }
-
     var inputValue = remember { mutableStateOf(0.0f) }
 
+    val currentDateTime: LocalDateTime = LocalDateTime.now()
+    val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
+    val current = LocalDateTime.now().format(formatter)
+
     if (showDialog.value) {
-        SelectDrinkDialog(value = "", setShowDialog = {
+        SelectDrinkDialog(setShowDialog = {
             showDialog.value = it
-        }) {
+        }, current) {
             inputValue.value += it
         }
     }
