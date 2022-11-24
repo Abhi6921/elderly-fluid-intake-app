@@ -13,12 +13,14 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -56,90 +58,281 @@ fun DashBoardScreen(navController: NavController) {
             AppBottomNav()
         },
         content = {
-            Column(modifier = Modifier.fillMaxWidth(),
-                horizontalAlignment = Alignment.CenterHorizontally
+            Column(modifier = Modifier.fillMaxHeight(),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.SpaceBetween
             ) {
-                Spacer(modifier = Modifier.height(40.dp))
+
                 Text(text = "Today's goal: 800ml", textAlign = TextAlign.Center, fontSize = 35.sp)
+                Spacer(modifier = Modifier.height(60.dp))
+                Box(modifier = Modifier
+                    .fillMaxWidth()
+                    .fillMaxHeight()) {
+
+                    DashBoardSpinnerAndQuote()
+                    Row(
+                        horizontalArrangement = Arrangement.Center,
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 300.dp, horizontal = 100.dp)
+                            //.safeContentPadding()
+                    ) {
+                        // Fluid Intake Button
+                        Column(
+                            modifier = Modifier
+                                .border(BorderStroke(5.dp, Color(0xFF1B7D71)))
+                                .width(270.dp)
+                                .height(380.dp)
+                                .clickable {
+                                    showDialog.value = true
+                                },
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            verticalArrangement = Arrangement.SpaceBetween
+                        ) {
+                            Spacer(modifier = Modifier.height(40.dp))
+                            Image(
+                                painter = painterResource(R.drawable.water_intake),
+                                contentDescription = "water intake image"
+                            )
+                            Spacer(modifier = Modifier.height(2.dp))
+                            Text(text = "Fluid Intake", fontSize = 35.sp)
+                        }
+                        Spacer(modifier = Modifier.width(34.dp))
+                        Column(
+                            modifier = Modifier
+                                .border(BorderStroke(5.dp, Color(0xFF1B7D71)))
+                                .width(270.dp)
+                                .height(380.dp)
+                                .clickable {
+                                    navController.navigate(Routes.Recipes.route) {
+                                        popUpTo(Routes.Home.route) {
+                                            inclusive = true
+                                        }
+                                    }
+                                },
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            verticalArrangement = Arrangement.SpaceBetween
+                        ) {
+                            Spacer(modifier = Modifier.height(10.dp))
+                            Image(
+                                painter = painterResource(R.drawable.recipe),
+                                contentDescription = " recipe image"
+                            )
+                            Spacer(modifier = Modifier.height(20.dp))
+                            Text(text = "Recipes", fontSize = 35.sp)
+                        }
+                    }
+
+                }
             }
+
+
             //Spacer(modifier = Modifier.height(20.dp))
-            Column(
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Spacer(modifier = Modifier.height(100.dp))
-                if(inputValue.value.equals(1.0f)) {
-                    inputValue.value = 0.0f
-                }
-                CircularProgressBar(percentage = inputValue.value, number = 100)
-                Spacer(modifier = Modifier.height(30.dp))
-                Row(modifier = Modifier.fillMaxWidth()) {
-                    Image(
-                       painter = painterResource(R.drawable.rain_drop),
-                       contentDescription = "drop emoji",
-                       alignment = Alignment.Center,
-                       contentScale = ContentScale.Fit,
-                       modifier = Modifier.size(160.dp)
-                    )
-                    Text(text = "A cup a day keeps doctor away", fontSize = 25.sp, textAlign = TextAlign.End)
-                }
+//            Column(
+//                modifier = Modifier.fillMaxWidth()
+//            ) {
+//                Spacer(modifier = Modifier.height(100.dp))
+//                if(inputValue.value.equals(1.0f)) {
+//                    inputValue.value = 0.0f
+//                }
+//                CircularProgressBar(percentage = inputValue.value, number = 100)
+//                Spacer(modifier = Modifier.height(30.dp))
+//                Row(modifier = Modifier.fillMaxWidth()) {
+//                    Image(
+//                       painter = painterResource(R.drawable.rain_drop),
+//                       contentDescription = "drop emoji",
+//                       alignment = Alignment.Center,
+//                       contentScale = ContentScale.Fit,
+//                       modifier = Modifier.size(160.dp)
+//                    )
+//                    Text(text = "A cup a day keeps doctor away", fontSize = 25.sp, textAlign = TextAlign.End)
+//                }
+                //DashBoardSpinnerAndQuote()
+                //DashBoardButtons()
 
-                Row(
-                    horizontalArrangement = Arrangement.Center,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(45.dp)
-                ) {
-                    // Fluid Intake Button
-                    Column(modifier = Modifier
-                        .border(BorderStroke(5.dp, Color(0xFF1B7D71)))
-                        .width(270.dp)
-                        .height(380.dp)
-                        .clickable {
-                            showDialog.value = true
-                        },
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.Center
-                    ) {
-                        Spacer(modifier = Modifier.height(40.dp))
-                        Image(
-                            painter = painterResource(R.drawable.water_intake),
-                            contentDescription = "water intake image"
-                        )
-                        Spacer(modifier = Modifier.height(2.dp))
-                        Text(text = "Fluid Intake", fontSize = 35.sp)
-                    }
-                    Spacer(modifier = Modifier.width(40.dp))
-                        // Recipe Button
-                    Column(modifier = Modifier
-                        .border(BorderStroke(5.dp, Color(0xFF1B7D71)))
-                        .width(270.dp)
-                        .height(390.dp)
-                        .clickable {
-                             navController.navigate(Routes.Recipes.route) {
-                                 popUpTo(Routes.Home.route) {
-                                     inclusive = true
-                                 }
-                             }
-                        },
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.Center
-                    ) {
-                        Spacer(modifier = Modifier.height(10.dp))
-                        Image(
-                            painter = painterResource(R.drawable.recipe),
-                            contentDescription = " recipe image"
-                        )
-                        Spacer(modifier = Modifier.height(20.dp))
-                        Text(text = "Recipes", fontSize = 35.sp)
-                    }
+//                Row(
+//                    horizontalArrangement = Arrangement.Center,
+//                    modifier = Modifier
+//                        .fillMaxWidth()
+//                        .padding(45.dp)
+//                ) {
+//                    // Fluid Intake Button
+//                    Column(modifier = Modifier
+//                        .border(BorderStroke(5.dp, Color(0xFF1B7D71)))
+//                        .width(270.dp)
+//                        .height(380.dp)
+//                        .clickable {
+//                            showDialog.value = true
+//                        },
+//                        horizontalAlignment = Alignment.CenterHorizontally,
+//                        verticalArrangement = Arrangement.Center
+//                    ) {
+//                        Spacer(modifier = Modifier.height(40.dp))
+//                        Image(
+//                            painter = painterResource(R.drawable.water_intake),
+//                            contentDescription = "water intake image"
+//                        )
+//                        Spacer(modifier = Modifier.height(2.dp))
+//                        Text(text = "Fluid Intake", fontSize = 35.sp)
+//                    }
+//                    Spacer(modifier = Modifier.width(40.dp))
+//                        // Recipe Button
+//                    Column(modifier = Modifier
+//                        .border(BorderStroke(5.dp, Color(0xFF1B7D71)))
+//                        .width(270.dp)
+//                        .height(390.dp)
+//                        .clickable {
+//                            navController.navigate(Routes.Recipes.route) {
+//                                popUpTo(Routes.Home.route) {
+//                                    inclusive = true
+//                                }
+//                            }
+//                        },
+//                        horizontalAlignment = Alignment.CenterHorizontally,
+//                        verticalArrangement = Arrangement.Center
+//                    ) {
+//                        Spacer(modifier = Modifier.height(10.dp))
+//                        Image(
+//                            painter = painterResource(R.drawable.recipe),
+//                            contentDescription = " recipe image"
+//                        )
+//                        Spacer(modifier = Modifier.height(20.dp))
+//                        Text(text = "Recipes", fontSize = 35.sp)
+//                    }
+//
+//                }
 
-                }
-
-            }
+            //}
         }
     )
 }
 
+@Preview(showBackground = true, widthDp = 700)
+@Composable
+fun DashBoardSpinnerAndQuote() {
+    Row(
+        modifier = Modifier
+            .padding(20.dp)
+            .fillMaxWidth()
+            .fillMaxHeight(),
+        horizontalArrangement = Arrangement.SpaceEvenly
+    ) {
+        Box(
+            modifier = Modifier
+                .size(200.dp)
+                .padding(10.dp)
+                ) {
+            CircularProgressBar(percentage = 0.0f, number = 100)
+        }
+        Box(modifier = Modifier
+            .size(200.dp)
+            .padding(10.dp)
+            ) {
+            Image(
+                painter = painterResource(R.drawable.rain_drop),
+                contentDescription = "drop emoji",
+                alignment = Alignment.Center,
+                contentScale = ContentScale.Fit,
+                modifier = Modifier.size(160.dp)
+            )
+        }
+        Box(modifier = Modifier
+            .size(200.dp)
+            .padding(0.dp)
+        ) {
+
+            Text(text = "A cup a day keeps the doctor away",
+                textAlign = TextAlign.Left, fontSize = 29.sp)
+        }
+    }
+
+}
+
+@Composable
+fun DashBoardButtons() {
+//    Row(
+//        modifier = Modifier
+//            .padding(20.dp)
+//            .fillMaxWidth()
+//            .fillMaxHeight(),
+//        horizontalArrangement = Arrangement.SpaceEvenly
+//        //verticalAlignment = Alignment.CenterVertically
+//    ) {
+//        Box(
+//            modifier = Modifier
+//                .size(200.dp)
+//                .padding(10.dp)
+//        ) {
+//            CircularProgressBar(percentage = 0.0f, number = 100)
+//        }
+//        Box(modifier = Modifier
+//            .size(200.dp)
+//            .padding(10.dp)
+//        ) {
+//            Image(
+//                painter = painterResource(R.drawable.rain_drop),
+//                contentDescription = "drop emoji",
+//                alignment = Alignment.Center,
+//                contentScale = ContentScale.Fit,
+//                modifier = Modifier.size(160.dp)
+//            )
+//        }
+//        Box(modifier = Modifier
+//            .size(200.dp)
+//            .padding(0.dp)
+//        ) {
+//
+//            Text(text = "A cup a day keeps the doctor away",
+//                textAlign = TextAlign.Left, fontSize = 29.sp)
+//        }
+//    }
+        // Fluid Intake Button
+        Column(modifier = Modifier
+            .border(BorderStroke(5.dp, Color(0xFF1B7D71)))
+            .width(270.dp)
+            .height(380.dp)
+            .clickable {
+                //showDialog.value = true
+            },
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
+            Spacer(modifier = Modifier.height(40.dp))
+            Image(
+                painter = painterResource(R.drawable.water_intake),
+                contentDescription = "water intake image"
+            )
+            Spacer(modifier = Modifier.height(2.dp))
+            Text(text = "Fluid Intake", fontSize = 35.sp)
+        }
+        Spacer(modifier = Modifier.width(40.dp))
+        // Recipe Button
+        Column(modifier = Modifier
+            .border(BorderStroke(5.dp, Color(0xFF1B7D71)))
+            .width(270.dp)
+            .height(390.dp)
+            .clickable {
+//                navController.navigate(Routes.Recipes.route) {
+//                    popUpTo(Routes.Home.route) {
+//                        inclusive = true
+//                    }
+//                }
+            },
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
+            Spacer(modifier = Modifier.height(10.dp))
+            Image(
+                painter = painterResource(R.drawable.recipe),
+                contentDescription = " recipe image"
+            )
+            Spacer(modifier = Modifier.height(20.dp))
+            Text(text = "Recipes", fontSize = 35.sp)
+        }
+
+
+}
 
 @Composable
 fun FluidTopAppBar() {
@@ -154,12 +347,7 @@ fun FluidTopAppBar() {
                 Text("DashBoard", color = Color.White)
             },
             backgroundColor =  Color(0xFF1BAEEE),
-
-            navigationIcon = {
-                IconButton(onClick = {/* Do Something*/ }) {
-                    Icon(Icons.Filled.ArrowBack, null, tint = Color.White)
-                }
-            }, actions = {
+            actions = {
                 Image(
                     painter = painterResource(id = R.drawable.omring_logo),
                     contentDescription = "user profile picture",
