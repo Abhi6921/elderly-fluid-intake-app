@@ -10,11 +10,14 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.dashboard.DashBoardScreen
+import nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.favorites.RecipeFavorited
 import nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.login.LoginUI
 import nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.recipes.RecipeList
 import nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.recipes.components.RecipeDetailView
+import nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.records.DrinkRecords
 import nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.register.RegisterScreen
 import nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.start.StartScreen
+import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.CardListViewModel
 import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.LoginViewModel
 import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.RecipeViewModel
 import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.RegisterViewModel
@@ -25,7 +28,8 @@ const val recipeId = "recipeId"
 fun AppNavigation(
     loginViewModel: LoginViewModel,
     registerViewModel: RegisterViewModel,
-    recipeViewModel: RecipeViewModel
+    recipeViewModel: RecipeViewModel,
+    viewModel: CardListViewModel
 ) {
     val navController = rememberNavController()
 
@@ -55,6 +59,13 @@ fun AppNavigation(
             navBackStackEntry.arguments!!.getString(
                 recipeId)
                 ?.let { RecipeDetailView(recipeViewModel = recipeViewModel, detailId = it, navController) }
+        }
+
+        composable(Routes.Favorite.route) {
+            RecipeFavorited(navController)
+        }
+        composable(Routes.Drink.route) {
+            DrinkRecords(navController = navController, viewModel)
         }
     }
 }

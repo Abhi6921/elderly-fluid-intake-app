@@ -55,7 +55,7 @@ fun DashBoardScreen(navController: NavController) {
             FluidTopAppBar()
         },
         bottomBar = {
-            AppBottomNav()
+            AppBottomNav(navController)
         },
         content = {
             Column(modifier = Modifier.fillMaxHeight(),

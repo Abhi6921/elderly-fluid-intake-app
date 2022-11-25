@@ -50,7 +50,7 @@ fun RecipeItem(
             )
             Column(Modifier.padding(8.dp)) {
                 Text(
-                    text = recipe.name + " " + recipe.ingredients.keys,
+                    text = recipe.name,
                     style = MaterialTheme.typography.h6,
                     modifier = Modifier
                         .padding(bottom = 8.dp)

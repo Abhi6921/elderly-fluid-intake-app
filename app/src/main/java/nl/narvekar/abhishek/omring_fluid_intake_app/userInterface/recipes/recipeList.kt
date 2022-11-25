@@ -28,7 +28,13 @@ fun RecipeList(recipes: List<Recipe>, navController: NavController) {
     val context = LocalContext.current
     Scaffold(
         topBar = {
-            TopAppBarRecipes()
+            TopAppBar(
+                elevation = 4.dp,
+                title = {
+                    Text(text = "Recipes")
+                },
+                backgroundColor =  MaterialTheme.colors.primarySurface
+            )
         },
         content = { innerPadding ->
             if (recipes.isEmpty()) {
@@ -36,7 +42,6 @@ fun RecipeList(recipes: List<Recipe>, navController: NavController) {
             }
             else {
                 LazyColumn(Modifier.padding(innerPadding)) {
-
                     items(recipes) {item ->
                         RecipeItem(item) {
                             navController.navigate(Routes.RecipeDetail.route + "/${it.recipeId}")
@@ -47,36 +52,7 @@ fun RecipeList(recipes: List<Recipe>, navController: NavController) {
 
         },
         bottomBar = {
-            AppBottomNav()
-        }
-    )
-}
-
-@Composable
-fun TopAppBarRecipes() {
-    TopAppBar(
-        elevation = 4.dp,
-        title = {
-            Text("Recipes", color = Color.White)
-        },
-        backgroundColor =  Color(0xFF1BAEEE),
-        navigationIcon = {
-            IconButton(onClick = {
-//                navController.navigate(Routes.Home.route) {
-//                    popUpTo(Routes.Recipes.route) {
-//                        inclusive = true
-//                    }
-//                }
-            }) {
-                Icon(Icons.Filled.ArrowBack, null)
-            }
-        }, actions = {
-            IconButton(onClick = {/* Do Something*/ }) {
-                Icon(Icons.Filled.Share, null)
-            }
-            IconButton(onClick = {/* Do Something*/ }) {
-                Icon(Icons.Filled.Settings, null)
-            }
+            AppBottomNav(navController)
         }
     )
 }

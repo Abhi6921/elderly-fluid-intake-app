@@ -1,9 +1,7 @@
 package nl.narvekar.abhishek.omring_fluid_intake_app
 
-import android.content.ContentValues.TAG
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
@@ -17,9 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import nl.narvekar.abhishek.omring_fluid_intake_app.navigation.AppNavigation
 import nl.narvekar.abhishek.omring_fluid_intake_app.ui.theme.ElderlyfluidintakeappTheme
-import nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.dashboard.DashBoardScreen
-import nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.recipes.RecipeList
-import nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.register.RegisterScreen
+import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.CardListViewModel
 import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.LoginViewModel
 import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.RecipeViewModel
 import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.RegisterViewModel
@@ -29,6 +25,7 @@ class MainActivity : ComponentActivity() {
     val loginViewModel by viewModels<LoginViewModel>()
     val registerViewModel by viewModels<RegisterViewModel>()
     val recipeViewModel by viewModels<RecipeViewModel>()
+    val expandableListViewModel by viewModels<CardListViewModel>()
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,8 +38,14 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colors.background
                 ) {
                    //RecipeList(recipes = recipeViewModel.recipeListResponse)
-                    AppNavigation(loginViewModel = loginViewModel, registerViewModel, recipeViewModel)
+                   AppNavigation(
+                       loginViewModel = loginViewModel,
+                       registerViewModel,
+                       recipeViewModel,
+                       expandableListViewModel
+                   )
                     recipeViewModel.getRecipeList()
+
                 }
             }
         }
@@ -61,3 +64,4 @@ fun DefaultPreview() {
         Greeting("Android")
     }
 }
+
