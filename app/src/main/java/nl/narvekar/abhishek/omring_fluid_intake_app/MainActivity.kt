@@ -1,5 +1,7 @@
 package nl.narvekar.abhishek.omring_fluid_intake_app
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -13,19 +15,19 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import nl.narvekar.abhishek.omring_fluid_intake_app.Constants.AUTH_TOKEN_KEY
+import nl.narvekar.abhishek.omring_fluid_intake_app.Constants.PrefKey
 import nl.narvekar.abhishek.omring_fluid_intake_app.navigation.AppNavigation
 import nl.narvekar.abhishek.omring_fluid_intake_app.ui.theme.ElderlyfluidintakeappTheme
-import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.CardListViewModel
-import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.LoginViewModel
-import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.RecipeViewModel
-import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.RegisterViewModel
+import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.*
 
 class MainActivity : ComponentActivity() {
-
+    lateinit var sharedPreferences: SharedPreferences
     val loginViewModel by viewModels<LoginViewModel>()
     val registerViewModel by viewModels<RegisterViewModel>()
     val recipeViewModel by viewModels<RecipeViewModel>()
     val expandableListViewModel by viewModels<CardListViewModel>()
+    val logDrinkViewModel by viewModels<LogDrinkViewModel>()
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,14 +40,19 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colors.background
                 ) {
                    //RecipeList(recipes = recipeViewModel.recipeListResponse)
+                    sharedPreferences = getSharedPreferences(PrefKey, Context.MODE_PRIVATE)
+                    val authToken = sharedPreferences.getString(AUTH_TOKEN_KEY, "").toString()
+
                    AppNavigation(
                        loginViewModel = loginViewModel,
                        registerViewModel,
                        recipeViewModel,
-                       expandableListViewModel
+                       expandableListViewModel,
+                       sharedPreferences,
+                       authToken,
+                       logDrinkViewModel
                    )
                     recipeViewModel.getRecipeList()
-
                 }
             }
         }

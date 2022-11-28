@@ -5,14 +5,14 @@ import androidx.compose.animation.*
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowDropDown
-import androidx.compose.material.icons.filled.Settings
-import androidx.compose.material.icons.filled.Share
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -22,17 +22,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.viewmodel.compose.viewModel
+
 import androidx.navigation.NavController
-import nl.narvekar.abhishek.omring_fluid_intake_app.R
 import nl.narvekar.abhishek.omring_fluid_intake_app.data.DrinkRecord
 import nl.narvekar.abhishek.omring_fluid_intake_app.navigation.AppBottomNav
 import nl.narvekar.abhishek.omring_fluid_intake_app.ui.theme.cardCollapsedBackgroundColor
 import nl.narvekar.abhishek.omring_fluid_intake_app.ui.theme.cardExpandedBackgroundColor
+import nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.dashboard.DashBoardSpinnerAndQuote
 import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.CardListViewModel
 
 
@@ -41,6 +40,7 @@ fun DrinkRecords(navController: NavController, cardListViewModel: CardListViewMo
 
     val cards by cardListViewModel.cards.collectAsState()
     val expandedCardIds by cardListViewModel.expandedCardList.collectAsState()
+    val scrollState = rememberScrollState()
 
     Scaffold(
         topBar = {
@@ -57,27 +57,58 @@ fun DrinkRecords(navController: NavController, cardListViewModel: CardListViewMo
                         }
                     }
                 )
-
-                Text("Hello World")
-
             }
         },
         content = {
+            Column {
+//                LazyColumn {
+//                    items(cards, DrinkRecord::dateTime) { card ->
+//                        ExpandableCard(
+//                            card = card,
+//                            onCardArrowClick = { cardListViewModel.onCardArrowClicked(card.dateTime) },
+//                            expanded = expandedCardIds.contains(card.dateTime)
+//                        )
+//                    }
+//                }
 
-             LazyColumn {
-                 items(cards, DrinkRecord::dateTime) { card ->
-                     ExpandableCard(
-                         card = card,
-                         onCardArrowClick = { cardListViewModel.onCardArrowClicked(card.dateTime) },
-                         expanded = expandedCardIds.contains(card.dateTime)
-                     )
-                 }
-             }
+                Row {
+                    DashBoardSpinnerAndQuote(drinkAmount = 0.0f)
+                }
+            }
         },
         bottomBar = {
             AppBottomNav(navController = navController)
         }
     )
+    Scaffold(
+        topBar = {
+
+        },
+        content = {
+            LazyColumn {
+                items(cards, DrinkRecord::dateTime) { card ->
+                        ExpandableCard(
+                             card = card,
+                            onCardArrowClick = { cardListViewModel.onCardArrowClicked(card.dateTime) },
+                            expanded = expandedCardIds.contains(card.dateTime)
+                        )
+                }
+            }
+        },
+        bottomBar = {
+
+        }
+    )
+//        LazyColumn {
+//            items(cards, DrinkRecord::dateTime) { card ->
+//                ExpandableCard(
+//                    card = card,
+//                    onCardArrowClick = { cardListViewModel.onCardArrowClicked(card.dateTime) },
+//                    expanded = expandedCardIds.contains(card.dateTime)
+//                )
+//            }
+//        }
+
 }
 
 @SuppressLint("UnusedTransitionTargetStateParameter")

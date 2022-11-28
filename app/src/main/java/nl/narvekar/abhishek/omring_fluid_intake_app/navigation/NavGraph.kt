@@ -1,5 +1,6 @@
 package nl.narvekar.abhishek.omring_fluid_intake_app.navigation
 
+import android.content.SharedPreferences
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
@@ -17,10 +18,7 @@ import nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.recipes.compon
 import nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.records.DrinkRecords
 import nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.register.RegisterScreen
 import nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.start.StartScreen
-import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.CardListViewModel
-import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.LoginViewModel
-import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.RecipeViewModel
-import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.RegisterViewModel
+import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.*
 
 const val recipeId = "recipeId"
 @RequiresApi(Build.VERSION_CODES.O)
@@ -29,27 +27,38 @@ fun AppNavigation(
     loginViewModel: LoginViewModel,
     registerViewModel: RegisterViewModel,
     recipeViewModel: RecipeViewModel,
-    viewModel: CardListViewModel
+    viewModel: CardListViewModel,
+    sharedPreferences: SharedPreferences,
+    authToken: String,
+    logDrinkViewModel: LogDrinkViewModel
 ) {
     val navController = rememberNavController()
 
-    NavHost(navController = navController, startDestination = Routes.Home.route) {
+    NavHost(
+        navController = navController,
+        startDestination =  if (authToken.isEmpty()) { Routes.getDestination() } else { Routes.Home.route }
+    ) {
 
         composable(Routes.Start.route) {
             StartScreen(navController)
         }
+
         composable(Routes.Login.route) {
-            LoginUI(loginViewModel, navController)
+            LoginUI(loginViewModel, navController, sharedPreferences)
         }
+
         composable(Routes.Register.route) {
             RegisterScreen(registerViewModel = registerViewModel, navController)
         }
+
         composable(Routes.Home.route) {
-            DashBoardScreen(navController)
+            DashBoardScreen(navController, logDrinkViewModel, sharedPreferences, loginViewModel)
         }
+
         composable(Routes.Recipes.route) {
             RecipeList(recipes = recipeViewModel.recipeListResponse, navController)
         }
+
         composable(
             route = Routes.RecipeDetail.route + "/{$recipeId}",
             arguments = listOf(navArgument(recipeId) {

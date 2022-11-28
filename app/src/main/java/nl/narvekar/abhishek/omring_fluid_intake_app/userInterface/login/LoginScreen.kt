@@ -1,5 +1,6 @@
 package nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.login
 
+import android.content.SharedPreferences
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -31,7 +32,7 @@ import nl.narvekar.abhishek.omring_fluid_intake_app.data.Login
 import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.LoginViewModel
 
 @Composable
-fun LoginUI(loginViewModel: LoginViewModel, navController: NavController) {
+fun LoginUI(loginViewModel: LoginViewModel, navController: NavController, sharedPreferences: SharedPreferences) {
 
     val context = LocalContext.current
     Column(
@@ -111,7 +112,7 @@ fun LoginUI(loginViewModel: LoginViewModel, navController: NavController) {
         Spacer(modifier = Modifier.height(35.dp))
         Button(
             onClick = {
-                loginViewModel.loginUser(context, Login(phonenumber, password), navController)
+                loginViewModel.loginUser(context, Login(phonenumber, password), navController, sharedPreferences)
             },
             colors = ButtonDefaults.buttonColors(backgroundColor = Color(0xFF1B7D71)),
             modifier = Modifier

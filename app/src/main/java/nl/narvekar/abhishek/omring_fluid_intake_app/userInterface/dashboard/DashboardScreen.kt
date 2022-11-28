@@ -1,6 +1,9 @@
 package nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.dashboard
 
+import android.content.ContentValues.TAG
+import android.content.SharedPreferences
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
@@ -29,27 +32,34 @@ import nl.narvekar.abhishek.omring_fluid_intake_app.navigation.AppBottomNav
 import nl.narvekar.abhishek.omring_fluid_intake_app.navigation.Routes
 import nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.dashboard.components.CircularProgressBar
 import nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.dashboard.components.SelectDrinkDialog
+import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.LogDrinkViewModel
+import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.LoginViewModel
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 
-@RequiresApi(Build.VERSION_CODES.O)
-@Composable
-fun DashBoardScreen(navController: NavController) {
-    val showDialog = remember { mutableStateOf(false) }
-    var inputValue = remember { mutableStateOf(0.0f) }
 
-    val currentDateTime: LocalDateTime = LocalDateTime.now()
-    val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
-    val current = LocalDateTime.now().format(formatter)
+
+@Composable
+fun DashBoardScreen(
+    navController: NavController,
+    logDrinkViewModel: LogDrinkViewModel,
+    sharedPreferences: SharedPreferences,
+    loginViewModel: LoginViewModel
+) {
+    val showDialog = remember { mutableStateOf(false) }
+    var inputvalue = 0.0f
+    var inputValue = remember { mutableStateOf(inputvalue) }
+
 
     if (showDialog.value) {
-        SelectDrinkDialog(setShowDialog = {
+        SelectDrinkDialog(logDrinkViewModel, sharedPreferences, setShowDialog = {
             showDialog.value = it
-        }, current) {
+        }) {
             inputValue.value += it
         }
     }
+
     Scaffold(
         topBar = {
             FluidTopAppBar()
@@ -69,7 +79,7 @@ fun DashBoardScreen(navController: NavController) {
                     .fillMaxWidth()
                     .fillMaxHeight()) {
 
-                    DashBoardSpinnerAndQuote()
+                    DashBoardSpinnerAndQuote(inputValue.value)
                     Row(
                         horizontalArrangement = Arrangement.Center,
                         verticalAlignment = Alignment.CenterVertically,
@@ -123,94 +133,16 @@ fun DashBoardScreen(navController: NavController) {
                             Text(text = "Recipes", fontSize = 35.sp)
                         }
                     }
-
                 }
             }
-
-
-            //Spacer(modifier = Modifier.height(20.dp))
-//            Column(
-//                modifier = Modifier.fillMaxWidth()
-//            ) {
-//                Spacer(modifier = Modifier.height(100.dp))
-//                if(inputValue.value.equals(1.0f)) {
-//                    inputValue.value = 0.0f
-//                }
-//                CircularProgressBar(percentage = inputValue.value, number = 100)
-//                Spacer(modifier = Modifier.height(30.dp))
-//                Row(modifier = Modifier.fillMaxWidth()) {
-//                    Image(
-//                       painter = painterResource(R.drawable.rain_drop),
-//                       contentDescription = "drop emoji",
-//                       alignment = Alignment.Center,
-//                       contentScale = ContentScale.Fit,
-//                       modifier = Modifier.size(160.dp)
-//                    )
-//                    Text(text = "A cup a day keeps doctor away", fontSize = 25.sp, textAlign = TextAlign.End)
-//                }
-                //DashBoardSpinnerAndQuote()
-                //DashBoardButtons()
-
-//                Row(
-//                    horizontalArrangement = Arrangement.Center,
-//                    modifier = Modifier
-//                        .fillMaxWidth()
-//                        .padding(45.dp)
-//                ) {
-//                    // Fluid Intake Button
-//                    Column(modifier = Modifier
-//                        .border(BorderStroke(5.dp, Color(0xFF1B7D71)))
-//                        .width(270.dp)
-//                        .height(380.dp)
-//                        .clickable {
-//                            showDialog.value = true
-//                        },
-//                        horizontalAlignment = Alignment.CenterHorizontally,
-//                        verticalArrangement = Arrangement.Center
-//                    ) {
-//                        Spacer(modifier = Modifier.height(40.dp))
-//                        Image(
-//                            painter = painterResource(R.drawable.water_intake),
-//                            contentDescription = "water intake image"
-//                        )
-//                        Spacer(modifier = Modifier.height(2.dp))
-//                        Text(text = "Fluid Intake", fontSize = 35.sp)
-//                    }
-//                    Spacer(modifier = Modifier.width(40.dp))
-//                        // Recipe Button
-//                    Column(modifier = Modifier
-//                        .border(BorderStroke(5.dp, Color(0xFF1B7D71)))
-//                        .width(270.dp)
-//                        .height(390.dp)
-//                        .clickable {
-//                            navController.navigate(Routes.Recipes.route) {
-//                                popUpTo(Routes.Home.route) {
-//                                    inclusive = true
-//                                }
-//                            }
-//                        },
-//                        horizontalAlignment = Alignment.CenterHorizontally,
-//                        verticalArrangement = Arrangement.Center
-//                    ) {
-//                        Spacer(modifier = Modifier.height(10.dp))
-//                        Image(
-//                            painter = painterResource(R.drawable.recipe),
-//                            contentDescription = " recipe image"
-//                        )
-//                        Spacer(modifier = Modifier.height(20.dp))
-//                        Text(text = "Recipes", fontSize = 35.sp)
-//                    }
-//
-//                }
-
-            //}
         }
     )
+    LogoutButton(navController, loginViewModel, sharedPreferences)
+
 }
 
-@Preview(showBackground = true, widthDp = 700)
 @Composable
-fun DashBoardSpinnerAndQuote() {
+fun DashBoardSpinnerAndQuote(drinkAmount: Float) {
     Row(
         modifier = Modifier
             .padding(20.dp)
@@ -223,7 +155,7 @@ fun DashBoardSpinnerAndQuote() {
                 .size(200.dp)
                 .padding(10.dp)
                 ) {
-            CircularProgressBar(percentage = 0.0f, number = 100)
+            CircularProgressBar(percentage = drinkAmount, number = 100)
         }
         Box(modifier = Modifier
             .size(200.dp)
@@ -250,43 +182,35 @@ fun DashBoardSpinnerAndQuote() {
 }
 
 @Composable
+fun LogoutButton(
+    navController: NavController,
+    loginViewModel: LoginViewModel,
+    sharedPreferences: SharedPreferences
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .fillMaxHeight(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Spacer(modifier = Modifier.height(850.dp))
+        Button(
+            onClick = {
+                loginViewModel.logout(navController, sharedPreferences)
+            },
+            modifier = Modifier
+                .height(80.dp)
+                .width(220.dp),
+            colors = ButtonDefaults.buttonColors(backgroundColor = Color(0xFF1B7D71))
+        ) {
+            Text(text = "Logout", fontSize = 35.sp, color = Color.White)
+        }
+
+    }
+}
+@Composable
 fun DashBoardButtons() {
-//    Row(
-//        modifier = Modifier
-//            .padding(20.dp)
-//            .fillMaxWidth()
-//            .fillMaxHeight(),
-//        horizontalArrangement = Arrangement.SpaceEvenly
-//        //verticalAlignment = Alignment.CenterVertically
-//    ) {
-//        Box(
-//            modifier = Modifier
-//                .size(200.dp)
-//                .padding(10.dp)
-//        ) {
-//            CircularProgressBar(percentage = 0.0f, number = 100)
-//        }
-//        Box(modifier = Modifier
-//            .size(200.dp)
-//            .padding(10.dp)
-//        ) {
-//            Image(
-//                painter = painterResource(R.drawable.rain_drop),
-//                contentDescription = "drop emoji",
-//                alignment = Alignment.Center,
-//                contentScale = ContentScale.Fit,
-//                modifier = Modifier.size(160.dp)
-//            )
-//        }
-//        Box(modifier = Modifier
-//            .size(200.dp)
-//            .padding(0.dp)
-//        ) {
-//
-//            Text(text = "A cup a day keeps the doctor away",
-//                textAlign = TextAlign.Left, fontSize = 29.sp)
-//        }
-//    }
         // Fluid Intake Button
         Column(modifier = Modifier
             .border(BorderStroke(5.dp, Color(0xFF1B7D71)))

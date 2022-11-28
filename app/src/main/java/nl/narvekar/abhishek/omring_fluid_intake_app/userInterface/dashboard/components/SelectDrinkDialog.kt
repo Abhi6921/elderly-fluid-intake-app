@@ -1,5 +1,6 @@
 package nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.dashboard.components
 
+import android.content.SharedPreferences
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -23,18 +24,20 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
-
-
+import nl.narvekar.abhishek.omring_fluid_intake_app.Constants.AUTH_TOKEN_KEY
+import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.LogDrinkViewModel
+import kotlin.math.roundToInt
+import kotlin.math.roundToLong
 
 
 @Composable
 fun SelectDrinkDialog(
+    logDrinkViewModel: LogDrinkViewModel,
+    sharedPreferences: SharedPreferences,
     setShowDialog: (Boolean) -> Unit,
-    setDateTime: String,
     setValue: (Float) -> Unit,
-
 ) {
-
+    val authToken = sharedPreferences.getString(AUTH_TOKEN_KEY, "").toString()
     Dialog(
         onDismissRequest = { setShowDialog(false) },
     ) {
@@ -75,9 +78,16 @@ fun SelectDrinkDialog(
                     Box(modifier = Modifier.padding(40.dp, 60.dp, 40.dp, 0.dp)) {
                         Button(
                             onClick = {
-                                setValue(0.1f)
-                                setShowDialog(false)
-                                setDateTime
+                                // get the drink value which is the amount
+                                // do an api call to set the drink value.
+                                // store and display the value from api
+
+                            // login details: 3125634121521
+                            // password: Tom123!!
+                              val drinkAmount = 3
+                              val floatAmount = (drinkAmount.toFloat() / 100f)
+                              setValue(floatAmount)
+                              setShowDialog(false)
                             },
                             shape = RoundedCornerShape(50.dp),
                             modifier = Modifier
@@ -93,9 +103,14 @@ fun SelectDrinkDialog(
                     Box(modifier = Modifier.padding(40.dp, 15.dp, 40.dp, 0.dp)) {
                         Button(
                             onClick = {
-                                setValue(0.2f)
-                                setShowDialog(false)
-                                setDateTime
+                                  val drinkAmount = 6
+                                  val floatAmount = (drinkAmount.toFloat() / 100f)
+                                  setValue(floatAmount)
+                                  setShowDialog(false)
+
+//                                val drinkAmount = 6
+//                                setValue(drinkAmount)
+//                                setShowDialog(false)
                             },
                             shape = RoundedCornerShape(50.dp),
                             modifier = Modifier
@@ -110,9 +125,10 @@ fun SelectDrinkDialog(
                     Box(modifier = Modifier.padding(40.dp, 15.dp, 40.dp, 0.dp)) {
                         Button(
                             onClick = {
-                                setValue(0.3f)
+                                val drinkAmount = 12 // replace this value with the value from the api
+                                val floatAmount = (drinkAmount.toFloat() / 100f) // replace the 100f with target value of the user
+                                setValue(floatAmount)
                                 setShowDialog(false)
-                                setDateTime
                             },
                             shape = RoundedCornerShape(50.dp),
                             modifier = Modifier
@@ -128,33 +144,4 @@ fun SelectDrinkDialog(
             }
         }
     }
-}
-
-@OptIn(ExperimentalComposeUiApi::class)
-@Composable
-fun MyCustomDialog(
-    onDismissRequest: () -> Unit,
-    properties: DialogProperties = DialogProperties(),
-    content: @Composable () -> Unit
-) {
-    Dialog(
-        onDismissRequest = onDismissRequest,
-        // We are copying the passed properties
-        // then setting usePlatformDefaultWidth to false
-        properties = properties.let {
-            DialogProperties(
-                dismissOnBackPress = it.dismissOnBackPress,
-                dismissOnClickOutside = it.dismissOnClickOutside,
-                securePolicy = it.securePolicy,
-                usePlatformDefaultWidth = false
-            )
-        },
-        content = {
-            Surface(
-                color = Color.Transparent,
-                modifier = Modifier.width(250.dp), // Customize your width here
-                content = content
-            )
-        }
-    )
 }

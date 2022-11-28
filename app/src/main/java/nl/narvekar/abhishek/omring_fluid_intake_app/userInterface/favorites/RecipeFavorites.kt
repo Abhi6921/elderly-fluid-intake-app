@@ -10,6 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import nl.narvekar.abhishek.omring_fluid_intake_app.navigation.AppBottomNav
 
@@ -26,7 +27,7 @@ fun RecipeFavorited(navController: NavController) {
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Text(text = "This is the recipe favorite page!")
+                Text(text = "This is the recipe favorite page!", fontSize = 35.sp)
             }
         },
         bottomBar = {

@@ -1,6 +1,7 @@
 package nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.dashboard.components
 
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.animateIntAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.Box
@@ -16,6 +17,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import kotlinx.coroutines.delay
 
 
 @Composable
@@ -31,8 +33,9 @@ fun CircularProgressBar(
 ) {
     // state where animation is played or not
     var animationPlayed by remember { mutableStateOf(false) }
+
     val curPercentage = animateFloatAsState(
-        targetValue = if (animationPlayed) percentage else if(percentage.equals(1.0f)) 0f else 0f,
+        targetValue = if (animationPlayed) { percentage } else { 0f },
         animationSpec = tween(
             durationMillis = animDuration,
             delayMillis = animDelay
@@ -55,6 +58,13 @@ fun CircularProgressBar(
                 style = Stroke(strokeWidth.toPx(), cap = StrokeCap.Round)
             )
         }
-        Text(text = (curPercentage.value * number).toInt().toString(), color = Color.Black, fontSize = fontSize)
+        Text(text = "${(curPercentage.value * number).toInt().toString()}%", color = Color.Black, fontSize = fontSize)
     }
+}
+
+
+@Composable
+fun CircularProgressBar() {
+    var progress by remember { mutableStateOf(0.1f) }
+
 }
