@@ -23,12 +23,17 @@ import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.*
 
 class MainActivity : ComponentActivity() {
     lateinit var sharedPreferences: SharedPreferences
-    val loginViewModel by viewModels<LoginViewModel>()
-    val registerViewModel by viewModels<RegisterViewModel>()
-    val recipeViewModel by viewModels<RecipeViewModel>()
-    val expandableListViewModel by viewModels<CardListViewModel>()
-    val logDrinkViewModel by viewModels<LogDrinkViewModel>()
+    private val loginViewModel by viewModels<LoginViewModel>()
+    private val registerViewModel by viewModels<RegisterViewModel>()
+    private val recipeViewModel by viewModels<RecipeViewModel>()
+    private val expandableListViewModel by viewModels<CardListViewModel>()
+    private val logDrinkViewModel by viewModels<LogDrinkViewModel>()
 
+    // TODO: GET THE REGISTER ENDPOINT TO WORK 
+    // GET THE PATIENT BY ID
+    // get daily limit of this patient
+    // Divide it by the hardcoded amount.
+    // display the value on the circular progress bar
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

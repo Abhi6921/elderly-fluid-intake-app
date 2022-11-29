@@ -1,8 +1,6 @@
 package nl.narvekar.abhishek.omring_fluid_intake_app.api
 
-import nl.narvekar.abhishek.omring_fluid_intake_app.data.LogDrink
-import nl.narvekar.abhishek.omring_fluid_intake_app.data.LogDrinkResponse
-import nl.narvekar.abhishek.omring_fluid_intake_app.data.User
+import nl.narvekar.abhishek.omring_fluid_intake_app.data.*
 import retrofit2.Call
 import retrofit2.Response
 import retrofit2.Retrofit
@@ -16,13 +14,15 @@ import retrofit2.http.Query
 
 interface UsersAuthApi {
 
-    @Headers("Content-Type:application/json")
+    @Headers("Content-Type: application/json")
     @POST("api/v1/patients")
-    fun registerUser(@Body user: User) : Call<User>
+    fun registerUser(@Body user: UserRequest) : Call<UserResponse>
 
     @Headers("Content-Type:application/json")
     @POST("api/v1/patients/logdrink")
-    fun postNewDrink(@Header("Bearer") authToken: String, @Query("amount") drinkAmount: LogDrink) : LogDrinkResponse
+    fun postNewDrink(@Header("Bearer") authToken: String, @Query("amount") drinkAmount: LogDrink) : Call<LogDrinkResponse>
+
+
 
     companion object {
         var apiService: UsersAuthApi? = null

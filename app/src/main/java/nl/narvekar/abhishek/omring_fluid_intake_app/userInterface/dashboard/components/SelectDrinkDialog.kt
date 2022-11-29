@@ -15,6 +15,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -25,6 +26,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import nl.narvekar.abhishek.omring_fluid_intake_app.Constants.AUTH_TOKEN_KEY
+import nl.narvekar.abhishek.omring_fluid_intake_app.data.LogDrink
 import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.LogDrinkViewModel
 import kotlin.math.roundToInt
 import kotlin.math.roundToLong
@@ -38,6 +40,7 @@ fun SelectDrinkDialog(
     setValue: (Float) -> Unit,
 ) {
     val authToken = sharedPreferences.getString(AUTH_TOKEN_KEY, "").toString()
+    val context = LocalContext.current
     Dialog(
         onDismissRequest = { setShowDialog(false) },
     ) {
@@ -84,10 +87,22 @@ fun SelectDrinkDialog(
 
                             // login details: 3125634121521
                             // password: Tom123!!
-                              val drinkAmount = 3
-                              val floatAmount = (drinkAmount.toFloat() / 100f)
-                              setValue(floatAmount)
-                              setShowDialog(false)
+
+//                                {
+//                                    "dailyGoal": 1000,
+//                                    "achieved": 32,
+//                                    "dailyLimit": 3000,
+//                                    "drankNow": 10,
+//                                    "amountLeftToLimit": 2968
+//                                }
+
+                                // drinkAmount from here
+                                // post this amount to the api.
+                                val drinkAmount = 3
+                                logDrinkViewModel.postANewDrink(context, LogDrink(drinkAmount), sharedPreferences)
+                                val floatAmount = (drinkAmount.toFloat() / logDrinkViewModel.dailyLimit.toString().toFloat())
+                                setValue(floatAmount)
+                                setShowDialog(false)
                             },
                             shape = RoundedCornerShape(50.dp),
                             modifier = Modifier

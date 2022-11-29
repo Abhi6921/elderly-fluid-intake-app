@@ -48,6 +48,8 @@ fun DashBoardScreen(
     loginViewModel: LoginViewModel
 ) {
     val showDialog = remember { mutableStateOf(false) }
+    // change this value and get it from the api
+//    amountInFloat = (logDrinkViewModel.drankNow.value.toFloat() / logDrinkViewModel.amountLeftToLimit.value.toFloat())
     var inputvalue = 0.0f
     var inputValue = remember { mutableStateOf(inputvalue) }
 
@@ -79,7 +81,7 @@ fun DashBoardScreen(
                     .fillMaxWidth()
                     .fillMaxHeight()) {
 
-                    DashBoardSpinnerAndQuote(inputValue.value)
+                    DashBoardSpinnerAndQuote(inputValue.value.toFloat())
                     Row(
                         horizontalArrangement = Arrangement.Center,
                         verticalAlignment = Alignment.CenterVertically,

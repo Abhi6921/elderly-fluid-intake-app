@@ -9,6 +9,7 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -48,7 +49,7 @@ fun DrinkRecords(navController: NavController, cardListViewModel: CardListViewMo
                 TopAppBar(
                     elevation = 4.dp,
                     title = {
-                        Text("I'm a TopAppBar")
+                        Text("Drink Records")
                     },
                     backgroundColor =  MaterialTheme.colors.primarySurface,
                     navigationIcon = {
@@ -60,43 +61,22 @@ fun DrinkRecords(navController: NavController, cardListViewModel: CardListViewMo
             }
         },
         content = {
-            Column {
-//                LazyColumn {
-//                    items(cards, DrinkRecord::dateTime) { card ->
-//                        ExpandableCard(
-//                            card = card,
-//                            onCardArrowClick = { cardListViewModel.onCardArrowClicked(card.dateTime) },
-//                            expanded = expandedCardIds.contains(card.dateTime)
-//                        )
-//                    }
-//                }
-
                 Row {
                     DashBoardSpinnerAndQuote(drinkAmount = 0.0f)
                 }
-            }
-        },
-        bottomBar = {
-            AppBottomNav(navController = navController)
-        }
-    )
-    Scaffold(
-        topBar = {
 
-        },
-        content = {
-            LazyColumn {
-                items(cards, DrinkRecord::dateTime) { card ->
+                LazyColumn {
+                    items(cards, DrinkRecord::dateTime) { card ->
                         ExpandableCard(
-                             card = card,
+                            card = card,
                             onCardArrowClick = { cardListViewModel.onCardArrowClicked(card.dateTime) },
                             expanded = expandedCardIds.contains(card.dateTime)
                         )
+                    }
                 }
-            }
         },
         bottomBar = {
-
+            AppBottomNav(navController = navController)
         }
     )
 //        LazyColumn {
