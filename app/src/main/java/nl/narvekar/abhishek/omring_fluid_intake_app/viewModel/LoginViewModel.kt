@@ -44,8 +44,9 @@ class LoginViewModel : ViewModel() {
                         editor.putString(AUTH_TOKEN_KEY, authToken).toString()
                         editor.apply()
 
-                        Toast.makeText(context, "Login Successful!", Toast.LENGTH_SHORT).show()
-
+                        //Toast.makeText(context, "Login Successful!", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, authToken.toString(), Toast.LENGTH_LONG).show()
+                        //Toast.makeText(context)
                         navController.navigate(Routes.Home.route) {
                             popUpTo(Routes.Login.route) {
                                 inclusive = true

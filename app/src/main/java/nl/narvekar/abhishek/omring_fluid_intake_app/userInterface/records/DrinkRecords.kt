@@ -62,7 +62,7 @@ fun DrinkRecords(navController: NavController, cardListViewModel: CardListViewMo
         },
         content = {
                 Row {
-                    DashBoardSpinnerAndQuote(drinkAmount = 0.0f)
+                    //DashBoardSpinnerAndQuote(drinkAmount = 0.0f, , null)
                 }
 
                 LazyColumn {

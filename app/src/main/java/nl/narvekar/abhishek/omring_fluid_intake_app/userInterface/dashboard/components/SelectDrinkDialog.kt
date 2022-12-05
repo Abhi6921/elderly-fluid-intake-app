@@ -12,7 +12,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Cancel
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
@@ -20,16 +19,12 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
-import androidx.compose.ui.window.DialogProperties
 import nl.narvekar.abhishek.omring_fluid_intake_app.Constants.AUTH_TOKEN_KEY
 import nl.narvekar.abhishek.omring_fluid_intake_app.data.LogDrink
 import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.LogDrinkViewModel
-import kotlin.math.roundToInt
-import kotlin.math.roundToLong
 
 
 @Composable
@@ -81,13 +76,9 @@ fun SelectDrinkDialog(
                     Box(modifier = Modifier.padding(40.dp, 60.dp, 40.dp, 0.dp)) {
                         Button(
                             onClick = {
-                                // get the drink value which is the amount
-                                // do an api call to set the drink value.
-                                // store and display the value from api
 
                             // login details: 3125634121521
                             // password: Tom123!!
-
 //                                {
 //                                    "dailyGoal": 1000,
 //                                    "achieved": 32,
@@ -95,14 +86,18 @@ fun SelectDrinkDialog(
 //                                    "drankNow": 10,
 //                                    "amountLeftToLimit": 2968
 //                                }
+                                // auth toke response
+//                                {
+//                                    "accessToken": "eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJQQVRJRU5UIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZSI6IiszMTI1NjM0MTIxNTIxIiwibmJmIjoxNjY5OTg1NDM1LCJleHAiOjE3MDE1MjE0MzUsImlhdCI6MTY2OTk4NTQzNSwiaXNzIjoiRHJpbmtBcHBSZWNpcGVzLmF6dXJld2Vic2l0ZXMubmV0IiwiYXVkIjoiRHJpbmtBcHBVc2VycyAvIFBhdGllbnRzIC8gQ2FyZWdpdmVycyAvIEFkbWlucyAvIEF1dGgifQ.e2v5Gpaf74xlaHKKxUmcDLLcMTU3sIl0TeRqHMxMOmY",
+//                                    "tokenType": "Bearer",
+//                                    "expiresIn": 31535999
+//                                }
 
-                                // drinkAmount from here
-                                // post this amount to the api.
-                                val drinkAmount = 3
-                                logDrinkViewModel.postANewDrink(context, LogDrink(drinkAmount), sharedPreferences)
-                                val floatAmount = (drinkAmount.toFloat() / logDrinkViewModel.dailyLimit.toString().toFloat())
-                                setValue(floatAmount)
+                                val drinkAmount = 100
+                                logDrinkViewModel.postANewDrink(context, LogDrink(drinkAmount), sharedPreferences, setValue)
+
                                 setShowDialog(false)
+
                             },
                             shape = RoundedCornerShape(50.dp),
                             modifier = Modifier
@@ -118,7 +113,7 @@ fun SelectDrinkDialog(
                     Box(modifier = Modifier.padding(40.dp, 15.dp, 40.dp, 0.dp)) {
                         Button(
                             onClick = {
-                                  val drinkAmount = 6
+                                  val drinkAmount = 12
                                   val floatAmount = (drinkAmount.toFloat() / 100f)
                                   setValue(floatAmount)
                                   setShowDialog(false)
@@ -140,7 +135,7 @@ fun SelectDrinkDialog(
                     Box(modifier = Modifier.padding(40.dp, 15.dp, 40.dp, 0.dp)) {
                         Button(
                             onClick = {
-                                val drinkAmount = 12 // replace this value with the value from the api
+                                val drinkAmount = 16 // replace this value with the value from the api
                                 val floatAmount = (drinkAmount.toFloat() / 100f) // replace the 100f with target value of the user
                                 setValue(floatAmount)
                                 setShowDialog(false)

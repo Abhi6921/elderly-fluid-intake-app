@@ -18,11 +18,12 @@ interface UsersAuthApi {
     @POST("api/v1/patients")
     fun registerUser(@Body user: UserRequest) : Call<UserResponse>
 
-    @Headers("Content-Type:application/json")
+//    @Headers("Content-Type:application/json")
+    @Headers("Accept: application/json")
     @POST("api/v1/patients/logdrink")
-    fun postNewDrink(@Header("Bearer") authToken: String, @Query("amount") drinkAmount: LogDrink) : Call<LogDrinkResponse>
+    fun postNewDrink(@Header("Bearer") authToken: String, @Body drinkAmount: LogDrink) : Call<LogDrinkResponse>
 
-
+    fun getPatientById(@Header("Bearer") authToken: String, @Query("id") patientID: String) : UserResponse
 
     companion object {
         var apiService: UsersAuthApi? = null

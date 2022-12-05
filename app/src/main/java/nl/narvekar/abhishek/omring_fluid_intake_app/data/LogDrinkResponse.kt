@@ -1,9 +1,11 @@
 package nl.narvekar.abhishek.omring_fluid_intake_app.data
 
+import com.google.gson.annotations.SerializedName
+
 data class LogDrinkResponse(
-    val dailyGoal: Int? = null,
-    val achieved: Int? = null,
-    val dailyLimit: Int? = null,
-    val drankNow: Int? = null,
-    val amountLeftToLimit: Int? = null
+    @SerializedName("dailyGoal"         ) var dailyGoal         : Int? = null,
+    @SerializedName("achieved"          ) var achieved          : Int? = null,
+    @SerializedName("dailyLimit"        ) var dailyLimit        : Int? = null,
+    @SerializedName("drankNow"          ) var drankNow          : Int? = null,
+    @SerializedName("amountLeftToLimit" ) var amountLeftToLimit : Int? = null
 )

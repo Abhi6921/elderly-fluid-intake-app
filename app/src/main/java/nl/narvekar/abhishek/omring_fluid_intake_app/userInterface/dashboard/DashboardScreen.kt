@@ -1,43 +1,38 @@
 package nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.dashboard
 
-import android.content.ContentValues.TAG
 import android.content.SharedPreferences
-import android.os.Build
+import android.nfc.Tag
 import android.util.Log
-import androidx.annotation.RequiresApi
+import android.widget.Toast
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import nl.narvekar.abhishek.omring_fluid_intake_app.Constants.AUTH_TOKEN_KEY
+import nl.narvekar.abhishek.omring_fluid_intake_app.Constants.PATIENT_ID
 import nl.narvekar.abhishek.omring_fluid_intake_app.R
+import nl.narvekar.abhishek.omring_fluid_intake_app.data.UserResponse
 import nl.narvekar.abhishek.omring_fluid_intake_app.navigation.AppBottomNav
 import nl.narvekar.abhishek.omring_fluid_intake_app.navigation.Routes
 import nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.dashboard.components.CircularProgressBar
 import nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.dashboard.components.SelectDrinkDialog
 import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.LogDrinkViewModel
 import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.LoginViewModel
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
-
-
 
 
 @Composable
@@ -48,17 +43,17 @@ fun DashBoardScreen(
     loginViewModel: LoginViewModel
 ) {
     val showDialog = remember { mutableStateOf(false) }
-    // change this value and get it from the api
-//    amountInFloat = (logDrinkViewModel.drankNow.value.toFloat() / logDrinkViewModel.amountLeftToLimit.value.toFloat())
-    var inputvalue = 0.0f
-    var inputValue = remember { mutableStateOf(inputvalue) }
 
+    val inputValue = remember { mutableStateOf(0.0f) }
 
+    val context = LocalContext.current
     if (showDialog.value) {
         SelectDrinkDialog(logDrinkViewModel, sharedPreferences, setShowDialog = {
             showDialog.value = it
         }) {
+            //Toast.makeText(context, it.toString(), Toast.LENGTH_SHORT).show()
             inputValue.value += it
+
         }
     }
 
@@ -81,7 +76,7 @@ fun DashBoardScreen(
                     .fillMaxWidth()
                     .fillMaxHeight()) {
 
-                    DashBoardSpinnerAndQuote(inputValue.value.toFloat())
+                    DashBoardSpinnerAndQuote(inputValue.value.toFloat(), logDrinkViewModel, sharedPreferences)
                     Row(
                         horizontalArrangement = Arrangement.Center,
                         verticalAlignment = Alignment.CenterVertically,
@@ -144,7 +139,12 @@ fun DashBoardScreen(
 }
 
 @Composable
-fun DashBoardSpinnerAndQuote(drinkAmount: Float) {
+fun DashBoardSpinnerAndQuote(drinkAmount: Float, logDrinkViewModel: LogDrinkViewModel, sharedPreferences: SharedPreferences) {
+
+    val authToken = sharedPreferences.getString(AUTH_TOKEN_KEY, "").toString()
+    Log.d("token at spinner", authToken)
+    val patient: UserResponse = logDrinkViewModel.getPatientById(authToken, PATIENT_ID)
+
     Row(
         modifier = Modifier
             .padding(20.dp)
@@ -157,7 +157,13 @@ fun DashBoardSpinnerAndQuote(drinkAmount: Float) {
                 .size(200.dp)
                 .padding(10.dp)
                 ) {
-            CircularProgressBar(percentage = drinkAmount, number = 100)
+                if (patient.dailyLimit != null) {
+                    CircularProgressBar(percentage = drinkAmount, number = patient.dailyLimit)
+                }
+                else {
+                    CircularProgressBar(drinkAmount, 100)
+                }
+
         }
         Box(modifier = Modifier
             .size(200.dp)
