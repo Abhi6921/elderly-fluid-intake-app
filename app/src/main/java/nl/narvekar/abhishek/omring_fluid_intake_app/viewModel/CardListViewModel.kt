@@ -1,5 +1,6 @@
 package nl.narvekar.abhishek.omring_fluid_intake_app.viewModel
 
+import android.provider.ContactsContract
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
@@ -7,44 +8,39 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import nl.narvekar.abhishek.omring_fluid_intake_app.data.Allitems
 import nl.narvekar.abhishek.omring_fluid_intake_app.data.DrinkRecord
 
 class CardListViewModel : ViewModel() {
 
-    // holds the list of cards
-    private val _cards = MutableStateFlow(listOf<DrinkRecord>())
-    val cards: StateFlow<List<DrinkRecord>> get() = _cards
+    private val itemsList = MutableStateFlow(listOf<DrinkRecord>())
+    val items: StateFlow<List<DrinkRecord>> get() = itemsList
 
-    // holds a list of expanded card ids changes state onclicked
-    private val _expandCardIdsList = MutableStateFlow(listOf<Int>())
-    val expandedCardList: StateFlow<List<Int>> get() = _expandCardIdsList
+    private val itemIdsList = MutableStateFlow(listOf<Int>())
+    val itemIds: StateFlow<List<Int>> get() = itemIdsList
 
+
+    // call getData() method in constructors so whenever screen appears we load the data
     init {
-        getFakeData()
+        getData()
     }
 
-    // actual processing of the data will happen here
-    private fun getFakeData() {
+    // getting all the demo data change with value from api
+    private fun getData() {
         viewModelScope.launch {
             withContext(Dispatchers.Default) {
-                val testList = arrayListOf<DrinkRecord>()
-                repeat(20) {
-                    testList += DrinkRecord(dateTime = it, amount = "Drink $it")
-                    _cards.emit(testList)
-                }
+                itemsList.emit(Allitems)
             }
         }
     }
 
-    fun onCardArrowClicked(cardId: Int) {
-        _expandCardIdsList.value = _expandCardIdsList.value.toMutableList().also { list ->
-            if (list.contains(cardId)) {
-                list.remove(cardId)
-            }
-            else {
-                list.add(cardId)
+    fun onItemClicked(itemId: Int) {
+        itemIdsList.value = itemIdsList.value.toMutableList().also { list ->
+            if (list.contains(itemId)) {
+                list.remove(itemId)
+            } else {
+                list.add(itemId)
             }
         }
     }
-
 }

@@ -36,7 +36,7 @@ fun AppNavigation(
 
     NavHost(
         navController = navController,
-        startDestination =  if (authToken.isEmpty()) { Routes.getDestination() } else { Routes.Home.route }
+        startDestination =  Routes.Home.route //if (authToken.isEmpty()) { Routes.getDestination() } else { Routes.Home.route }
     ) {
 
         composable(Routes.Start.route) {

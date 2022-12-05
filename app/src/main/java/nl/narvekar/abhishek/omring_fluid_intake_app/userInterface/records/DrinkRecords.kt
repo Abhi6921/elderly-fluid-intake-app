@@ -3,10 +3,14 @@ package nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.records
 import android.annotation.SuppressLint
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -14,218 +18,167 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowDropDown
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.viewmodel.compose.viewModel
 
 import androidx.navigation.NavController
+import coil.compose.AsyncImage
+import nl.narvekar.abhishek.omring_fluid_intake_app.R
 import nl.narvekar.abhishek.omring_fluid_intake_app.data.DrinkRecord
 import nl.narvekar.abhishek.omring_fluid_intake_app.navigation.AppBottomNav
+import nl.narvekar.abhishek.omring_fluid_intake_app.navigation.Routes
 import nl.narvekar.abhishek.omring_fluid_intake_app.ui.theme.cardCollapsedBackgroundColor
 import nl.narvekar.abhishek.omring_fluid_intake_app.ui.theme.cardExpandedBackgroundColor
-import nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.dashboard.DashBoardSpinnerAndQuote
 import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.CardListViewModel
 
 
 @Composable
 fun DrinkRecords(navController: NavController, cardListViewModel: CardListViewModel) {
 
-    val cards by cardListViewModel.cards.collectAsState()
-    val expandedCardIds by cardListViewModel.expandedCardList.collectAsState()
-    val scrollState = rememberScrollState()
-
+    val itemIds by cardListViewModel.itemIds.collectAsState()
     Scaffold(
         topBar = {
-            Column {
-                TopAppBar(
-                    elevation = 4.dp,
-                    title = {
-                        Text("Drink Records")
-                    },
-                    backgroundColor =  MaterialTheme.colors.primarySurface,
-                    navigationIcon = {
-                        IconButton(onClick = {/* Do Something*/ }) {
-                            Icon(Icons.Filled.ArrowBack, null)
+            TopAppBar(
+                backgroundColor = Color(0xFF1BAEEE),
+                elevation = 0.dp,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Row(
+                    Modifier.fillMaxSize(),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    ProvideTextStyle(value = MaterialTheme.typography.h6) {
+                        CompositionLocalProvider(
+                            LocalContentAlpha provides ContentAlpha.high
+                        ) {
+                            Text(
+                                modifier = Modifier.fillMaxWidth(),
+                                textAlign = TextAlign.Center,
+                                maxLines = 1,
+                                text = "Drink Records",
+                                color = Color.White
+                            )
                         }
                     }
-                )
+                }
             }
         },
-        content = {
-                Row {
-                    //DashBoardSpinnerAndQuote(drinkAmount = 0.0f, , null)
+        content = { padding ->
+            LazyColumn(modifier = Modifier.padding(padding)) {
+                itemsIndexed(cardListViewModel.items.value) { index, item ->
+                    ExpandableContainerView(
+                        drinkRecord = item,
+                        onClickItem = { cardListViewModel.onItemClicked(index) },
+                        expanded = itemIds.contains(index)
+                    )
                 }
-
-                LazyColumn {
-                    items(cards, DrinkRecord::dateTime) { card ->
-                        ExpandableCard(
-                            card = card,
-                            onCardArrowClick = { cardListViewModel.onCardArrowClicked(card.dateTime) },
-                            expanded = expandedCardIds.contains(card.dateTime)
-                        )
-                    }
-                }
+            }
         },
         bottomBar = {
             AppBottomNav(navController = navController)
         }
     )
-//        LazyColumn {
-//            items(cards, DrinkRecord::dateTime) { card ->
-//                ExpandableCard(
-//                    card = card,
-//                    onCardArrowClick = { cardListViewModel.onCardArrowClicked(card.dateTime) },
-//                    expanded = expandedCardIds.contains(card.dateTime)
-//                )
-//            }
-//        }
-
 }
 
-@SuppressLint("UnusedTransitionTargetStateParameter")
+// view to expand and collapse the expandable
 @Composable
-fun ExpandableCard(
-    card: DrinkRecord,
-    onCardArrowClick: () -> Unit,
-    expanded: Boolean
-) {
-    val transitionState = remember {
-        MutableTransitionState(expanded).apply {
-            targetState = !expanded
-        }
-    }
-
-    val transition = updateTransition(transitionState)
-    val cardBgColor by transition.animateColor({
-        tween(durationMillis = 450)
-    }, label = "bgColorTransition") {
-        if (expanded) cardExpandedBackgroundColor else cardCollapsedBackgroundColor
-    }
-    val cardPaddingHorizontal by transition.animateDp({
-        tween(durationMillis = 450)
-    }, label = "paddingTransition") {
-        if (expanded) 48.dp else 24.dp
-    }
-
-    val cardElevation by transition.animateDp({
-        tween(durationMillis = 450)
-    }, label = "elevationTransition") {
-        if (expanded) 24.dp else 4.dp
-    }
-    val cardRoundedCorners by transition.animateDp({
-        tween(
-            durationMillis = 450,
-            easing = FastOutSlowInEasing
-        )
-    }, label = "cornersTransition") {
-        if (expanded) 0.dp else 16.dp
-    }
-
-    val arrowRotationDegree by transition.animateFloat({
-        tween(durationMillis = 450)
-    }, label = "rotationDegreeTransition") {
-        if (expanded) 0f else 180f
-    }
-
-    val context = LocalContext.current
-    val contentColour = remember {
-        Color(ContextCompat.getColor(context, nl.narvekar.abhishek.omring_fluid_intake_app.R.color.colorDayNightPurple))
-    }
-
-    Card(
-        backgroundColor = cardBgColor,
-        contentColor = contentColour,
-        elevation = cardElevation,
-        shape = RoundedCornerShape(cardRoundedCorners),
+fun HeaderView(questionText: String, onClickItem: () -> Unit) {
+    Box(
         modifier = Modifier
-            .fillMaxWidth()
-            .padding(
-                horizontal = cardPaddingHorizontal,
-                vertical = 8.dp
+            .background(Color.Blue)
+            .clickable(
+                indication = null,
+                interactionSource = remember { MutableInteractionSource() },
+                onClick = onClickItem
             )
+            .padding(8.dp)
     ) {
-        Column {
-            Box {
-                CardArrow(
-                    degrees = arrowRotationDegree,
-                    onClick = onCardArrowClick
-                )
-                CardTitle(title = card.amount)
-            }
-            ExpandableContent(visible = expanded)
-        }
-    }
-}
-
-
-@Composable
-fun CardArrow(degrees: Float, onClick: () -> Unit) {
-    IconButton(
-        onClick = onClick
-    ) {
-        Icon(
-            imageVector = Icons.Default.ArrowDropDown,
-            contentDescription = "Expandable Arrow",
-            modifier = Modifier.rotate(degrees),
+        Text(
+            text = questionText,
+            fontSize = 17.sp,
+            color = Color.White,
+            modifier = Modifier.fillMaxWidth()
         )
     }
 }
 
-@Composable
-fun CardTitle(title: String) {
-    Text(
-        text = title,
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(16.dp),
-        textAlign = TextAlign.Center,
-    )
-}
 
 @Composable
-fun ExpandableContent(
-    visible: Boolean = true,
-) {
-    val enterTransition = remember {
+fun ExpandableView(answerText: String, isExpanded: Boolean) {
+    // Enter transition
+    val expandTransition = remember {
         expandVertically(
             expandFrom = Alignment.Top,
-            animationSpec = tween(450)
+            animationSpec = tween(300)
         ) + fadeIn(
-            initialAlpha = 0.3f,
-            animationSpec = tween(450)
+            animationSpec = tween(300)
         )
     }
-    val exitTransition = remember {
+
+    // Closing Animation
+    val collapseTransition = remember {
         shrinkVertically(
-            // Expand from the top.
             shrinkTowards = Alignment.Top,
-            animationSpec = tween(450)
-        ) + fadeOut(
-            // Fade in with the initial alpha of 0.3f.
-            animationSpec = tween(450)
-        )
+            animationSpec = tween(300),
+        ) + fadeOut(animationSpec = tween(300))
     }
 
     AnimatedVisibility(
-        visible = visible,
-        enter = enterTransition,
-        exit = exitTransition
+        visible = isExpanded,
+        enter = expandTransition,
+        exit = collapseTransition
     ) {
-        Column(modifier = Modifier.padding(8.dp)) {
-            Spacer(modifier = Modifier.heightIn(100.dp))
+        Box(
+            modifier = Modifier
+                .background(Color.DarkGray)
+                .padding(15.dp)
+        ) {
             Text(
-                text = "Expandable content here",
-                textAlign = TextAlign.Center
+                text = answerText,
+                fontSize = 16.sp,
+                color = Color.White,
+                modifier = Modifier.fillMaxWidth()
             )
         }
     }
 }
+
+@Composable
+fun ExpandableContainerView(
+    drinkRecord: DrinkRecord, 
+    onClickItem: () -> Unit,
+    expanded: Boolean
+) {
+    Box(modifier = Modifier.background(Color.Green)) {
+        Column {
+            HeaderView(questionText = drinkRecord.question, onClickItem = onClickItem)
+            ExpandableView(answerText = drinkRecord.answer , isExpanded = expanded)
+        }
+    }
+}
+
+
+@Preview(showBackground = true)
+@Composable
+fun ExpandableContainerViewPreview() {
+    ExpandableContainerView(
+        drinkRecord = DrinkRecord("Question", "Answer"),
+        onClickItem = {},
+        expanded = true
+    )
+}
+
+
+

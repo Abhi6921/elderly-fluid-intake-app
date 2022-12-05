@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -268,28 +269,29 @@ fun DashBoardButtons() {
 
 @Composable
 fun FluidTopAppBar() {
-    val gradientBlueWhite = Brush.verticalGradient(
-        0f to Color(0xFF1BAEEE),
-        1000f to Color(0xFFFFFFFF)
-    )
-    Column {
-        TopAppBar(
-            elevation = 5.dp,
-            title = {
-                Text("DashBoard", color = Color.White)
-            },
-            backgroundColor =  Color(0xFF1BAEEE),
-            actions = {
-                Image(
-                    painter = painterResource(id = R.drawable.omring_logo),
-                    contentDescription = "user profile picture",
-                    contentScale = ContentScale.Crop,
-                    modifier = Modifier
-                        .size(34.dp)
-                        .clip(CircleShape)
-                        .border(2.dp, Color.White, CircleShape)
-                )
-            })
+    TopAppBar(
+        backgroundColor = Color(0xFF1BAEEE),
+        elevation = 0.dp,
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        Row(
+            Modifier.fillMaxSize(),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            ProvideTextStyle(value = MaterialTheme.typography.h6) {
+                CompositionLocalProvider(
+                    LocalContentAlpha provides ContentAlpha.high
+                ) {
+                    Text(
+                        modifier = Modifier.fillMaxWidth(),
+                        textAlign = TextAlign.Center,
+                        maxLines = 1,
+                        text = "Dashboard",
+                        color = Color.White
+                    )
+                }
+            }
+        }
     }
 }
 
