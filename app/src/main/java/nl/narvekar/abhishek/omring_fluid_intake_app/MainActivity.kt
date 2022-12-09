@@ -22,6 +22,7 @@ import nl.narvekar.abhishek.omring_fluid_intake_app.ui.theme.Elderlyfluidintakea
 import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.*
 
 class MainActivity : ComponentActivity() {
+    // this commit is from the records page branch
     lateinit var sharedPreferences: SharedPreferences
     private val loginViewModel by viewModels<LoginViewModel>()
     private val registerViewModel by viewModels<RegisterViewModel>()
