@@ -287,7 +287,8 @@ fun FluidTopAppBar() {
                         textAlign = TextAlign.Center,
                         maxLines = 1,
                         text = "Dashboard",
-                        color = Color.White
+                        color = Color.White,
+                        fontSize = 34.sp
                     )
                 }
             }

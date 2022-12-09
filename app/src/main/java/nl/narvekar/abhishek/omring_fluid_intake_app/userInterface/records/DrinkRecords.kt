@@ -69,7 +69,8 @@ fun DrinkRecords(navController: NavController, cardListViewModel: CardListViewMo
                                 textAlign = TextAlign.Center,
                                 maxLines = 1,
                                 text = "Drink Records",
-                                color = Color.White
+                                color = Color.White,
+                                fontSize = 34.sp
                             )
                         }
                     }
