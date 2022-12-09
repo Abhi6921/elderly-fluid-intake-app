@@ -65,9 +65,9 @@ fun AppNavigation(
                 type = NavType.StringType
             })
         ) { navBackStackEntry ->
-            navBackStackEntry.arguments!!.getString(
-                recipeId)
-                ?.let { RecipeDetailView(recipeViewModel = recipeViewModel, detailId = it, navController) }
+//            navBackStackEntry.arguments!!.getString(
+//                recipeId)
+//                ?.let { RecipeDetailView(recipeViewModel = recipeViewModel, detailId = it, navController) }
         }
 
         composable(Routes.Favorite.route) {

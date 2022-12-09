@@ -51,9 +51,10 @@ fun DrinkRecords(navController: NavController, cardListViewModel: CardListViewMo
     Scaffold(
         topBar = {
             TopAppBar(
+                modifier = Modifier.fillMaxWidth().height(60.dp),
                 backgroundColor = Color(0xFF1BAEEE),
                 elevation = 0.dp,
-                modifier = Modifier.fillMaxWidth()
+
             ) {
                 Row(
                     Modifier.fillMaxSize(),

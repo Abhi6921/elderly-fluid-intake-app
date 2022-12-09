@@ -18,6 +18,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import nl.narvekar.abhishek.omring_fluid_intake_app.data.Recipe
 import nl.narvekar.abhishek.omring_fluid_intake_app.navigation.AppBottomNav
@@ -31,9 +32,9 @@ fun RecipeList(recipes: List<Recipe>, navController: NavController) {
     Scaffold(
         topBar = {
             TopAppBar(
+                modifier = Modifier.fillMaxWidth().height(60.dp),
                 backgroundColor = Color(0xFF1BAEEE),
-                elevation = 0.dp,
-                modifier = Modifier.fillMaxWidth()
+                elevation = 0.dp
             ) {
                 Row(
                     Modifier.fillMaxSize(),
@@ -48,7 +49,8 @@ fun RecipeList(recipes: List<Recipe>, navController: NavController) {
                                 textAlign = TextAlign.Center,
                                 maxLines = 1,
                                 text = "Recipes",
-                                color = Color.White
+                                color = Color.White,
+                                fontSize = 34.sp
                             )
                         }
                     }

@@ -50,23 +50,13 @@ class LogDrinkViewModel : ViewModel() {
                         call: Call<LogDrinkResponse>,
                         response: Response<LogDrinkResponse>
                     ) {
-                        //Toast.makeText(context, authToken, Toast.LENGTH_LONG).show()
 
                         Toast.makeText(context, response.code().toString(), Toast.LENGTH_LONG).show()
-                        //Toast.makeText(context, response.message().toString(), Toast.LENGTH_LONG).show()
-
-                        //Toast.makeText(context, "Success!", Toast.LENGTH_SHORT).show()
-                        drankNow.value = response.body()?.drankNow.toString()
-                        dailyLimit.value = response.body()?.dailyLimit.toString()
-                        amountLeftToLimit.value = response.body()?.amountLeftToLimit.toString()
-
-                        //val a = (drankNow.value.toInt() / amountLeftToLimit.value.toInt()) * 100
-
-                        //Toast.makeText(context, response.body().toString(), Toast.LENGTH_SHORT).show()
-                        //Toast.makeText(context, amountLeftToLimit.value.toString(), Toast.LENGTH_SHORT).show()
-//                        val floatAmount = (drankNow.value.toFloat() / ((20f) / 100f))
-//                        Toast.makeText(context, "$floatAmount", Toast.LENGTH_SHORT).show()
-                        //setValue(a.toFloat())
+                        if(response.body() != null) {
+                            drankNow.value = response.body()?.drankNow.toString()
+                            dailyLimit.value = response.body()?.dailyLimit.toString()
+                            amountLeftToLimit.value = response.body()?.amountLeftToLimit.toString()
+                        }
                     }
                 }
             )

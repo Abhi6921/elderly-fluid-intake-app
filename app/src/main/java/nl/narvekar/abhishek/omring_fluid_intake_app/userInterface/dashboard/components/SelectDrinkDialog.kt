@@ -86,16 +86,11 @@ fun SelectDrinkDialog(
 //                                    "drankNow": 10,
 //                                    "amountLeftToLimit": 2968
 //                                }
-                                // auth toke response
-//                                {
-//                                    "accessToken": "eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJQQVRJRU5UIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZSI6IiszMTI1NjM0MTIxNTIxIiwibmJmIjoxNjY5OTg1NDM1LCJleHAiOjE3MDE1MjE0MzUsImlhdCI6MTY2OTk4NTQzNSwiaXNzIjoiRHJpbmtBcHBSZWNpcGVzLmF6dXJld2Vic2l0ZXMubmV0IiwiYXVkIjoiRHJpbmtBcHBVc2VycyAvIFBhdGllbnRzIC8gQ2FyZWdpdmVycyAvIEFkbWlucyAvIEF1dGgifQ.e2v5Gpaf74xlaHKKxUmcDLLcMTU3sIl0TeRqHMxMOmY",
-//                                    "tokenType": "Bearer",
-//                                    "expiresIn": 31535999
-//                                }
 
                                 val drinkAmount = 100
+                                val floatAmount = drinkAmount.toFloat() / 3000f
                                 logDrinkViewModel.postANewDrink(context, LogDrink(drinkAmount), sharedPreferences, setValue)
-
+                                setValue(floatAmount)
                                 setShowDialog(false)
 
                             },
