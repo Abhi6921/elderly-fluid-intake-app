@@ -22,6 +22,7 @@ import nl.narvekar.abhishek.omring_fluid_intake_app.ui.theme.Elderlyfluidintakea
 import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.*
 
 class MainActivity : ComponentActivity() {
+    // some commit from drink-recipes branch
     lateinit var sharedPreferences: SharedPreferences
     private val loginViewModel by viewModels<LoginViewModel>()
     private val registerViewModel by viewModels<RegisterViewModel>()
@@ -29,11 +30,6 @@ class MainActivity : ComponentActivity() {
     private val expandableListViewModel by viewModels<CardListViewModel>()
     private val logDrinkViewModel by viewModels<LogDrinkViewModel>()
 
-    // TODO: GET THE REGISTER ENDPOINT TO WORK 
-    // GET THE PATIENT BY ID
-    // get daily limit of this patient
-    // Divide it by the hardcoded amount.
-    // display the value on the circular progress bar
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
