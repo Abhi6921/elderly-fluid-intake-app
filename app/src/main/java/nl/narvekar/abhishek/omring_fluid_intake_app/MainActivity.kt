@@ -1,9 +1,13 @@
 package nl.narvekar.abhishek.omring_fluid_intake_app
 
+import android.content.Context
+import android.content.SharedPreferences
+import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
@@ -11,18 +15,26 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import nl.narvekar.abhishek.omring_fluid_intake_app.Constants.AUTH_TOKEN_KEY
+import nl.narvekar.abhishek.omring_fluid_intake_app.Constants.PrefKey
 import nl.narvekar.abhishek.omring_fluid_intake_app.navigation.AppNavigation
 import nl.narvekar.abhishek.omring_fluid_intake_app.ui.theme.ElderlyfluidintakeappTheme
-import nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.dashboard.DashBoardScreen
-import nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.register.RegisterScreen
-import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.LoginViewModel
-import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.RegisterViewModel
+import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.*
 
 class MainActivity : ComponentActivity() {
+    lateinit var sharedPreferences: SharedPreferences
+    private val loginViewModel by viewModels<LoginViewModel>()
+    private val registerViewModel by viewModels<RegisterViewModel>()
+    private val recipeViewModel by viewModels<RecipeViewModel>()
+    private val expandableListViewModel by viewModels<CardListViewModel>()
+    private val logDrinkViewModel by viewModels<LogDrinkViewModel>()
 
-    val loginViewModel by viewModels<LoginViewModel>()
-    val registerViewModel by viewModels<RegisterViewModel>()
-
+    // TODO: GET THE REGISTER ENDPOINT TO WORK 
+    // GET THE PATIENT BY ID
+    // get daily limit of this patient
+    // Divide it by the hardcoded amount.
+    // display the value on the circular progress bar
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -32,7 +44,20 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    AppNavigation(loginViewModel = loginViewModel, registerViewModel)
+                   //RecipeList(recipes = recipeViewModel.recipeListResponse)
+                    sharedPreferences = getSharedPreferences(PrefKey, Context.MODE_PRIVATE)
+                    val authToken = sharedPreferences.getString(AUTH_TOKEN_KEY, "").toString()
+
+                   AppNavigation(
+                       loginViewModel = loginViewModel,
+                       registerViewModel,
+                       recipeViewModel,
+                       expandableListViewModel,
+                       sharedPreferences,
+                       authToken,
+                       logDrinkViewModel
+                   )
+                    recipeViewModel.getRecipeList()
                 }
             }
         }
@@ -51,3 +76,4 @@ fun DefaultPreview() {
         Greeting("Android")
     }
 }
+
