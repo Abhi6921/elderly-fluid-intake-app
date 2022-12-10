@@ -8,7 +8,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import nl.narvekar.abhishek.omring_fluid_intake_app.data.Allitems
+import nl.narvekar.abhishek.omring_fluid_intake_app.data.AllDrinkDates
+import nl.narvekar.abhishek.omring_fluid_intake_app.data.DrinkDate
 import nl.narvekar.abhishek.omring_fluid_intake_app.data.DrinkRecord
 
 class CardListViewModel : ViewModel() {
@@ -19,17 +20,29 @@ class CardListViewModel : ViewModel() {
     private val itemIdsList = MutableStateFlow(listOf<Int>())
     val itemIds: StateFlow<List<Int>> get() = itemIdsList
 
+    private val dateItemList = MutableStateFlow(listOf<DrinkDate>())
+    val items1: StateFlow<List<DrinkDate>> get() = dateItemList
+
 
     // call getData() method in constructors so whenever screen appears we load the data
     init {
-        getData()
+        getAllDrinkDates()
+        //getAllDrinkRecords()
     }
 
-    // getting all the demo data change with value from api
-    private fun getData() {
+//    // getting all the demo data change with value from api
+//    private fun getAllDrinkRecords() {
+//        viewModelScope.launch {
+//            withContext(Dispatchers.Default) {
+//                itemsList.emit(AllDrinkRecords)
+//            }
+//        }
+//    }
+
+    private fun getAllDrinkDates() {
         viewModelScope.launch {
             withContext(Dispatchers.Default) {
-                itemsList.emit(Allitems)
+                dateItemList.emit(AllDrinkDates)
             }
         }
     }

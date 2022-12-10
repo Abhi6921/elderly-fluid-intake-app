@@ -9,6 +9,8 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
@@ -48,6 +50,15 @@ fun CircularProgressBar(
         modifier = Modifier.size(radius * 2f)
     ) {
         Canvas(modifier = Modifier.size(radius * 2f)) {
+            drawCircle(
+                brush = Brush.radialGradient(
+                    colors = listOf(Color.LightGray, Color.White),
+                    center = Offset(x = this.size.width / 2, y = this.size.height / 2),
+                    radius = this.size.height / 2
+                ),
+                radius = this.size.height / 2,
+                center = Offset(x = this.size.width / 2, y = this.size.height / 2)
+            )
             drawArc(
                 color = color,
                 -90f,
