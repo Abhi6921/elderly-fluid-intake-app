@@ -77,13 +77,21 @@ fun AppBottomNav(navController: NavController) {
             label = { Text(Routes.Drink.route)},
             unselectedContentColor = Color.White
         )
-
+        val shareIconSelected = currentRoute == Routes.Share.route
         BottomNavigationItem(
             icon = {
                 Icon(imageVector = Icons.Filled.Share, contentDescription = "share icon")
             },
             selected = false,
-            onClick = { /*TODO*/ },
+            onClick = {
+                if (!shareIconSelected) {
+                    navController.navigate(Routes.Share.route) {
+                        popUpTo(Routes.Home.route) {
+                            inclusive = true
+                        }
+                    }
+                }
+            },
             label = { Text(Routes.Share.route)},
             unselectedContentColor = Color.White
         )

@@ -50,14 +50,11 @@ fun CircularProgressBar(
         modifier = Modifier.size(radius * 2f)
     ) {
         Canvas(modifier = Modifier.size(radius * 2f)) {
+            val size: Dp = 180.dp
             drawCircle(
-                brush = Brush.radialGradient(
-                    colors = listOf(Color.LightGray, Color.White),
-                    center = Offset(x = this.size.width / 2, y = this.size.height / 2),
-                    radius = this.size.height / 2
-                ),
-                radius = this.size.height / 2,
-                center = Offset(x = this.size.width / 2, y = this.size.height / 2)
+                color = Color.LightGray.copy(alpha = 0.3f),
+                radius = size.toPx() / 2,
+                style = Stroke(width = 28f, cap = StrokeCap.Round)
             )
             drawArc(
                 color = color,
@@ -69,11 +66,4 @@ fun CircularProgressBar(
         }
         Text(text = "${(curPercentage.value * number).toInt().toString()}%", color = Color.Black, fontSize = fontSize)
     }
-}
-
-
-@Composable
-fun CircularProgressBar() {
-    var progress by remember { mutableStateOf(0.1f) }
-
 }

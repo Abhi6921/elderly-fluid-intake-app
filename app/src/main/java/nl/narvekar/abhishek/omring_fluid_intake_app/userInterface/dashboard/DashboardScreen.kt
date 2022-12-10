@@ -21,6 +21,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -36,6 +37,7 @@ import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.LogDrinkViewModel
 import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.LoginViewModel
 
 
+
 @Composable
 fun DashBoardScreen(
     navController: NavController,
@@ -44,6 +46,7 @@ fun DashBoardScreen(
     loginViewModel: LoginViewModel
 ) {
     val showDialog = remember { mutableStateOf(false) }
+
 
     val inputValue = remember { mutableStateOf(0.0f) }
 
@@ -54,13 +57,12 @@ fun DashBoardScreen(
         }) {
             //Toast.makeText(context, it.toString(), Toast.LENGTH_SHORT).show()
             inputValue.value += it
-
         }
     }
 
     Scaffold(
         topBar = {
-            FluidTopAppBar()
+            FluidTopAppBar("Dashboard")
         },
         bottomBar = {
             AppBottomNav(navController)
@@ -182,9 +184,10 @@ fun DashBoardSpinnerAndQuote(drinkAmount: Float, logDrinkViewModel: LogDrinkView
             .size(200.dp)
             .padding(0.dp)
         ) {
-
+            val image = painterResource(id = R.drawable.message_box)
+            Image(painter = image, contentDescription = null)
             Text(text = "A cup a day keeps the doctor away",
-                textAlign = TextAlign.Left, fontSize = 29.sp)
+                textAlign = TextAlign.Left, fontSize = 29.sp, color = Color.White)
         }
     }
 
@@ -218,57 +221,9 @@ fun LogoutButton(
 
     }
 }
-@Composable
-fun DashBoardButtons() {
-        // Fluid Intake Button
-        Column(modifier = Modifier
-            .border(BorderStroke(5.dp, Color(0xFF1B7D71)))
-            .width(270.dp)
-            .height(380.dp)
-            .clickable {
-                //showDialog.value = true
-            },
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
-        ) {
-            Spacer(modifier = Modifier.height(40.dp))
-            Image(
-                painter = painterResource(R.drawable.water_intake),
-                contentDescription = "water intake image"
-            )
-            Spacer(modifier = Modifier.height(2.dp))
-            Text(text = "Fluid Intake", fontSize = 35.sp)
-        }
-        Spacer(modifier = Modifier.width(40.dp))
-        // Recipe Button
-        Column(modifier = Modifier
-            .border(BorderStroke(5.dp, Color(0xFF1B7D71)))
-            .width(270.dp)
-            .height(390.dp)
-            .clickable {
-//                navController.navigate(Routes.Recipes.route) {
-//                    popUpTo(Routes.Home.route) {
-//                        inclusive = true
-//                    }
-//                }
-            },
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
-        ) {
-            Spacer(modifier = Modifier.height(10.dp))
-            Image(
-                painter = painterResource(R.drawable.recipe),
-                contentDescription = " recipe image"
-            )
-            Spacer(modifier = Modifier.height(20.dp))
-            Text(text = "Recipes", fontSize = 35.sp)
-        }
-
-
-}
 
 @Composable
-fun FluidTopAppBar() {
+fun FluidTopAppBar(dashboardTitle: String) {
     TopAppBar(
         backgroundColor = Color(0xFF1BAEEE),
         elevation = 0.dp,
@@ -286,7 +241,7 @@ fun FluidTopAppBar() {
                         modifier = Modifier.fillMaxWidth(),
                         textAlign = TextAlign.Center,
                         maxLines = 1,
-                        text = "Dashboard",
+                        text = dashboardTitle,
                         color = Color.White,
                         fontSize = 34.sp
                     )

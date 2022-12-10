@@ -17,6 +17,7 @@ import nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.recipes.Recipe
 import nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.recipes.components.RecipeDetailView
 import nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.records.DrinkRecords
 import nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.register.RegisterScreen
+import nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.share.ShareScreen
 import nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.start.StartScreen
 import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.*
 
@@ -75,6 +76,10 @@ fun AppNavigation(
         }
         composable(Routes.Drink.route) {
             DrinkRecords(navController = navController, viewModel)
+        }
+
+        composable(Routes.Share.route) {
+            ShareScreen(navController)
         }
     }
 }
