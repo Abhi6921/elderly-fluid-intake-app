@@ -10,5 +10,4 @@ val OmringColor = Color(0xFF1B7D71)
 val LoginScreenColor = Color(0xFF39CCFF)
 val Purple2001 = Color(0xFF1B7FEE)
 
-val cardCollapsedBackgroundColor = Color(0xFFFEFFFD)
-val cardExpandedBackgroundColor = Color(0xFFFFDA6D)
+val backgroundColorForCircle = Color(0xFF3E8EE7)

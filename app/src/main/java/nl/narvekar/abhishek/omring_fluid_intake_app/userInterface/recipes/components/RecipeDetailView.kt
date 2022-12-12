@@ -11,6 +11,8 @@ import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
@@ -47,6 +49,7 @@ fun RecipeDetailView(
     Scaffold(
         topBar = {
             TopAppBar(
+                modifier = Modifier.fillMaxWidth().height(60.dp),
                 elevation = 4.dp,
                 title = {
                     Text(
@@ -61,13 +64,13 @@ fun RecipeDetailView(
                         Text(text = recipe.name)
                     }
                 },
-                backgroundColor =  MaterialTheme.colors.primarySurface,
+                backgroundColor =  Color(0xFF1BAEEE),
                 navigationIcon = {
-                    IconButton(onClick = { navController.popBackStack() }) {
-                        Icon(Icons.Filled.ArrowBack, null)
+                    IconButton(onClick = { navController.popBackStack() }, ) {
+                        Icon(Icons.Filled.ArrowBack, null, tint = Color.White)
                     }
-                })
-
+                }
+            )
         },
         content = {
             Column(Modifier.verticalScroll(scrollState)) {

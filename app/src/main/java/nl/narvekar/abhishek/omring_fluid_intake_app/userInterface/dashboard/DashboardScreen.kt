@@ -47,7 +47,6 @@ fun DashBoardScreen(
 ) {
     val showDialog = remember { mutableStateOf(false) }
     val inputValue = remember { mutableStateOf(0.0f) }
-
     val context = LocalContext.current
 
     if (showDialog.value) {
@@ -78,7 +77,7 @@ fun DashBoardScreen(
                     .fillMaxWidth()
                     .fillMaxHeight()) {
 
-                    DashBoardSpinnerAndQuote(inputValue.value.toFloat(), logDrinkViewModel, sharedPreferences)
+                    DashBoardSpinnerAndQuote(inputValue.value, logDrinkViewModel, sharedPreferences)
                     Row(
                         horizontalArrangement = Arrangement.Center,
                         verticalAlignment = Alignment.CenterVertically,

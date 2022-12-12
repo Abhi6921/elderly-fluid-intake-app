@@ -5,6 +5,7 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.size
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -18,6 +19,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import nl.narvekar.abhishek.omring_fluid_intake_app.ui.theme.backgroundColorForCircle
 
 
 @Composable
@@ -26,7 +28,7 @@ fun CircularProgressBar(
     number: Int,
     fontSize: TextUnit = 68.sp,
     radius: Dp = 100.dp,
-    color: Color = Color.Green,
+    color: Color = Color.Blue,
     strokeWidth: Dp = 20.dp,
     animDuration: Int = 1000,
     animDelay: Int = 0
@@ -52,9 +54,9 @@ fun CircularProgressBar(
         Canvas(modifier = Modifier.size(radius * 2f)) {
             val size: Dp = 180.dp
             drawCircle(
-                color = Color.LightGray.copy(alpha = 0.3f),
+                color = backgroundColorForCircle.copy(alpha = 0.3f),
                 radius = size.toPx() / 2,
-                style = Stroke(width = 28f, cap = StrokeCap.Round)
+                style = Stroke(width = 30f, cap = StrokeCap.Round)
             )
             drawArc(
                 color = color,
