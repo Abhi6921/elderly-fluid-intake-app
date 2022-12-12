@@ -54,10 +54,10 @@ fun DashBoardScreen(
         SelectDrinkDialog(logDrinkViewModel, sharedPreferences, setShowDialog = {
             showDialog.value = it
         }) {
-
             inputValue.value += it
         }
     }
+
 
     Scaffold(
         topBar = {

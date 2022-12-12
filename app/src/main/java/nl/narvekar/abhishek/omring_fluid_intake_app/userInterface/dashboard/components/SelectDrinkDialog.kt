@@ -88,7 +88,8 @@ fun SelectDrinkDialog(
 //                                }
 
                                 val drinkAmount = 100
-                                val floatAmount = drinkAmount.toFloat() / 3000f
+                                val dailyLimit = 3000
+                                val floatAmount = drinkAmount.toFloat() / dailyLimit.toFloat()
                                 logDrinkViewModel.postANewDrink(context, LogDrink(drinkAmount), sharedPreferences, setValue)
                                 setValue(floatAmount)
                                 setShowDialog(false)
@@ -108,8 +109,9 @@ fun SelectDrinkDialog(
                     Box(modifier = Modifier.padding(40.dp, 15.dp, 40.dp, 0.dp)) {
                         Button(
                             onClick = {
-                                  val drinkAmount = 12
-                                  val floatAmount = (drinkAmount.toFloat() / 100f)
+                                  val drinkAmount = 500
+                                  val dailyLimit = 2000
+                                  val floatAmount = (drinkAmount.toFloat() / dailyLimit.toFloat())
                                   setValue(floatAmount)
                                   setShowDialog(false)
                             },
