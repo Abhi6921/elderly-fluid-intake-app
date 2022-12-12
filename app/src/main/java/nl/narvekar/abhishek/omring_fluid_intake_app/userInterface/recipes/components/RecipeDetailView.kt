@@ -23,6 +23,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import nl.narvekar.abhishek.omring_fluid_intake_app.R
+import nl.narvekar.abhishek.omring_fluid_intake_app.data.ALLRECIPELIST
 import nl.narvekar.abhishek.omring_fluid_intake_app.data.Recipe
 import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.RecipeViewModel
 import kotlin.math.log
@@ -36,7 +37,10 @@ fun RecipeDetailView(
 ) {
     Log.d(TAG, "RecipeDetailView passed from recipe list: $detailId")
     val scrollState = rememberScrollState()
-    val recipe = recipeViewModel.recipeListResponse.find { recipe ->
+//    val recipe = recipeViewModel.recipeListResponse.find { recipe ->
+//        detailId == recipe.recipeId
+//    }
+    val recipe = ALLRECIPELIST.find { recipe ->
         detailId == recipe.recipeId
     }
 
@@ -70,7 +74,7 @@ fun RecipeDetailView(
                 //RecipeImage()
                 if (recipe != null) {
                     AsyncImage(
-                        model = R.drawable.omring_logo,
+                        model =  recipe.imageLink,
                         contentDescription = "recipe image",
                         modifier = Modifier
                             .width(900.dp)
@@ -82,9 +86,9 @@ fun RecipeDetailView(
                     Divider(modifier = Modifier.padding(bottom = 34.dp))
                     Text(text = "Ingredients:", fontSize = 34.sp)
                     Divider(modifier = Modifier.padding(34.dp))
-                    for((key, value) in recipe.ingredients) {
-                        Text(text = "$key: $value", fontSize = 24.sp)
-                    }
+//                    for((key, value) in recipe.ingredients) {
+//                        Text(text = "$key: $value", fontSize = 24.sp)
+//                    }
                     Divider(modifier = Modifier.padding(34.dp))
                     Text(text = "Steps", fontSize = 34.sp)
                     Divider(modifier = Modifier.padding(34.dp))

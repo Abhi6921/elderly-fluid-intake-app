@@ -46,16 +46,15 @@ fun DashBoardScreen(
     loginViewModel: LoginViewModel
 ) {
     val showDialog = remember { mutableStateOf(false) }
-
-
     val inputValue = remember { mutableStateOf(0.0f) }
 
     val context = LocalContext.current
+
     if (showDialog.value) {
         SelectDrinkDialog(logDrinkViewModel, sharedPreferences, setShowDialog = {
             showDialog.value = it
         }) {
-            //Toast.makeText(context, it.toString(), Toast.LENGTH_SHORT).show()
+
             inputValue.value += it
         }
     }

@@ -10,6 +10,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import nl.narvekar.abhishek.omring_fluid_intake_app.data.ALLRECIPELIST
 import nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.dashboard.DashBoardScreen
 import nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.favorites.RecipeFavorited
 import nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.login.LoginUI
@@ -57,7 +58,7 @@ fun AppNavigation(
         }
 
         composable(Routes.Recipes.route) {
-            RecipeList(recipes = recipeViewModel.recipeListResponse, navController)
+            RecipeList(recipes = ALLRECIPELIST, navController)
         }
 
         composable(

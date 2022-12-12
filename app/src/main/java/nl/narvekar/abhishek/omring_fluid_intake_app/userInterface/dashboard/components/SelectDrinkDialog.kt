@@ -112,10 +112,6 @@ fun SelectDrinkDialog(
                                   val floatAmount = (drinkAmount.toFloat() / 100f)
                                   setValue(floatAmount)
                                   setShowDialog(false)
-
-//                                val drinkAmount = 6
-//                                setValue(drinkAmount)
-//                                setShowDialog(false)
                             },
                             shape = RoundedCornerShape(50.dp),
                             modifier = Modifier
