@@ -260,15 +260,6 @@ fun ExpandableContainerView(
 }
 
 
-//@Preview(showBackground = true)
-//@Composable
-//fun ExpandableContainerViewPreview() {
-//    ExpandableContainerView(
-//        drinkRecord = DrinkRecord("Question", "Answer"),
-//        onClickItem = {},
-//        expanded = true
-//    )
-//}
 
 
 

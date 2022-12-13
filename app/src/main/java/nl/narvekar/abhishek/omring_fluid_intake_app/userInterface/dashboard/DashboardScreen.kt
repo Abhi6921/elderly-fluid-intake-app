@@ -46,17 +46,21 @@ fun DashBoardScreen(
     loginViewModel: LoginViewModel
 ) {
     val showDialog = remember { mutableStateOf(false) }
-    val inputValue = remember { mutableStateOf(0.0f) }
+    var inputProp = 0.0f
+    val inputValue = remember { mutableStateOf(inputProp) }
     val context = LocalContext.current
 
+
     if (showDialog.value) {
-        SelectDrinkDialog(logDrinkViewModel, sharedPreferences, setShowDialog = {
+        SelectDrinkDialog(
+            logDrinkViewModel,
+            sharedPreferences,
+            setShowDialog = {
             showDialog.value = it
         }) {
             inputValue.value += it
         }
     }
-
 
     Scaffold(
         topBar = {
@@ -77,7 +81,7 @@ fun DashBoardScreen(
                     .fillMaxWidth()
                     .fillMaxHeight()) {
 
-                    DashBoardSpinnerAndQuote(inputValue.value, logDrinkViewModel, sharedPreferences)
+                    DashBoardSpinnerAndQuote(inputValue.value.toFloat(), logDrinkViewModel, sharedPreferences)
                     Row(
                         horizontalArrangement = Arrangement.Center,
                         verticalAlignment = Alignment.CenterVertically,

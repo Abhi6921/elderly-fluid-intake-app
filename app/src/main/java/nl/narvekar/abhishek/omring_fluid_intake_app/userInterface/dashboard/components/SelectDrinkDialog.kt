@@ -110,7 +110,7 @@ fun SelectDrinkDialog(
                         Button(
                             onClick = {
                                   val drinkAmount = 500
-                                  val dailyLimit = 2000
+                                  val dailyLimit = 3000
                                   val floatAmount = (drinkAmount.toFloat() / dailyLimit.toFloat())
                                   setValue(floatAmount)
                                   setShowDialog(false)
