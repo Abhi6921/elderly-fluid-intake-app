@@ -179,13 +179,16 @@ fun DashBoardSpinnerAndQuote(drinkAmount: Float, logDrinkViewModel: LogDrinkView
             )
         }
         Box(modifier = Modifier
-            .size(200.dp)
+            .size(250.dp)
             .padding(0.dp)
         ) {
             val image = painterResource(id = R.drawable.message_box)
             Image(painter = image, contentDescription = null)
-            Text(text = "A cup a day keeps the doctor away",
-                textAlign = TextAlign.Left, fontSize = 29.sp, color = Color.White)
+            Text(
+                text = "A cup a day keeps the doctor away",
+                textAlign = TextAlign.Center, fontSize = 29.sp,
+                color = Color.White
+            )
         }
     }
 

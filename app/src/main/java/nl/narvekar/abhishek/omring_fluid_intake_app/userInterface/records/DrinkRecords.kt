@@ -3,9 +3,7 @@ package nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.records
 
 import androidx.compose.animation.*
 import androidx.compose.animation.core.tween
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.*
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -15,16 +13,23 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import nl.narvekar.abhishek.omring_fluid_intake_app.R
 import nl.narvekar.abhishek.omring_fluid_intake_app.data.DrinkDate
 import nl.narvekar.abhishek.omring_fluid_intake_app.navigation.AppBottomNav
+import nl.narvekar.abhishek.omring_fluid_intake_app.ui.theme.omringButtonColor
+import nl.narvekar.abhishek.omring_fluid_intake_app.ui.theme.recordsExpandListColor
+import nl.narvekar.abhishek.omring_fluid_intake_app.ui.theme.recordsTitleColor
+import nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.dashboard.DashBoardSpinnerAndQuote
+import nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.dashboard.components.CircularProgressBar
 import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.CardListViewModel
 
 
@@ -63,15 +68,52 @@ fun DrinkRecords(navController: NavController, cardListViewModel: CardListViewMo
             }
         },
         content = { padding ->
-            LazyColumn(modifier = Modifier.padding(padding)) {
-                itemsIndexed(cardListViewModel.items1.value) { index, item ->
-                    ExpandableContainerView(
-                        drinkDate = item,
-                        onClickItem = { cardListViewModel.onItemClicked(index) },
-                        expanded = itemIds.contains(index)
+            Column(
+                modifier = Modifier.fillMaxSize(),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    CircularProgressBar(percentage = 0.0f, number = 100)
+                    Spacer(modifier = Modifier.width(40.dp))
+                    Image(
+                        painter = painterResource(R.drawable.rain_drop),
+                        contentDescription = "drop emoji",
+                        alignment = Alignment.Center,
+                        contentScale = ContentScale.Fit,
+                        modifier = Modifier.size(160.dp)
                     )
+                    Spacer(modifier = Modifier.width(40.dp))
+                    Box(modifier = Modifier
+                        .size(250.dp)
+                        .padding(0.dp)
+                    ) {
+                        val image = painterResource(id = R.drawable.message_box)
+                        Image(painter = image, contentDescription = null)
+                        Text(
+                            text = "A cup a day keeps the doctor away",
+                            textAlign = TextAlign.Center, fontSize = 29.sp,
+                            color = Color.White
+                        )
+                    }
+                }
+                Column {
+                    Button(onClick = { /*TODO*/ }) {
+                        Text(text = "Drink Fluid")
+                    }
+                }
+
+                LazyColumn(modifier = Modifier.padding(padding)) {
+                    itemsIndexed(cardListViewModel.items1.value) { index, item ->
+                        ExpandableContainerView(
+                            drinkDate = item,
+                            onClickItem = { cardListViewModel.onItemClicked(index) },
+                            expanded = itemIds.contains(index)
+                        )
+                    }
                 }
             }
+
         },
         bottomBar = {
             AppBottomNav(navController = navController)
@@ -79,12 +121,15 @@ fun DrinkRecords(navController: NavController, cardListViewModel: CardListViewMo
     )
 }
 
-// view to expand and collapse the expandable
+
 @Composable
 fun HeaderView(questionText: String, onClickItem: () -> Unit) {
     Box(
         modifier = Modifier
-            .background(Color.Blue)
+            .background(recordsTitleColor)
+            .height(80.dp)
+            .fillMaxWidth()
+            .border(BorderStroke(5.dp, Color.Blue))
             .clickable(
                 indication = null,
                 interactionSource = remember { MutableInteractionSource() },
@@ -92,12 +137,30 @@ fun HeaderView(questionText: String, onClickItem: () -> Unit) {
             )
             .padding(8.dp)
     ) {
-        Text(
-            text = questionText,
-            fontSize = 17.sp,
-            color = Color.White,
-            modifier = Modifier.fillMaxWidth()
-        )
+        Row(
+            modifier = Modifier
+                .padding(20.dp)
+                .fillMaxWidth(),
+            horizontalArrangement = Arrangement.Center
+        ) {
+            Box(modifier = Modifier
+                .size(200.dp)
+
+            ) {
+                Text(
+                    text = questionText,
+                    fontSize = 20.sp,
+                    color = Color.White
+                )
+            }
+            Spacer(modifier = Modifier.width(20.dp))
+            Text(
+                text = "3.0 Litres",
+                fontSize = 21.sp,
+                color = Color.White,
+                modifier = Modifier.fillMaxWidth()
+            )
+        }
     }
 }
 
@@ -129,11 +192,13 @@ fun ExpandableView(time: String, drinkAmount: String, isExpanded: Boolean) {
     ) {
         Box(
             modifier = Modifier
-                .background(Color.White)
+                .background(recordsExpandListColor)
+                .border(BorderStroke(2.dp, Color.Black))
                 .padding(15.dp)
         ) {
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Image(painter = painterResource(R.drawable.cup_image),
+                Image(
+                    painter = painterResource(R.drawable.cup_image),
                     contentDescription = null
                 )
                 Spacer(modifier = Modifier.width(20.dp))
@@ -156,17 +221,21 @@ fun ExpandableView(time: String, drinkAmount: String, isExpanded: Boolean) {
                 Spacer(modifier = Modifier.width(20.dp))
                 Button(
                     modifier = Modifier.weight(0.5f),
+                    colors = ButtonDefaults.buttonColors(backgroundColor = omringButtonColor),
                     onClick = {
                         // edit drink on this action
                     }
                 ) {
-                    Text(text = "Edit")
+                    Text(text = "Edit", color = Color.White)
                 }
                 Spacer(modifier = Modifier.width(20.dp))
-                Button(modifier = Modifier.weight(0.5f), onClick = {
-                    // remove button on this action
+                Button(
+                    modifier = Modifier.weight(0.5f),
+                    colors = ButtonDefaults.buttonColors(backgroundColor = omringButtonColor),
+                    onClick = {
+                    // remove record on this action
                 }) {
-                    Text(text = "Remove")
+                    Text(text = "Remove", color = Color.White)
                 }
             }
         }
@@ -182,7 +251,10 @@ fun ExpandableContainerView(
     Box(modifier = Modifier.background(Color.Green)) {
         Column {
             HeaderView(questionText = drinkDate.dateTime, onClickItem = onClickItem)
-            ExpandableView(time = drinkDate.drinkRecord.time, drinkAmount = drinkDate.drinkRecord.drinkAmount, isExpanded = expanded)
+            drinkDate.drinkRecord.forEach{ drinkRecord ->
+                ExpandableView(time = drinkRecord.time, drinkAmount = drinkRecord.drinkAmount, isExpanded = expanded)
+            }
+
         }
     }
 }
