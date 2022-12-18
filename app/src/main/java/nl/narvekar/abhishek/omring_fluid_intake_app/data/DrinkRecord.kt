@@ -64,6 +64,8 @@ val AllDrinkDates = arrayListOf(
             DrinkRecord("12:20", "100ml")
         )
     ),
+
+
     DrinkDate("15/03/2022",
         listOf(
             DrinkRecord("07:20", "100ml"),

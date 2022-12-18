@@ -163,6 +163,7 @@ fun DashBoardSpinnerAndQuote(drinkAmount: Float, logDrinkViewModel: LogDrinkView
                 .padding(10.dp)
                 ) {
                 if (patient.dailyLimit != null) {
+                    // TODO: 2. fetch today's intake from shared preference = drinkAmount
                     CircularProgressBar(percentage = drinkAmount, number = patient.dailyLimit)
                 }
                 else {

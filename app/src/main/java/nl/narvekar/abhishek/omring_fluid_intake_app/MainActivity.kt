@@ -30,11 +30,9 @@ class MainActivity : ComponentActivity() {
     private val expandableListViewModel by viewModels<CardListViewModel>()
     private val logDrinkViewModel by viewModels<LogDrinkViewModel>()
 
-    // TODO: GET THE REGISTER ENDPOINT TO WORK 
-    // GET THE PATIENT BY ID
-    // get daily limit of this patient
-    // Divide it by the hardcoded amount.
-    // display the value on the circular progress bar
+    // username: +31612345678 password: Mona12345! ROLE: CAREGIVER, ADMIN
+    // username: +31246846878 password: Mona12345! ROLE: CAREGIVER
+
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

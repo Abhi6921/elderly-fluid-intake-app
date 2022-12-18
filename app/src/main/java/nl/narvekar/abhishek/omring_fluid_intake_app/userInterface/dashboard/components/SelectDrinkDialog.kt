@@ -86,6 +86,11 @@ fun SelectDrinkDialog(
 //                                    "drankNow": 10,
 //                                    "amountLeftToLimit": 2968
 //                                }
+                                // get today's water intake from shared preference = var todaysIntake =
+                                // add 100 to today's intake record
+                                // update today's intake in sharedPreferences
+                                // TODO: 1.  
+                                
 
                                 val drinkAmount = 100
                                 val dailyLimit = 3000
