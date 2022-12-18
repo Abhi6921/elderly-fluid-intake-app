@@ -16,16 +16,16 @@ interface DrinkAuthApi {
     @POST("api/v1/login")
     fun loginUser(@Body login: Login) : Call<LoginResponse>
 
-    companion object {
-        var apiService: DrinkAuthApi? = null
-        fun getInstance() : DrinkAuthApi {
-            if (apiService == null) {
-                apiService = Retrofit.Builder()
-                    .baseUrl("https://drinkappauthentication.azurewebsites.net/")
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .build().create(DrinkAuthApi::class.java)
-            }
-            return apiService!!
-        }
-    }
+//    companion object {
+//        var apiService: DrinkAuthApi? = null
+//        fun getInstance() : DrinkAuthApi {
+//            if (apiService == null) {
+//                apiService = Retrofit.Builder()
+//                    .baseUrl("https://drinkappauthentication.azurewebsites.net/")
+//                    .addConverterFactory(GsonConverterFactory.create())
+//                    .build().create(DrinkAuthApi::class.java)
+//            }
+//            return apiService!!
+//        }
+//    }
 }
