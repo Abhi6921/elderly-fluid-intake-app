@@ -32,7 +32,7 @@ import nl.narvekar.abhishek.omring_fluid_intake_app.data.Login
 import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.LoginViewModel
 
 @Composable
-fun LoginUI(loginViewModel: LoginViewModel, navController: NavController, sharedPreferences: SharedPreferences) {
+fun LoginUI(loginViewModel: LoginViewModel, navController: NavController) {
 
     val context = LocalContext.current
     Column(
@@ -112,7 +112,7 @@ fun LoginUI(loginViewModel: LoginViewModel, navController: NavController, shared
         Spacer(modifier = Modifier.height(35.dp))
         Button(
             onClick = {
-                loginViewModel.loginUser(context, Login(phonenumber, password), navController, sharedPreferences)
+                loginViewModel.loginUser(context, Login(phonenumber, password), navController)
             },
             colors = ButtonDefaults.buttonColors(backgroundColor = Color(0xFF1B7D71)),
             modifier = Modifier

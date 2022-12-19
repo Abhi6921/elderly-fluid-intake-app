@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import nl.narvekar.abhishek.omring_fluid_intake_app.R
@@ -43,7 +44,7 @@ fun RecipeItem(
                 model = recipe.imageLink,
                 contentDescription = "recipe images",
                 modifier = Modifier
-                    .size(70.dp)
+                    .width(350.dp).height(350.dp)
                     .padding(8.dp),
                 contentScale = ContentScale.Fit,
                 error = painterResource(R.drawable.placeholder),
@@ -98,3 +99,5 @@ fun FavoritesButton() {
         Icon(imageVector = if (isFavorite) { Icons.Filled.Favorite } else { Icons.Filled.FavoriteBorder}, contentDescription = "favorite icon", tint = Color.White)
     }
 }
+
+

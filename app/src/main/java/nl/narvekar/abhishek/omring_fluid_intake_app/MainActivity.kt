@@ -15,25 +15,24 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import nl.narvekar.abhishek.omring_fluid_intake_app.Constants.AUTH_TOKEN_KEY
-import nl.narvekar.abhishek.omring_fluid_intake_app.Constants.PrefKey
+import nl.narvekar.abhishek.omring_fluid_intake_app.utils.Constants.AUTH_TOKEN_KEY
+import nl.narvekar.abhishek.omring_fluid_intake_app.utils.Constants.PrefKey
 import nl.narvekar.abhishek.omring_fluid_intake_app.navigation.AppNavigation
 import nl.narvekar.abhishek.omring_fluid_intake_app.ui.theme.ElderlyfluidintakeappTheme
 import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.*
 
 class MainActivity : ComponentActivity() {
-    lateinit var sharedPreferences: SharedPreferences
+    // this commit is from the records page branch
+
     private val loginViewModel by viewModels<LoginViewModel>()
     private val registerViewModel by viewModels<RegisterViewModel>()
     private val recipeViewModel by viewModels<RecipeViewModel>()
     private val expandableListViewModel by viewModels<CardListViewModel>()
     private val logDrinkViewModel by viewModels<LogDrinkViewModel>()
 
-    // TODO: GET THE REGISTER ENDPOINT TO WORK 
-    // GET THE PATIENT BY ID
-    // get daily limit of this patient
-    // Divide it by the hardcoded amount.
-    // display the value on the circular progress bar
+    // username: +31612345678 password: Mona12345! ROLE: CAREGIVER, ADMIN
+    // username: +31246846878 password: Mona12345! ROLE: CAREGIVER
+
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,16 +44,13 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colors.background
                 ) {
                    //RecipeList(recipes = recipeViewModel.recipeListResponse)
-                    sharedPreferences = getSharedPreferences(PrefKey, Context.MODE_PRIVATE)
-                    val authToken = sharedPreferences.getString(AUTH_TOKEN_KEY, "").toString()
+
 
                    AppNavigation(
                        loginViewModel = loginViewModel,
                        registerViewModel,
                        recipeViewModel,
                        expandableListViewModel,
-                       sharedPreferences,
-                       authToken,
                        logDrinkViewModel
                    )
                     recipeViewModel.getRecipeList()

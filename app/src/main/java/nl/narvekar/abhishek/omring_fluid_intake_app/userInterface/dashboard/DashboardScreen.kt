@@ -1,12 +1,9 @@
 package nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.dashboard
 
 import android.content.SharedPreferences
-import android.nfc.Tag
 import android.util.Log
-import android.widget.Toast
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -14,8 +11,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -24,8 +19,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import nl.narvekar.abhishek.omring_fluid_intake_app.Constants.AUTH_TOKEN_KEY
-import nl.narvekar.abhishek.omring_fluid_intake_app.Constants.PATIENT_ID
+import nl.narvekar.abhishek.omring_fluid_intake_app.utils.Constants.AUTH_TOKEN_KEY
+import nl.narvekar.abhishek.omring_fluid_intake_app.utils.Constants.PATIENT_ID
 import nl.narvekar.abhishek.omring_fluid_intake_app.R
 import nl.narvekar.abhishek.omring_fluid_intake_app.data.UserResponse
 import nl.narvekar.abhishek.omring_fluid_intake_app.navigation.AppBottomNav
@@ -36,31 +31,32 @@ import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.LogDrinkViewModel
 import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.LoginViewModel
 
 
+
 @Composable
 fun DashBoardScreen(
     navController: NavController,
     logDrinkViewModel: LogDrinkViewModel,
-    sharedPreferences: SharedPreferences,
     loginViewModel: LoginViewModel
 ) {
     val showDialog = remember { mutableStateOf(false) }
-
-    val inputValue = remember { mutableStateOf(0.0f) }
-
+    var inputProp = 0.0f
+    val inputValue = remember { mutableStateOf(inputProp) }
     val context = LocalContext.current
+
+
     if (showDialog.value) {
-        SelectDrinkDialog(logDrinkViewModel, sharedPreferences, setShowDialog = {
+        SelectDrinkDialog(
+            logDrinkViewModel,
+            setShowDialog = {
             showDialog.value = it
         }) {
-            //Toast.makeText(context, it.toString(), Toast.LENGTH_SHORT).show()
             inputValue.value += it
-
         }
     }
 
     Scaffold(
         topBar = {
-            FluidTopAppBar()
+            FluidTopAppBar("Dashboard")
         },
         bottomBar = {
             AppBottomNav(navController)
@@ -77,7 +73,7 @@ fun DashBoardScreen(
                     .fillMaxWidth()
                     .fillMaxHeight()) {
 
-                    DashBoardSpinnerAndQuote(inputValue.value.toFloat(), logDrinkViewModel, sharedPreferences)
+                    DashBoardSpinnerAndQuote(inputValue.value.toFloat(), logDrinkViewModel)
                     Row(
                         horizontalArrangement = Arrangement.Center,
                         verticalAlignment = Alignment.CenterVertically,
@@ -135,16 +131,15 @@ fun DashBoardScreen(
             }
         }
     )
-    LogoutButton(navController, loginViewModel, sharedPreferences)
+    LogoutButton(navController, loginViewModel)
 
 }
 
 @Composable
-fun DashBoardSpinnerAndQuote(drinkAmount: Float, logDrinkViewModel: LogDrinkViewModel, sharedPreferences: SharedPreferences) {
+fun DashBoardSpinnerAndQuote(drinkAmount: Float, logDrinkViewModel: LogDrinkViewModel) {
 
-    val authToken = sharedPreferences.getString(AUTH_TOKEN_KEY, "").toString()
-    Log.d("token at spinner", authToken)
-    val patient: UserResponse = logDrinkViewModel.getPatientById(authToken, PATIENT_ID)
+    //val authToken = sharedPreferences.getString(AUTH_TOKEN_KEY, "").toString()
+    //val patient: UserResponse = logDrinkViewModel.getPatientById(authToken, PATIENT_ID)
 
     Row(
         modifier = Modifier
@@ -158,12 +153,13 @@ fun DashBoardSpinnerAndQuote(drinkAmount: Float, logDrinkViewModel: LogDrinkView
                 .size(200.dp)
                 .padding(10.dp)
                 ) {
-                if (patient.dailyLimit != null) {
-                    CircularProgressBar(percentage = drinkAmount, number = patient.dailyLimit)
-                }
-                else {
+//                if (patient.dailyLimit != null) {
+//                    // TODO: 2. fetch today's intake from shared preference = drinkAmount
+//                    CircularProgressBar(percentage = drinkAmount, number = patient.dailyLimit)
+//                }
+//                else {
                     CircularProgressBar(drinkAmount, 100)
-                }
+                //}
 
         }
         Box(modifier = Modifier
@@ -179,12 +175,16 @@ fun DashBoardSpinnerAndQuote(drinkAmount: Float, logDrinkViewModel: LogDrinkView
             )
         }
         Box(modifier = Modifier
-            .size(200.dp)
+            .size(250.dp)
             .padding(0.dp)
         ) {
-
-            Text(text = "A cup a day keeps the doctor away",
-                textAlign = TextAlign.Left, fontSize = 29.sp)
+            val image = painterResource(id = R.drawable.message_box)
+            Image(painter = image, contentDescription = null)
+            Text(
+                text = "A cup a day keeps the doctor away",
+                textAlign = TextAlign.Center, fontSize = 29.sp,
+                color = Color.White
+            )
         }
     }
 
@@ -193,8 +193,7 @@ fun DashBoardSpinnerAndQuote(drinkAmount: Float, logDrinkViewModel: LogDrinkView
 @Composable
 fun LogoutButton(
     navController: NavController,
-    loginViewModel: LoginViewModel,
-    sharedPreferences: SharedPreferences
+    loginViewModel: LoginViewModel
 ) {
     Column(
         modifier = Modifier
@@ -206,7 +205,7 @@ fun LogoutButton(
         Spacer(modifier = Modifier.height(850.dp))
         Button(
             onClick = {
-                loginViewModel.logout(navController, sharedPreferences)
+                loginViewModel.logout(navController)
             },
             modifier = Modifier
                 .height(80.dp)
@@ -218,57 +217,9 @@ fun LogoutButton(
 
     }
 }
-@Composable
-fun DashBoardButtons() {
-        // Fluid Intake Button
-        Column(modifier = Modifier
-            .border(BorderStroke(5.dp, Color(0xFF1B7D71)))
-            .width(270.dp)
-            .height(380.dp)
-            .clickable {
-                //showDialog.value = true
-            },
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
-        ) {
-            Spacer(modifier = Modifier.height(40.dp))
-            Image(
-                painter = painterResource(R.drawable.water_intake),
-                contentDescription = "water intake image"
-            )
-            Spacer(modifier = Modifier.height(2.dp))
-            Text(text = "Fluid Intake", fontSize = 35.sp)
-        }
-        Spacer(modifier = Modifier.width(40.dp))
-        // Recipe Button
-        Column(modifier = Modifier
-            .border(BorderStroke(5.dp, Color(0xFF1B7D71)))
-            .width(270.dp)
-            .height(390.dp)
-            .clickable {
-//                navController.navigate(Routes.Recipes.route) {
-//                    popUpTo(Routes.Home.route) {
-//                        inclusive = true
-//                    }
-//                }
-            },
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
-        ) {
-            Spacer(modifier = Modifier.height(10.dp))
-            Image(
-                painter = painterResource(R.drawable.recipe),
-                contentDescription = " recipe image"
-            )
-            Spacer(modifier = Modifier.height(20.dp))
-            Text(text = "Recipes", fontSize = 35.sp)
-        }
-
-
-}
 
 @Composable
-fun FluidTopAppBar() {
+fun FluidTopAppBar(dashboardTitle: String) {
     TopAppBar(
         backgroundColor = Color(0xFF1BAEEE),
         elevation = 0.dp,
@@ -286,8 +237,9 @@ fun FluidTopAppBar() {
                         modifier = Modifier.fillMaxWidth(),
                         textAlign = TextAlign.Center,
                         maxLines = 1,
-                        text = "Dashboard",
-                        color = Color.White
+                        text = dashboardTitle,
+                        color = Color.White,
+                        fontSize = 34.sp
                     )
                 }
             }

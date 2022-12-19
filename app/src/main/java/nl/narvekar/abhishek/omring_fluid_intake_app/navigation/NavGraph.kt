@@ -10,6 +10,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import nl.narvekar.abhishek.omring_fluid_intake_app.data.ALLRECIPELIST
 import nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.dashboard.DashBoardScreen
 import nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.favorites.RecipeFavorited
 import nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.login.LoginUI
@@ -17,6 +18,7 @@ import nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.recipes.Recipe
 import nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.recipes.components.RecipeDetailView
 import nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.records.DrinkRecords
 import nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.register.RegisterScreen
+import nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.share.ShareScreen
 import nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.start.StartScreen
 import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.*
 
@@ -28,15 +30,13 @@ fun AppNavigation(
     registerViewModel: RegisterViewModel,
     recipeViewModel: RecipeViewModel,
     viewModel: CardListViewModel,
-    sharedPreferences: SharedPreferences,
-    authToken: String,
     logDrinkViewModel: LogDrinkViewModel
 ) {
     val navController = rememberNavController()
 
     NavHost(
         navController = navController,
-        startDestination =  Routes.Home.route //if (authToken.isEmpty()) { Routes.getDestination() } else { Routes.Home.route }
+        startDestination =  Routes.getDestination() //if (authToken.isEmpty()) { Routes.getDestination() } else { Routes.Home.route }
     ) {
 
         composable(Routes.Start.route) {
@@ -44,7 +44,7 @@ fun AppNavigation(
         }
 
         composable(Routes.Login.route) {
-            LoginUI(loginViewModel, navController, sharedPreferences)
+            LoginUI(loginViewModel, navController)
         }
 
         composable(Routes.Register.route) {
@@ -52,11 +52,11 @@ fun AppNavigation(
         }
 
         composable(Routes.Home.route) {
-            DashBoardScreen(navController, logDrinkViewModel, sharedPreferences, loginViewModel)
+            DashBoardScreen(navController, logDrinkViewModel, loginViewModel)
         }
 
         composable(Routes.Recipes.route) {
-            RecipeList(recipes = recipeViewModel.recipeListResponse, navController)
+            RecipeList(recipes = ALLRECIPELIST, navController)
         }
 
         composable(
@@ -65,9 +65,9 @@ fun AppNavigation(
                 type = NavType.StringType
             })
         ) { navBackStackEntry ->
-//            navBackStackEntry.arguments!!.getString(
-//                recipeId)
-//                ?.let { RecipeDetailView(recipeViewModel = recipeViewModel, detailId = it, navController) }
+            navBackStackEntry.arguments!!.getString(
+                recipeId)
+                ?.let { RecipeDetailView(recipeViewModel = recipeViewModel, detailId = it, navController) }
         }
 
         composable(Routes.Favorite.route) {
@@ -75,6 +75,10 @@ fun AppNavigation(
         }
         composable(Routes.Drink.route) {
             DrinkRecords(navController = navController, viewModel)
+        }
+
+        composable(Routes.Share.route) {
+            ShareScreen(navController)
         }
     }
 }

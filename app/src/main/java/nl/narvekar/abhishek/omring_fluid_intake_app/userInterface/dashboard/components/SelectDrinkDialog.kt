@@ -22,7 +22,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
-import nl.narvekar.abhishek.omring_fluid_intake_app.Constants.AUTH_TOKEN_KEY
+import nl.narvekar.abhishek.omring_fluid_intake_app.utils.Constants.AUTH_TOKEN_KEY
 import nl.narvekar.abhishek.omring_fluid_intake_app.data.LogDrink
 import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.LogDrinkViewModel
 
@@ -30,11 +30,9 @@ import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.LogDrinkViewModel
 @Composable
 fun SelectDrinkDialog(
     logDrinkViewModel: LogDrinkViewModel,
-    sharedPreferences: SharedPreferences,
     setShowDialog: (Boolean) -> Unit,
     setValue: (Float) -> Unit,
 ) {
-    val authToken = sharedPreferences.getString(AUTH_TOKEN_KEY, "").toString()
     val context = LocalContext.current
     Dialog(
         onDismissRequest = { setShowDialog(false) },
@@ -86,10 +84,16 @@ fun SelectDrinkDialog(
 //                                    "drankNow": 10,
 //                                    "amountLeftToLimit": 2968
 //                                }
+                                // get today's water intake from shared preference = var todaysIntake =
+                                // add 100 to today's intake record
+                                // update today's intake in sharedPreferences
+                                // TODO: 1.  
+                                
 
                                 val drinkAmount = 100
-                                val floatAmount = drinkAmount.toFloat() / 3000f
-                                logDrinkViewModel.postANewDrink(context, LogDrink(drinkAmount), sharedPreferences, setValue)
+                                val dailyLimit = 3000
+                                val floatAmount = drinkAmount.toFloat() / dailyLimit.toFloat()
+                                //logDrinkViewModel.postANewDrink(context, LogDrink(drinkAmount), sharedPreferences, setValue)
                                 setValue(floatAmount)
                                 setShowDialog(false)
 
@@ -108,14 +112,11 @@ fun SelectDrinkDialog(
                     Box(modifier = Modifier.padding(40.dp, 15.dp, 40.dp, 0.dp)) {
                         Button(
                             onClick = {
-                                  val drinkAmount = 12
-                                  val floatAmount = (drinkAmount.toFloat() / 100f)
+                                  val drinkAmount = 500
+                                  val dailyLimit = 3000
+                                  val floatAmount = (drinkAmount.toFloat() / dailyLimit.toFloat())
                                   setValue(floatAmount)
                                   setShowDialog(false)
-
-//                                val drinkAmount = 6
-//                                setValue(drinkAmount)
-//                                setShowDialog(false)
                             },
                             shape = RoundedCornerShape(50.dp),
                             modifier = Modifier

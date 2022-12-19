@@ -11,6 +11,8 @@ import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
@@ -23,6 +25,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import nl.narvekar.abhishek.omring_fluid_intake_app.R
+import nl.narvekar.abhishek.omring_fluid_intake_app.data.ALLRECIPELIST
 import nl.narvekar.abhishek.omring_fluid_intake_app.data.Recipe
 import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.RecipeViewModel
 import kotlin.math.log
@@ -36,13 +39,17 @@ fun RecipeDetailView(
 ) {
     Log.d(TAG, "RecipeDetailView passed from recipe list: $detailId")
     val scrollState = rememberScrollState()
-    val recipe = recipeViewModel.recipeListResponse.find { recipe ->
+//    val recipe = recipeViewModel.recipeListResponse.find { recipe ->
+//        detailId == recipe.recipeId
+//    }
+    val recipe = ALLRECIPELIST.find { recipe ->
         detailId == recipe.recipeId
     }
 
     Scaffold(
         topBar = {
             TopAppBar(
+                modifier = Modifier.fillMaxWidth().height(60.dp),
                 elevation = 4.dp,
                 title = {
                     Text(
@@ -57,20 +64,20 @@ fun RecipeDetailView(
                         Text(text = recipe.name)
                     }
                 },
-                backgroundColor =  MaterialTheme.colors.primarySurface,
+                backgroundColor =  Color(0xFF1BAEEE),
                 navigationIcon = {
-                    IconButton(onClick = { navController.popBackStack() }) {
-                        Icon(Icons.Filled.ArrowBack, null)
+                    IconButton(onClick = { navController.popBackStack() }, ) {
+                        Icon(Icons.Filled.ArrowBack, null, tint = Color.White)
                     }
-                })
-
+                }
+            )
         },
         content = {
             Column(Modifier.verticalScroll(scrollState)) {
                 //RecipeImage()
                 if (recipe != null) {
                     AsyncImage(
-                        model = R.drawable.omring_logo,
+                        model =  recipe.imageLink,
                         contentDescription = "recipe image",
                         modifier = Modifier
                             .width(900.dp)
@@ -82,9 +89,9 @@ fun RecipeDetailView(
                     Divider(modifier = Modifier.padding(bottom = 34.dp))
                     Text(text = "Ingredients:", fontSize = 34.sp)
                     Divider(modifier = Modifier.padding(34.dp))
-                    for((key, value) in recipe.ingredients) {
-                        Text(text = "$key: $value", fontSize = 24.sp)
-                    }
+//                    for((key, value) in recipe.ingredients) {
+//                        Text(text = "$key: $value", fontSize = 24.sp)
+//                    }
                     Divider(modifier = Modifier.padding(34.dp))
                     Text(text = "Steps", fontSize = 34.sp)
                     Divider(modifier = Modifier.padding(34.dp))
