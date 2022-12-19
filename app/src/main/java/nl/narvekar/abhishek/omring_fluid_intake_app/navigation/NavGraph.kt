@@ -30,15 +30,13 @@ fun AppNavigation(
     registerViewModel: RegisterViewModel,
     recipeViewModel: RecipeViewModel,
     viewModel: CardListViewModel,
-    sharedPreferences: SharedPreferences,
-    authToken: String,
     logDrinkViewModel: LogDrinkViewModel
 ) {
     val navController = rememberNavController()
 
     NavHost(
         navController = navController,
-        startDestination =  Routes.Home.route //if (authToken.isEmpty()) { Routes.getDestination() } else { Routes.Home.route }
+        startDestination =  Routes.getDestination() //if (authToken.isEmpty()) { Routes.getDestination() } else { Routes.Home.route }
     ) {
 
         composable(Routes.Start.route) {
@@ -46,7 +44,7 @@ fun AppNavigation(
         }
 
         composable(Routes.Login.route) {
-            LoginUI(loginViewModel, navController, sharedPreferences)
+            LoginUI(loginViewModel, navController)
         }
 
         composable(Routes.Register.route) {
@@ -54,7 +52,7 @@ fun AppNavigation(
         }
 
         composable(Routes.Home.route) {
-            DashBoardScreen(navController, logDrinkViewModel, sharedPreferences, loginViewModel)
+            DashBoardScreen(navController, logDrinkViewModel, loginViewModel)
         }
 
         composable(Routes.Recipes.route) {

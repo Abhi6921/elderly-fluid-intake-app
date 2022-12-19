@@ -22,7 +22,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
-import nl.narvekar.abhishek.omring_fluid_intake_app.Constants.AUTH_TOKEN_KEY
+import nl.narvekar.abhishek.omring_fluid_intake_app.utils.Constants.AUTH_TOKEN_KEY
 import nl.narvekar.abhishek.omring_fluid_intake_app.data.LogDrink
 import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.LogDrinkViewModel
 
@@ -30,11 +30,9 @@ import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.LogDrinkViewModel
 @Composable
 fun SelectDrinkDialog(
     logDrinkViewModel: LogDrinkViewModel,
-    sharedPreferences: SharedPreferences,
     setShowDialog: (Boolean) -> Unit,
     setValue: (Float) -> Unit,
 ) {
-    val authToken = sharedPreferences.getString(AUTH_TOKEN_KEY, "").toString()
     val context = LocalContext.current
     Dialog(
         onDismissRequest = { setShowDialog(false) },
@@ -95,7 +93,7 @@ fun SelectDrinkDialog(
                                 val drinkAmount = 100
                                 val dailyLimit = 3000
                                 val floatAmount = drinkAmount.toFloat() / dailyLimit.toFloat()
-                                logDrinkViewModel.postANewDrink(context, LogDrink(drinkAmount), sharedPreferences, setValue)
+                                //logDrinkViewModel.postANewDrink(context, LogDrink(drinkAmount), sharedPreferences, setValue)
                                 setValue(floatAmount)
                                 setShowDialog(false)
 

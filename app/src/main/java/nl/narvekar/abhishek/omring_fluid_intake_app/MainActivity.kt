@@ -15,15 +15,15 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import nl.narvekar.abhishek.omring_fluid_intake_app.Constants.AUTH_TOKEN_KEY
-import nl.narvekar.abhishek.omring_fluid_intake_app.Constants.PrefKey
+import nl.narvekar.abhishek.omring_fluid_intake_app.utils.Constants.AUTH_TOKEN_KEY
+import nl.narvekar.abhishek.omring_fluid_intake_app.utils.Constants.PrefKey
 import nl.narvekar.abhishek.omring_fluid_intake_app.navigation.AppNavigation
 import nl.narvekar.abhishek.omring_fluid_intake_app.ui.theme.ElderlyfluidintakeappTheme
 import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.*
 
 class MainActivity : ComponentActivity() {
     // this commit is from the records page branch
-    lateinit var sharedPreferences: SharedPreferences
+
     private val loginViewModel by viewModels<LoginViewModel>()
     private val registerViewModel by viewModels<RegisterViewModel>()
     private val recipeViewModel by viewModels<RecipeViewModel>()
@@ -44,16 +44,13 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colors.background
                 ) {
                    //RecipeList(recipes = recipeViewModel.recipeListResponse)
-                    sharedPreferences = getSharedPreferences(PrefKey, Context.MODE_PRIVATE)
-                    val authToken = sharedPreferences.getString(AUTH_TOKEN_KEY, "").toString()
+
 
                    AppNavigation(
                        loginViewModel = loginViewModel,
                        registerViewModel,
                        recipeViewModel,
                        expandableListViewModel,
-                       sharedPreferences,
-                       authToken,
                        logDrinkViewModel
                    )
                     recipeViewModel.getRecipeList()
