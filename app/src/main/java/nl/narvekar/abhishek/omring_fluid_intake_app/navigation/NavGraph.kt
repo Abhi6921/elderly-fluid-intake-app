@@ -20,6 +20,7 @@ import nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.records.DrinkR
 import nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.register.RegisterScreen
 import nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.share.ShareScreen
 import nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.start.StartScreen
+import nl.narvekar.abhishek.omring_fluid_intake_app.utils.AppSession
 import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.*
 
 const val recipeId = "recipeId"
@@ -33,10 +34,10 @@ fun AppNavigation(
     logDrinkViewModel: LogDrinkViewModel
 ) {
     val navController = rememberNavController()
-
+    val authToken = AppSession.getAuthToken()
     NavHost(
         navController = navController,
-        startDestination =  Routes.getDestination() //if (authToken.isEmpty()) { Routes.getDestination() } else { Routes.Home.route }
+        startDestination =  if (authToken.isEmpty()) { Routes.getDestination() } else { Routes.Home.route }
     ) {
 
         composable(Routes.Start.route) {

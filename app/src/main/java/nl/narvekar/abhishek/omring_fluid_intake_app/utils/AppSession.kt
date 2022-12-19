@@ -40,6 +40,6 @@ object AppSession {
             putString(PASSWORD, "")
             putString(AUTH_TOKEN_KEY, "")
             putBoolean(IS_LOGGED_IN, false)
-        }
+        }.apply()
     }
 }

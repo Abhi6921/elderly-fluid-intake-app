@@ -38,6 +38,13 @@ import kotlin.math.log
 
 @Composable
 fun RegisterScreen(registerViewModel: RegisterViewModel, navController: NavController) {
+    val showDialog = registerViewModel.showSuccessMessage
+
+    if (showDialog.value) {
+        RegisterConfirmDialog(setShowDialog = {
+            showDialog.value = it
+        }, navController)
+    }
     val context = LocalContext.current
     Column(
         Modifier
@@ -87,15 +94,15 @@ fun RegisterScreen(registerViewModel: RegisterViewModel, navController: NavContr
 //        val dailygoal by remember { mutableStateOf("") }
 //        val dateOfBirth by remember { mutableStateOf("") }
 
-          val firstName = remember { mutableStateOf(TextFieldValue()) }
-          val lastName = remember { mutableStateOf(TextFieldValue()) }
-          val email = remember { mutableStateOf(TextFieldValue()) }
-          val phoneNumber = remember { mutableStateOf(TextFieldValue()) }
-        val password = remember { mutableStateOf(TextFieldValue()) }
+          val firstname = remember { mutableStateOf("") }
+          val lastname = remember { mutableStateOf("") }
+          val email = remember { mutableStateOf("") }
+          val phonenumber = remember { mutableStateOf("") }
+        val password = remember { mutableStateOf("") }
         val passwordVisible = remember { mutableStateOf(false) }
-        val dailyLimit = remember { mutableStateOf(TextFieldValue()) }
-        val dailygoal = remember { mutableStateOf(TextFieldValue()) }
-        val dateOfBirth = remember { mutableStateOf(TextFieldValue()) }
+        val dailylimit = remember { mutableStateOf("") }
+        val dailygoal = remember { mutableStateOf("") }
+        val dateofbirth = remember { mutableStateOf("") }
 
 
 
@@ -107,7 +114,7 @@ fun RegisterScreen(registerViewModel: RegisterViewModel, navController: NavContr
             modifier = Modifier
                 .height(81.dp)
                 .width(400.dp),
-            value = firstName.value,
+            value = firstname.value,
             colors = TextFieldDefaults.textFieldColors(backgroundColor = MaterialTheme.colors.surface.copy(Color.White.alpha)),
 
             textStyle = TextStyle.Default.copy(fontSize = 28.sp),
@@ -120,7 +127,7 @@ fun RegisterScreen(registerViewModel: RegisterViewModel, navController: NavContr
                     .height(40.dp)
             ) },
             onValueChange = {
-               firstName.value = it
+               firstname.value = it
             },
             label = { Text(text = "firstName", fontSize = 20.sp) }
         )
@@ -133,7 +140,7 @@ fun RegisterScreen(registerViewModel: RegisterViewModel, navController: NavContr
             modifier = Modifier
                 .height(81.dp)
                 .width(400.dp),
-            value = lastName.value,
+            value = lastname.value,
             colors = TextFieldDefaults.textFieldColors(backgroundColor = MaterialTheme.colors.surface.copy(Color.White.alpha)),
 
             textStyle = TextStyle.Default.copy(fontSize = 28.sp),
@@ -145,7 +152,7 @@ fun RegisterScreen(registerViewModel: RegisterViewModel, navController: NavContr
                     .height(40.dp)
             ) },
             onValueChange = {
-                lastName.value = it
+                lastname.value = it
             },
             label = { Text(text = "lastname", fontSize = 20.sp) }
         )
@@ -177,7 +184,7 @@ fun RegisterScreen(registerViewModel: RegisterViewModel, navController: NavContr
             modifier = Modifier
                 .height(81.dp)
                 .width(400.dp),
-            value = phoneNumber.value,
+            value = phonenumber.value,
             colors = TextFieldDefaults.textFieldColors(backgroundColor = MaterialTheme.colors.surface.copy(Color.White.alpha)),
             keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
             textStyle = TextStyle.Default.copy(fontSize = 28.sp),
@@ -189,7 +196,7 @@ fun RegisterScreen(registerViewModel: RegisterViewModel, navController: NavContr
                     .height(40.dp)
             ) },
             onValueChange = {
-                phoneNumber.value = it
+                phonenumber.value = it
             },
             label = { Text(text = "Phonenumber", fontSize = 20.sp) }
         )
@@ -218,7 +225,7 @@ fun RegisterScreen(registerViewModel: RegisterViewModel, navController: NavContr
                   }
                 val description = if(passwordVisible.value) "Hide Password" else "Show Password"
                 IconButton(onClick = { passwordVisible.value =! passwordVisible.value }) {
-                    Icon(imageVector = Icons.Default.Visibility, contentDescription = null)
+                    Icon(imageVector = image, contentDescription = null)
                 }
             },
             onValueChange = {
@@ -232,7 +239,7 @@ fun RegisterScreen(registerViewModel: RegisterViewModel, navController: NavContr
             modifier = Modifier
                 .height(81.dp)
                 .width(400.dp),
-            value = dailyLimit.value,
+            value = dailylimit.value,
             colors = TextFieldDefaults.textFieldColors(backgroundColor = MaterialTheme.colors.surface.copy(Color.White.alpha)),
 
             textStyle = TextStyle.Default.copy(fontSize = 28.sp),
@@ -242,7 +249,7 @@ fun RegisterScreen(registerViewModel: RegisterViewModel, navController: NavContr
                     contentDescription = "targetIcon")
             },
             onValueChange = {
-                dailyLimit.value = it
+                dailylimit.value = it
             },
             keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
             label = { Text(text = "Enter your daily limit in (L)", fontSize = 20.sp) }
@@ -272,7 +279,7 @@ fun RegisterScreen(registerViewModel: RegisterViewModel, navController: NavContr
             modifier = Modifier
                 .height(81.dp)
                 .width(400.dp),
-            value = dateOfBirth.value,
+            value = dateofbirth.value,
             colors = TextFieldDefaults.textFieldColors(backgroundColor = MaterialTheme.colors.surface.copy(Color.White.alpha)),
 
             textStyle = TextStyle.Default.copy(fontSize = 28.sp),
@@ -280,28 +287,29 @@ fun RegisterScreen(registerViewModel: RegisterViewModel, navController: NavContr
                   Image(imageVector = Icons.Default.CalendarToday, contentDescription = null)
             },
             onValueChange = {
-                dateOfBirth.value = it
+                dateofbirth.value = it
             },
             keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Text),
             label = { Text(text = "Enter your date of birth", fontSize = 20.sp) }
         )
         Spacer(modifier = Modifier.height(40.dp))
-        Log.d("firstNameOutput", "$firstName")
+        Log.d("firstNameOutput", "$firstname")
         // RegisterButton
         Button(
             onClick = {
-                if(firstName.value.text.isEmpty()
-                    || lastName.value.text.isEmpty()
-                    || email.value.text.isEmpty()
-                    || phoneNumber.value.text.isEmpty()
-                    || password.value.text.isEmpty()
-                    || dailygoal.value.text.isEmpty()
-                    || dailyLimit.value.text.isEmpty()
+                if(firstname.value.isEmpty()
+                    || lastname.value.isEmpty()
+                    || email.value.isEmpty()
+                    || phonenumber.value.isEmpty()
+                    || password.value.isEmpty()
+                    || dailygoal.value.isEmpty()
+                    || dailylimit.value.isEmpty()
                 ) {
                     Toast.makeText(context, "Please fill all the credentials!", Toast.LENGTH_LONG).show()
                 }
                 else {
-                    registerViewModel.signUpUser(
+
+                    registerViewModel.registerUser(
                         context,
 //                                UserRequest(
 //                                     "Aram4",
@@ -320,18 +328,18 @@ fun RegisterScreen(registerViewModel: RegisterViewModel, navController: NavContr
 //                          )
 
                         UserRequest(
-                            firstName.value.toString(),
-                            lastName.value.toString(),
+                            firstname.value.toString(),
+                            lastname.value.toString(),
                             email.value.toString(),
-                            phoneNumber.value.toString(),
+                            phonenumber.value.toString(),
                             password.value.toString(),
                             true,
-                            dailyLimit.value.text.toInt(),
+                            Integer.parseInt(dailylimit.value),
                             null,
                             null,
                             UserRole("PATIENT"),
-                            dailygoal.value.text.toInt(),
-                            dateOfBirth.value.toString(),
+                            Integer.parseInt(dailygoal.value),
+                            dateofbirth.value.toString(),
                             "00000000-0000-0000-0000-000000000000"
                         )
                     )

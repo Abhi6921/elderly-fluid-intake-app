@@ -14,7 +14,7 @@ import retrofit2.http.Query
 
 interface UsersAuthApi {
 
-    @Headers("Content-Type: application/json")
+    @Headers("accept:application/json")
     @POST("api/v1/patients")
     fun registerUser(@Body user: UserRequest) : Call<UserResponse>
 
@@ -30,7 +30,7 @@ interface UsersAuthApi {
         fun getInstance() : UsersAuthApi {
             if (apiService == null) {
                 apiService = Retrofit.Builder()
-                    .baseUrl("https://drinkappusers.azurewebsites.net/")
+                    .baseUrl("https://da-users.azurewebsites.net/")
                     .addConverterFactory(GsonConverterFactory.create())
                     .build().create(UsersAuthApi::class.java)
             }
