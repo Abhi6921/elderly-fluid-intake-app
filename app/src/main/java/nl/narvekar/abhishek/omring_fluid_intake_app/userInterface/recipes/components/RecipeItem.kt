@@ -11,11 +11,13 @@ import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import nl.narvekar.abhishek.omring_fluid_intake_app.R
 import nl.narvekar.abhishek.omring_fluid_intake_app.data.Recipe
@@ -41,7 +43,7 @@ fun RecipeItem(
         ) {
 
             AsyncImage(
-                model = recipe.imageLink,
+                model = R.drawable.recipe_img,
                 contentDescription = "recipe images",
                 modifier = Modifier
                     .width(350.dp).height(350.dp)
@@ -57,20 +59,22 @@ fun RecipeItem(
                         .padding(bottom = 8.dp)
                         .fillMaxWidth(),
                     color = MaterialTheme.colors.onSurface,
+                    fontSize = 35.sp
                 )
 
                 Spacer(modifier = Modifier.height(12.dp))
                 Row {
                     FavoritesButton()
-                    Spacer(modifier = Modifier.width(32.dp))
+                    Spacer(modifier = Modifier.width(38.dp))
                     Button(
                         onClick = {
                               onClickAction(recipe)
                         },
                         shape = RoundedCornerShape(40),
-                        colors = ButtonDefaults.buttonColors(backgroundColor = Color(0xFF1B7D71))
+                        colors = ButtonDefaults.buttonColors(backgroundColor = Color(0xFF1B7D71)),
+                        modifier = Modifier.width(200.dp).height(70.dp)
                     ) {
-                        Text(text = "Instrictions", color = Color.White)
+                        Text(text = "Instructions", color = Color.White, fontSize = 25.sp)
                     }
                 }
             }
@@ -93,10 +97,16 @@ fun FavoritesButton() {
                 // call the remove likeRecipe call from api from liked list
             }
         },
-        Modifier.background(Color((0xFF1B7D71))),
+        Modifier.background(Color((0xFF1B7D71))).clip(RoundedCornerShape(44.dp)).size(75.dp),
 
         ) {
-        Icon(imageVector = if (isFavorite) { Icons.Filled.Favorite } else { Icons.Filled.FavoriteBorder}, contentDescription = "favorite icon", tint = Color.White)
+        Icon(
+            imageVector = if (isFavorite) { Icons.Filled.Favorite }
+            else { Icons.Filled.FavoriteBorder},
+            contentDescription = "favorite icon",
+            tint = Color.White,
+            modifier = Modifier.size(44.dp),
+        )
     }
 }
 

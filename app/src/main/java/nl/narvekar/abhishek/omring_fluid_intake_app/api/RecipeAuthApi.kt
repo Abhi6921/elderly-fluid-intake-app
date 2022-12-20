@@ -15,7 +15,7 @@ interface RecipeAuthApi {
         fun getInstance() : RecipeAuthApi {
             if (apiService == null) {
                 apiService = Retrofit.Builder()
-                    .baseUrl("https://drinkapp-recipes.azurewebsites.net/")
+                    .baseUrl("https://da-recipes.azurewebsites.net/")
                     .addConverterFactory(GsonConverterFactory.create())
                     .build().create(RecipeAuthApi::class.java)
             }

@@ -23,10 +23,8 @@ class LoginViewModel : ViewModel() {
         navController: NavController
     ) {
         val retrofitInstance = DrinkAuthApi.getInstance()
-
         retrofitInstance.loginUser(login).enqueue(
             object : Callback<LoginResponse> {
-
                 override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
                     Toast.makeText(context, t.message, Toast.LENGTH_LONG).show()
                 }
@@ -66,7 +64,7 @@ class LoginViewModel : ViewModel() {
         }
     }
 
-    fun saveUserData(username: String, password: String, authToken: String) {
+    private fun saveUserData(username: String, password: String, authToken: String) {
         AppSession.saveUserData(username, password, authToken)
     }
 }

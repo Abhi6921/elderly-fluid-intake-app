@@ -19,6 +19,7 @@ import nl.narvekar.abhishek.omring_fluid_intake_app.utils.Constants.AUTH_TOKEN_K
 import nl.narvekar.abhishek.omring_fluid_intake_app.utils.Constants.PrefKey
 import nl.narvekar.abhishek.omring_fluid_intake_app.navigation.AppNavigation
 import nl.narvekar.abhishek.omring_fluid_intake_app.ui.theme.ElderlyfluidintakeappTheme
+import nl.narvekar.abhishek.omring_fluid_intake_app.utils.AppSession
 import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.*
 
 class MainActivity : ComponentActivity() {
@@ -32,11 +33,12 @@ class MainActivity : ComponentActivity() {
 
     // username: +31612345678 password: Mona12345! ROLE: CAREGIVER, ADMIN
     // username: +31246846878 password: Mona12345! ROLE: CAREGIVER
-
+    // patient in db-> username: +3165874123651 password: Mona12345!
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
+            AppSession.startSession(this)
             ElderlyfluidintakeappTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(

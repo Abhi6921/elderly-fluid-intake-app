@@ -25,7 +25,6 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import nl.narvekar.abhishek.omring_fluid_intake_app.R
-import nl.narvekar.abhishek.omring_fluid_intake_app.data.ALLRECIPELIST
 import nl.narvekar.abhishek.omring_fluid_intake_app.data.Recipe
 import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.RecipeViewModel
 import kotlin.math.log
@@ -42,14 +41,16 @@ fun RecipeDetailView(
 //    val recipe = recipeViewModel.recipeListResponse.find { recipe ->
 //        detailId == recipe.recipeId
 //    }
-    val recipe = ALLRECIPELIST.find { recipe ->
+    val recipe = recipeViewModel.recipeListResponse.find { recipe ->
         detailId == recipe.recipeId
     }
 
     Scaffold(
         topBar = {
             TopAppBar(
-                modifier = Modifier.fillMaxWidth().height(60.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(60.dp),
                 elevation = 4.dp,
                 title = {
                     Text(
@@ -67,17 +68,21 @@ fun RecipeDetailView(
                 backgroundColor =  Color(0xFF1BAEEE),
                 navigationIcon = {
                     IconButton(onClick = { navController.popBackStack() }, ) {
-                        Icon(Icons.Filled.ArrowBack, null, tint = Color.White)
+                        Icon(Icons.Filled.ArrowBack, null, tint = Color.White, modifier = Modifier.size(35.dp))
                     }
                 }
             )
         },
         content = {
-            Column(Modifier.verticalScroll(scrollState)) {
+            Column(
+                Modifier
+                    .verticalScroll(scrollState)
+                    .padding(15.dp)) {
                 //RecipeImage()
                 if (recipe != null) {
+                    //val recipeImage = painterResource(R.drawable.recipe_img)
                     AsyncImage(
-                        model =  recipe.imageLink,
+                        model =  R.drawable.recipe_img,
                         contentDescription = "recipe image",
                         modifier = Modifier
                             .width(900.dp)
@@ -86,15 +91,15 @@ fun RecipeDetailView(
                         placeholder = painterResource(R.drawable.placeholder)
                     )
                     Text(text = recipe.name, fontSize = 44.sp)
-                    Divider(modifier = Modifier.padding(bottom = 34.dp))
+                    Spacer(modifier = Modifier.height(30.dp))
                     Text(text = "Ingredients:", fontSize = 34.sp)
-                    Divider(modifier = Modifier.padding(34.dp))
-//                    for((key, value) in recipe.ingredients) {
-//                        Text(text = "$key: $value", fontSize = 24.sp)
-//                    }
-                    Divider(modifier = Modifier.padding(34.dp))
+                    Spacer(modifier = Modifier.height(30.dp))
+                    for((key, value) in recipe.ingredients) {
+                        Text(text = "$key: $value", fontSize = 24.sp)
+                    }
+                    Spacer(modifier = Modifier.height(30.dp))
                     Text(text = "Steps", fontSize = 34.sp)
-                    Divider(modifier = Modifier.padding(34.dp))
+                    Spacer(modifier = Modifier.height(30.dp))
                     Text(text = recipe.instructions, fontSize = 34.sp)
                 }
             }

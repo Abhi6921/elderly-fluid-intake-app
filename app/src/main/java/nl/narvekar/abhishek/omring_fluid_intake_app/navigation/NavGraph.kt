@@ -10,7 +10,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import nl.narvekar.abhishek.omring_fluid_intake_app.data.ALLRECIPELIST
 import nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.dashboard.DashBoardScreen
 import nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.favorites.RecipeFavorited
 import nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.login.LoginUI
@@ -20,6 +19,7 @@ import nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.records.DrinkR
 import nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.register.RegisterScreen
 import nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.share.ShareScreen
 import nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.start.StartScreen
+import nl.narvekar.abhishek.omring_fluid_intake_app.utils.AppSession
 import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.*
 
 const val recipeId = "recipeId"
@@ -33,10 +33,10 @@ fun AppNavigation(
     logDrinkViewModel: LogDrinkViewModel
 ) {
     val navController = rememberNavController()
-
+    val authToken = AppSession.getAuthToken()
     NavHost(
         navController = navController,
-        startDestination =  Routes.getDestination() //if (authToken.isEmpty()) { Routes.getDestination() } else { Routes.Home.route }
+        startDestination =  if (authToken.isEmpty()) { Routes.getDestination() } else { Routes.Home.route }
     ) {
 
         composable(Routes.Start.route) {
@@ -56,7 +56,7 @@ fun AppNavigation(
         }
 
         composable(Routes.Recipes.route) {
-            RecipeList(recipes = ALLRECIPELIST, navController)
+            RecipeList(recipes = recipeViewModel.recipeListResponse, navController)
         }
 
         composable(

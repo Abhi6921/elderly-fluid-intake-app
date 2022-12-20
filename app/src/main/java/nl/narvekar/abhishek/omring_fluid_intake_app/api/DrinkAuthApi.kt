@@ -21,7 +21,7 @@ interface DrinkAuthApi {
         fun getInstance() : DrinkAuthApi {
             if (apiService == null) {
                 apiService = Retrofit.Builder()
-                    .baseUrl("https://drinkappauthentication.azurewebsites.net/")
+                    .baseUrl("https://da-authentication.azurewebsites.net/")
                     .addConverterFactory(GsonConverterFactory.create())
                     .build().create(DrinkAuthApi::class.java)
             }

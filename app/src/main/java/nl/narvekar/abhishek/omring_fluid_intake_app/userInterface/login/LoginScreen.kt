@@ -16,6 +16,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -87,7 +88,7 @@ fun LoginUI(loginViewModel: LoginViewModel, navController: NavController) {
             onValueChange = {
                 phonenumber = it
             },
-            label = { Text(text = "Username", fontSize = 20.sp) }
+            label = { Text(text = "PhoneNumber", fontSize = 20.sp) }
         )
         Spacer(modifier = Modifier.height(29.dp))
 
