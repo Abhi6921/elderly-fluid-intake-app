@@ -37,7 +37,7 @@ class LogDrinkViewModel : ViewModel() {
         viewModelScope.launch(Dispatchers.IO) {
             val authToken = sharedPreferences.getString(AUTH_TOKEN_KEY, "").toString()
 
-            val retrofitInstance = UsersAuthApi.getInstance()
+            val retrofitInstance = UsersAuthApi.getUsersAuthApiInstance()
             retrofitInstance.postNewDrink(authToken, logdrink).enqueue(
                 object : Callback<LogDrinkResponse> {
 
@@ -66,7 +66,7 @@ class LogDrinkViewModel : ViewModel() {
 
     fun getPatientById(authToken: String, id: String) : UserResponse {
         viewModelScope.launch(Dispatchers.Default) {
-            val apiSerivce = UsersAuthApi.getInstance()
+            val apiSerivce = UsersAuthApi.getUsersAuthApiInstance()
 
             try {
                 val patient = apiSerivce.getPatientById(authToken, id)

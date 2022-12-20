@@ -27,7 +27,7 @@ interface UsersAuthApi {
 
     companion object {
         var apiService: UsersAuthApi? = null
-        fun getInstance() : UsersAuthApi {
+        fun getUsersAuthApiInstance() : UsersAuthApi {
             if (apiService == null) {
                 apiService = Retrofit.Builder()
                     .baseUrl("https://da-users.azurewebsites.net/")

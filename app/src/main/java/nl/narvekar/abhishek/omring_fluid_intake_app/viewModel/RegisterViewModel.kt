@@ -25,7 +25,7 @@ class RegisterViewModel : ViewModel() {
         context: Context,
         user: UserRequest
     ) {
-        val retrofitInstance = UsersAuthApi.getInstance()
+        val retrofitInstance = UsersAuthApi.getUsersAuthApiInstance()
 
         retrofitInstance.registerUser(user).enqueue(object :
             Callback<UserResponse> {

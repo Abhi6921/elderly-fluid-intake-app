@@ -63,7 +63,7 @@ fun RecipeList(recipes: List<Recipe>, navController: NavController) {
             }
             else {
                 LazyColumn(Modifier.padding(innerPadding)) {
-                    items(recipes) {item ->
+                    items(recipes) { item ->
                         RecipeItem(item) {
                             navController.navigate(Routes.RecipeDetail.route + "/${it.recipeId}")
                         }
