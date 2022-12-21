@@ -6,6 +6,7 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.Body
+import retrofit2.http.GET
 import retrofit2.http.HEAD
 import retrofit2.http.Header
 import retrofit2.http.Headers
@@ -20,20 +21,21 @@ interface UsersAuthApi {
 //    @Headers("Content-Type:application/json")
     @Headers("Accept: application/json")
     @POST("api/v1/patients/logdrink")
-    fun postNewDrink(@Header("Bearer") authToken: String, @Body drinkAmount: LogDrink) : Call<LogDrinkResponse>
+    suspend fun postNewDrink(@Header("Bearer") authToken: String, @Body drinkAmount: LogDrink) : Call<LogDrinkResponse>
 
-    fun getPatientById(@Header("Bearer") authToken: String, @Query("id") patientID: String) : UserResponse
+    @GET("api/v1/patients")
+    suspend fun getAllPatients(@Header("Authorization:") authToken: String) : ArrayList<PatientResponse>
 
     companion object {
-        var apiService: UsersAuthApi? = null
+        var apiUserService: UsersAuthApi? = null
         fun getUsersAuthApiInstance() : UsersAuthApi {
-            if (apiService == null) {
-                apiService = Retrofit.Builder()
+            if (apiUserService == null) {
+                apiUserService = Retrofit.Builder()
                     .baseUrl("https://da-users.azurewebsites.net/")
                     .addConverterFactory(GsonConverterFactory.create())
                     .build().create(UsersAuthApi::class.java)
             }
-            return apiService!!
+            return apiUserService!!
         }
     }
 }

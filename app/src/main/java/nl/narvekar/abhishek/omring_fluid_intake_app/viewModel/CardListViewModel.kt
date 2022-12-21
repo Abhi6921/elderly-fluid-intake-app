@@ -1,6 +1,9 @@
 package nl.narvekar.abhishek.omring_fluid_intake_app.viewModel
 
 import android.provider.ContactsContract
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
@@ -8,14 +11,14 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import nl.narvekar.abhishek.omring_fluid_intake_app.api.UsersAuthApi
 import nl.narvekar.abhishek.omring_fluid_intake_app.data.AllDrinkDates
 import nl.narvekar.abhishek.omring_fluid_intake_app.data.DrinkDate
 import nl.narvekar.abhishek.omring_fluid_intake_app.data.DrinkRecord
+import nl.narvekar.abhishek.omring_fluid_intake_app.data.PatientResponse
+import nl.narvekar.abhishek.omring_fluid_intake_app.utils.AppSession
 
 class CardListViewModel : ViewModel() {
-
-    private val itemsList = MutableStateFlow(listOf<DrinkRecord>())
-    val items: StateFlow<List<DrinkRecord>> get() = itemsList
 
     private val itemIdsList = MutableStateFlow(listOf<Int>())
     val itemIds: StateFlow<List<Int>> get() = itemIdsList
@@ -30,7 +33,7 @@ class CardListViewModel : ViewModel() {
         //getAllDrinkRecords()
     }
 
-//    // getting all the demo data change with value from api
+//     getting all the demo data change with value from api
 //    private fun getAllDrinkRecords() {
 //        viewModelScope.launch {
 //            withContext(Dispatchers.Default) {
@@ -46,6 +49,8 @@ class CardListViewModel : ViewModel() {
             }
         }
     }
+
+
 
     fun onItemClicked(itemId: Int) {
         itemIdsList.value = itemIdsList.value.toMutableList().also { list ->

@@ -30,7 +30,8 @@ fun AppNavigation(
     registerViewModel: RegisterViewModel,
     recipeViewModel: RecipeViewModel,
     viewModel: CardListViewModel,
-    logDrinkViewModel: LogDrinkViewModel
+    logDrinkViewModel: LogDrinkViewModel,
+    patientViewModel: PatientViewModel
 ) {
     val navController = rememberNavController()
     val authToken = AppSession.getAuthToken()
@@ -74,7 +75,7 @@ fun AppNavigation(
             RecipeFavorited(navController)
         }
         composable(Routes.Drink.route) {
-            DrinkRecords(navController = navController, viewModel)
+            DrinkRecords(navController = navController, viewModel, patientViewModel)
         }
 
         composable(Routes.Share.route) {

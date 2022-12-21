@@ -25,6 +25,10 @@ object AppSession {
         return loggedIn
     }
 
+    fun getPhoneNumber() : String {
+        return sharedPreferences.getString(USERNAME, "") ?: ""
+    }
+
     fun saveUserData(username: String, password: String, authToken: String) {
         sharedPreferences.edit().apply {
             putString(USERNAME, username)

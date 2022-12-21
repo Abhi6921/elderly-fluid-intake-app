@@ -64,18 +64,18 @@ class LogDrinkViewModel : ViewModel() {
     var patientResponse: UserResponse by mutableStateOf(UserResponse())
     var errorMessage: String by mutableStateOf("")
 
-    fun getPatientById(authToken: String, id: String) : UserResponse {
-        viewModelScope.launch(Dispatchers.Default) {
-            val apiSerivce = UsersAuthApi.getUsersAuthApiInstance()
-
-            try {
-                val patient = apiSerivce.getPatientById(authToken, id)
-                patientResponse = patient
-            } catch (e: Exception) {
-                errorMessage = e.message.toString()
-                Log.d(TAG, errorMessage.toString())
-            }
-        }
-        return patientResponse
-    }
+//    fun getPatientById(authToken: String, id: String) : UserResponse {
+//        viewModelScope.launch(Dispatchers.Default) {
+//            val apiSerivce = UsersAuthApi.getUsersAuthApiInstance()
+//
+//            try {
+//                val patient = apiSerivce.getPatientById(authToken, id)
+//                patientResponse = patient
+//            } catch (e: Exception) {
+//                errorMessage = e.message.toString()
+//                Log.d(TAG, errorMessage.toString())
+//            }
+//        }
+//        return patientResponse
+//    }
 }

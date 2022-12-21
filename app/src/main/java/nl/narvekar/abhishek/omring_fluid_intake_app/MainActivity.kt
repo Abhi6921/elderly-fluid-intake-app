@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
@@ -15,6 +16,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import nl.narvekar.abhishek.omring_fluid_intake_app.data.PatientResponse
 import nl.narvekar.abhishek.omring_fluid_intake_app.utils.Constants.AUTH_TOKEN_KEY
 import nl.narvekar.abhishek.omring_fluid_intake_app.utils.Constants.PrefKey
 import nl.narvekar.abhishek.omring_fluid_intake_app.navigation.AppNavigation
@@ -30,6 +32,7 @@ class MainActivity : ComponentActivity() {
     private val recipeViewModel by viewModels<RecipeViewModel>()
     private val expandableListViewModel by viewModels<CardListViewModel>()
     private val logDrinkViewModel by viewModels<LogDrinkViewModel>()
+    private val patientViewModel by viewModels<PatientViewModel>()
 
     // username: +31612345678 password: Mona12345! ROLE: CAREGIVER, ADMIN
     // username: +31246846878 password: Mona12345! ROLE: CAREGIVER
@@ -53,9 +56,13 @@ class MainActivity : ComponentActivity() {
                        registerViewModel,
                        recipeViewModel,
                        expandableListViewModel,
-                       logDrinkViewModel
+                       logDrinkViewModel,
+                       patientViewModel
                    )
                     recipeViewModel.getRecipeList()
+                    patientViewModel.getAllPatients()
+                   Log.d("Patients", "${patientViewModel.patientListResponse.count()}")
+
                 }
             }
         }

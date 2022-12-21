@@ -9,6 +9,8 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.Visibility
+import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -22,6 +24,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -68,6 +71,7 @@ fun LoginUI(loginViewModel: LoginViewModel, navController: NavController) {
 
         var phonenumber by remember { mutableStateOf("") }
         var password by remember { mutableStateOf("") }
+        var passwordVisible by remember { mutableStateOf(false) }
 
         // Username field
         OutlinedTextField(
@@ -91,7 +95,36 @@ fun LoginUI(loginViewModel: LoginViewModel, navController: NavController) {
             label = { Text(text = "PhoneNumber", fontSize = 20.sp) }
         )
         Spacer(modifier = Modifier.height(29.dp))
-
+//        OutlinedTextField(
+//            modifier = Modifier
+//                .height(81.dp)
+//                .width(400.dp),
+//            value = password.value,
+//            colors = TextFieldDefaults.textFieldColors(backgroundColor = MaterialTheme.colors.surface.copy(Color.White.alpha)),
+//            textStyle = TextStyle.Default.copy(fontSize = 28.sp),
+//            visualTransformation = if (passwordVisible.value) { VisualTransformation.None } else { PasswordVisualTransformation() },
+//            leadingIcon = { Icon(imageVector = Icons.Default.Lock, contentDescription = "lockIcon",
+//                Modifier
+//                    .width(60.dp)
+//                    .height(40.dp))
+//            },
+//            trailingIcon = {
+//                val image = if (passwordVisible.value) {
+//                    Icons.Default.Visibility
+//                }
+//                else {
+//                    Icons.Filled.VisibilityOff
+//                }
+//                val description = if(passwordVisible.value) "Hide Password" else "Show Password"
+//                IconButton(onClick = { passwordVisible.value =! passwordVisible.value }) {
+//                    Icon(imageVector = image, contentDescription = null)
+//                }
+//            },
+//            onValueChange = {
+//                password.value = it
+//            },
+//            label = { Text(text = "Password", fontSize = 20.sp, textAlign = TextAlign.Center) },
+//        )
         // Password field
         OutlinedTextField(
             modifier = Modifier
@@ -100,11 +133,22 @@ fun LoginUI(loginViewModel: LoginViewModel, navController: NavController) {
             value = password,
             colors = TextFieldDefaults.textFieldColors(backgroundColor = MaterialTheme.colors.surface.copy(Color.White.alpha)),
             textStyle = TextStyle.Default.copy(fontSize = 28.sp),
-            visualTransformation = PasswordVisualTransformation(),
+            visualTransformation = if (passwordVisible) { VisualTransformation.None } else { PasswordVisualTransformation() },
             leadingIcon = { Icon(imageVector = Icons.Default.Lock, contentDescription = "lockIcon",
                 Modifier
                     .width(60.dp)
                     .height(40.dp))},
+            trailingIcon = {
+                val image = if (passwordVisible) {
+                    Icons.Default.Visibility
+                } else {
+                    Icons.Filled.VisibilityOff
+                }
+                val description = if (passwordVisible) "Hide password" else "show password"
+                IconButton(onClick = { passwordVisible =! passwordVisible }) {
+                    Icon(imageVector = image, contentDescription = description)
+                }
+            },
             onValueChange = {
                 password = it
             },

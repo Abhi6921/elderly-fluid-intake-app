@@ -8,6 +8,7 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -24,17 +25,25 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import nl.narvekar.abhishek.omring_fluid_intake_app.R
 import nl.narvekar.abhishek.omring_fluid_intake_app.data.DrinkDate
+import nl.narvekar.abhishek.omring_fluid_intake_app.data.PatientResponse
 import nl.narvekar.abhishek.omring_fluid_intake_app.navigation.AppBottomNav
 import nl.narvekar.abhishek.omring_fluid_intake_app.ui.theme.omringButtonColor
 import nl.narvekar.abhishek.omring_fluid_intake_app.ui.theme.recordsExpandListColor
 import nl.narvekar.abhishek.omring_fluid_intake_app.ui.theme.recordsTitleColor
 import nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.dashboard.DashBoardSpinnerAndQuote
 import nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.dashboard.components.CircularProgressBar
+import nl.narvekar.abhishek.omring_fluid_intake_app.utils.AppSession
 import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.CardListViewModel
+import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.PatientViewModel
 
 
 @Composable
-fun DrinkRecords(navController: NavController, cardListViewModel: CardListViewModel) {
+fun DrinkRecords(navController: NavController, cardListViewModel: CardListViewModel, patientViewModel: PatientViewModel) {
+    val phoneNumber = AppSession.getPhoneNumber()
+    val patient = patientViewModel.patientListResponse.find { patient ->
+        patient.phoneNumber == phoneNumber
+    }
+
     val itemIds by cardListViewModel.itemIds.collectAsState()
     Scaffold(
         topBar = {
@@ -58,7 +67,7 @@ fun DrinkRecords(navController: NavController, cardListViewModel: CardListViewMo
                                 modifier = Modifier.fillMaxWidth(),
                                 textAlign = TextAlign.Center,
                                 maxLines = 1,
-                                text = "Drink Records",
+                                text = patient?.firstName.toString(),
                                 color = Color.White,
                                 fontSize = 34.sp
                             )
@@ -90,16 +99,34 @@ fun DrinkRecords(navController: NavController, cardListViewModel: CardListViewMo
                     ) {
                         val image = painterResource(id = R.drawable.message_box)
                         Image(painter = image, contentDescription = null)
-                        Text(
-                            text = "A cup a day keeps the doctor away",
-                            textAlign = TextAlign.Center, fontSize = 29.sp,
-                            color = Color.White
-                        )
+                        if (patientViewModel.patientListResponse.isNotEmpty()) {
+                            Text(
+                                text = "list is NOT empty",
+                                //text = "A cup a day keeps the doctor away",
+                                textAlign = TextAlign.Center, fontSize = 29.sp,
+                                color = Color.White
+                            )
+                        }
+                        else {
+                            Text(
+                                text = "list is empty",
+                                //text = "A cup a day keeps the doctor away",
+                                textAlign = TextAlign.Center, fontSize = 29.sp,
+                                color = Color.White
+                            )
+                        }
                     }
                 }
                 Column {
-                    Button(onClick = { /*TODO*/ }) {
-                        Text(text = "Drink Fluid")
+                    Button(
+                        onClick = {
+                            // edit drink on this action
+                        },
+                        shape = RoundedCornerShape(30),
+                        colors = ButtonDefaults.buttonColors(backgroundColor = Color(0xFF1B7D71)),
+                        modifier = Modifier.width(200.dp).height(60.dp).align(Alignment.End)
+                    ) {
+                        Text(text = "Drink Fluid", color = Color.White, fontSize = 24.sp)
                     }
                 }
 
@@ -141,7 +168,7 @@ fun HeaderView(questionText: String, onClickItem: () -> Unit) {
             modifier = Modifier
                 .padding(20.dp)
                 .fillMaxWidth(),
-            horizontalArrangement = Arrangement.Center
+            horizontalArrangement = Arrangement.Center,
         ) {
             Box(modifier = Modifier
                 .size(200.dp)
@@ -254,7 +281,6 @@ fun ExpandableContainerView(
             drinkDate.drinkRecord.forEach{ drinkRecord ->
                 ExpandableView(time = drinkRecord.time, drinkAmount = drinkRecord.drinkAmount, isExpanded = expanded)
             }
-
         }
     }
 }

@@ -19,6 +19,7 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
@@ -35,14 +36,14 @@ fun SelectDrinkDialog(
 ) {
     val context = LocalContext.current
     Dialog(
-        onDismissRequest = { setShowDialog(false) },
+        onDismissRequest = { /*setShowDialog(false)*/ },
     ) {
         Surface(
             shape = RoundedCornerShape(16.dp),
             color = Color.White,
             modifier = Modifier
                 .width(1150.dp)
-                .height(400.dp)
+                .height(500.dp)
         ) {
             Box(modifier = Modifier.padding(20.dp)) {
                 Row(
