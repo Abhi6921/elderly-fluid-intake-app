@@ -308,6 +308,14 @@ fun RegisterScreen(registerViewModel: RegisterViewModel, navController: NavContr
                     Toast.makeText(context, "Please fill all the credentials!", Toast.LENGTH_LONG).show()
                 }
                 else {
+                    val firstName: String = firstname.value.toString()
+                    val lastName: String = lastname.value.toString()
+                    val emailId: String = email.value.toString()
+                    val phoneNumber: String = phonenumber.value.toString()
+                    val Password: String = password.value.toString()
+                    val Dailylimit: Int = Integer.parseInt(dailylimit.value)
+                    val DailyGoal: Int = Integer.parseInt(dailygoal.value)
+                    val DateOfBirth: String = dateofbirth.value.toString()
 
                     registerViewModel.registerUser(
                         context,
@@ -328,18 +336,18 @@ fun RegisterScreen(registerViewModel: RegisterViewModel, navController: NavContr
 //                          )
 
                         UserRequest(
-                            firstname.value.toString(),
-                            lastname.value.toString(),
-                            email.value.toString(),
-                            phonenumber.value.toString(),
-                            password.value.toString(),
+                            firstName,
+                            lastName,
+                            emailId,
+                            phoneNumber,
+                            Password,
                             true,
-                            Integer.parseInt(dailylimit.value),
+                            Dailylimit,
                             null,
                             null,
                             UserRole("PATIENT"),
-                            Integer.parseInt(dailygoal.value),
-                            dateofbirth.value.toString(),
+                            DailyGoal,
+                            DateOfBirth,
                             "00000000-0000-0000-0000-000000000000"
                         )
                     )

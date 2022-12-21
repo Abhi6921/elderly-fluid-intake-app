@@ -5,31 +5,31 @@ import com.google.gson.annotations.SerializedName
 data class UserRequest(
 
     @SerializedName("firstName")
-    val firstName: String? = null,
+    val FirstName: String,
     @SerializedName("lastName")
-    val lastName: String? = null,
+    val LastName: String,
     @SerializedName("email")
-    val email: String? = null,
+    val Email: String,
     @SerializedName("phoneNumber")
-    val phoneNumber: String? = null,
+    val PhoneNumber: String,
     @SerializedName("password")
-    val password: String? = null,
+    val Password: String,
     @SerializedName("active")
-    val active: Boolean?  = null,
+    val Active: Boolean,
     @SerializedName("dailyLimit")
-    val dailyLimit: Int? = null,
+    val DailyLimit: Int,
     @SerializedName("careGiver")
-    val careGiver: String? = null,
+    val CareGiver: String? = null,
     @SerializedName("recipes")
-    val recipes: String? = null,
+    val Recipes: String? = null,
     @SerializedName("userRole")
-    val userRole: UserRole? = UserRole(),
+    val UserRole: UserRole? = UserRole(),
     @SerializedName("dailyGoal")
-    val dailyGoal: Int? = null,
+    val DailyGoal: Int,
     @SerializedName("dateOfBirth")
-    val dateOfBirth: String? = null,
+    val DateOfBirth: String,
     @SerializedName("careGiverId")
-    val careGiverId: String? = null
+    val CareGiverId: String
 
 )
 

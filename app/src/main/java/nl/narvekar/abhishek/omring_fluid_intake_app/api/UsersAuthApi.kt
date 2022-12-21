@@ -14,7 +14,6 @@ import retrofit2.http.Query
 
 interface UsersAuthApi {
 
-    @Headers("accept:application/json")
     @POST("api/v1/patients")
     fun registerUser(@Body user: UserRequest) : Call<UserResponse>
 

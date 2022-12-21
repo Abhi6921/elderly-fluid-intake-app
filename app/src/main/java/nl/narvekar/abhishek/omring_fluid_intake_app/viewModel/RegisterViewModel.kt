@@ -34,11 +34,11 @@ class RegisterViewModel : ViewModel() {
                 }
 
                 override fun onResponse(call: Call<UserResponse>, response: Response<UserResponse>) {
-                    if (response.isSuccessful) {
-                       Toast.makeText(context, "Registration Successful!", Toast.LENGTH_LONG).show()
+                    if (response.isSuccessful || response.code() == 201) {
+                       Toast.makeText(context, "Registration Successful! ${response.code().toString()}, ${response.message()} ${response.headers()}", Toast.LENGTH_LONG).show()
                     }
                     else {
-                        Toast.makeText(context, "Registration failure!, ${response.code().toString()}, ${response.message()} ${response.headers()}", Toast.LENGTH_LONG).show()
+                        Toast.makeText(context, "Registration failure!, ${response.code().toString()},  ${response.message()} ${response.headers()}", Toast.LENGTH_LONG).show()
                     }
                 }
             }
