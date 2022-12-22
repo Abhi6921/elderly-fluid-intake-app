@@ -44,13 +44,13 @@ fun SelectDrinkDialog(
 
     val context = LocalContext.current
     Dialog(
-        onDismissRequest = { /*setShowDialog(false)*/ },
+        onDismissRequest = { setShowDialog(false) },
     ) {
         Surface(
             shape = RoundedCornerShape(16.dp),
             color = Color.White,
             modifier = Modifier
-                .width(1150.dp)
+                .width(2200.dp)
                 .height(500.dp)
         ) {
             Box(modifier = Modifier.padding(20.dp)) {
@@ -77,22 +77,13 @@ fun SelectDrinkDialog(
                             .clickable { setShowDialog(false) }
                     )
                 }
-                Spacer(modifier = Modifier.height(20.dp))
-                Column(Modifier.fillMaxWidth()) {
+
+                Column() {
                     // 100 ml button
-                    Box(modifier = Modifier.padding(40.dp, 60.dp, 40.dp, 0.dp)) {
+                    Box(modifier = Modifier.padding(40.dp, 150.dp, 40.dp, 0.dp)) {
                         Button(
                             onClick = {
 
-                            // login details: 3125634121521
-                            // password: Tom123!!
-//                                {
-//                                    "dailyGoal": 1000,
-//                                    "achieved": 32,
-//                                    "dailyLimit": 3000,
-//                                    "drankNow": 10,
-//                                    "amountLeftToLimit": 2968
-//                                }
                                 // get today's water intake from shared preference = var todaysIntake =
                                 // add 100 to today's intake record
                                 // update today's intake in sharedPreferences
@@ -101,7 +92,8 @@ fun SelectDrinkDialog(
 
                                 val drinkAmount = 100
                                 val dailyLimit = 3000
-                                val floatAmount = drinkAmount.toFloat() / patient?.dailyLimit?.toFloatOrNull()!!
+                                val floatAmount = drinkAmount.toFloat() / dailyLimit
+
                                 logDrinkViewModel.postANewDrink(context, LogDrink(drinkAmount), setValue)
                                 setValue(floatAmount)
                                 setShowDialog(false)
@@ -116,7 +108,7 @@ fun SelectDrinkDialog(
                             Text(text = "100ml", fontSize = 24.sp)
                         }
                     }
-                    Spacer(modifier = Modifier.height(10.dp))
+                    Spacer(modifier = Modifier.height(30.dp))
                     // 150 ml button
                     Box(modifier = Modifier.padding(40.dp, 15.dp, 40.dp, 0.dp)) {
                         Button(
@@ -135,7 +127,7 @@ fun SelectDrinkDialog(
                             Text(text = "150ml", fontSize = 24.sp)
                         }
                     }
-                    Spacer(modifier = Modifier.height(10.dp))
+                    Spacer(modifier = Modifier.height(30.dp))
                     // 200ml button
                     Box(modifier = Modifier.padding(40.dp, 15.dp, 40.dp, 0.dp)) {
                         Button(

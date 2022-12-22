@@ -38,7 +38,7 @@ class LogDrinkViewModel : ViewModel() {
             val authToken = AppSession.getAuthToken()
 
             val retrofitInstance = UsersAuthApi.getUsersAuthApiInstance()
-            retrofitInstance.postNewDrink(authToken, logdrink).enqueue(
+            retrofitInstance.postNewDrink("Bearer ${authToken}", logdrink).enqueue(
                 object : Callback<LogDrinkResponse> {
 
                     override fun onFailure(call: Call<LogDrinkResponse>, t: Throwable) {
