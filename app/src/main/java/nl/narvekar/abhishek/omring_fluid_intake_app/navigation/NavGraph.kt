@@ -53,7 +53,7 @@ fun AppNavigation(
         }
 
         composable(Routes.Home.route) {
-            DashBoardScreen(navController, logDrinkViewModel, loginViewModel)
+            DashBoardScreen(navController, logDrinkViewModel, loginViewModel, patientViewModel)
         }
 
         composable(Routes.Recipes.route) {

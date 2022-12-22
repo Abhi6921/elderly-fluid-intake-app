@@ -29,14 +29,15 @@ import nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.dashboard.comp
 import nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.dashboard.components.SelectDrinkDialog
 import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.LogDrinkViewModel
 import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.LoginViewModel
-
+import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.PatientViewModel
 
 
 @Composable
 fun DashBoardScreen(
     navController: NavController,
     logDrinkViewModel: LogDrinkViewModel,
-    loginViewModel: LoginViewModel
+    loginViewModel: LoginViewModel,
+    patientViewModel: PatientViewModel
 ) {
     val showDialog = remember { mutableStateOf(false) }
     var inputProp = 0.0f
@@ -47,6 +48,7 @@ fun DashBoardScreen(
     if (showDialog.value) {
         SelectDrinkDialog(
             logDrinkViewModel,
+            patientViewModel,
             setShowDialog = {
             showDialog.value = it
         }) {

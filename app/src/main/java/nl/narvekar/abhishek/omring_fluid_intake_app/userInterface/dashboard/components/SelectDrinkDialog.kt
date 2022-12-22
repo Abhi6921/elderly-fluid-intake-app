@@ -25,15 +25,23 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import nl.narvekar.abhishek.omring_fluid_intake_app.utils.Constants.AUTH_TOKEN_KEY
 import nl.narvekar.abhishek.omring_fluid_intake_app.data.LogDrink
+import nl.narvekar.abhishek.omring_fluid_intake_app.utils.AppSession
 import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.LogDrinkViewModel
+import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.PatientViewModel
 
 
 @Composable
 fun SelectDrinkDialog(
     logDrinkViewModel: LogDrinkViewModel,
+    patientViewModel: PatientViewModel,
     setShowDialog: (Boolean) -> Unit,
     setValue: (Float) -> Unit,
 ) {
+    val phoneNumber = AppSession.getPhoneNumber()
+    val patient = patientViewModel.patientListResponse.find { patient ->
+        patient.phoneNumber == phoneNumber
+    }
+
     val context = LocalContext.current
     Dialog(
         onDismissRequest = { /*setShowDialog(false)*/ },
@@ -93,8 +101,8 @@ fun SelectDrinkDialog(
 
                                 val drinkAmount = 100
                                 val dailyLimit = 3000
-                                val floatAmount = drinkAmount.toFloat() / dailyLimit.toFloat()
-                                //logDrinkViewModel.postANewDrink(context, LogDrink(drinkAmount), sharedPreferences, setValue)
+                                val floatAmount = drinkAmount.toFloat() / patient?.dailyLimit?.toFloatOrNull()!!
+                                logDrinkViewModel.postANewDrink(context, LogDrink(drinkAmount), setValue)
                                 setValue(floatAmount)
                                 setShowDialog(false)
 

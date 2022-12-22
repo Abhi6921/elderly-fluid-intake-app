@@ -99,9 +99,9 @@ fun DrinkRecords(navController: NavController, cardListViewModel: CardListViewMo
                     ) {
                         val image = painterResource(id = R.drawable.message_box)
                         Image(painter = image, contentDescription = null)
-                        if (patientViewModel.patientListResponse.isNotEmpty()) {
+                        if (patientViewModel.patientListResponse.isEmpty()) {
                             Text(
-                                text = "list is NOT empty",
+                                text = "list is empty",
                                 //text = "A cup a day keeps the doctor away",
                                 textAlign = TextAlign.Center, fontSize = 29.sp,
                                 color = Color.White
@@ -109,7 +109,7 @@ fun DrinkRecords(navController: NavController, cardListViewModel: CardListViewMo
                         }
                         else {
                             Text(
-                                text = "list is empty",
+                                text = "list is NOT empty",
                                 //text = "A cup a day keeps the doctor away",
                                 textAlign = TextAlign.Center, fontSize = 29.sp,
                                 color = Color.White

@@ -18,13 +18,13 @@ interface UsersAuthApi {
     @POST("api/v1/patients")
     fun registerUser(@Body user: UserRequest) : Call<UserResponse>
 
-//    @Headers("Content-Type:application/json")
-    @Headers("Accept: application/json")
+    @Headers("Content-Type:application/json")
+    //@Headers("Accept: application/json")
     @POST("api/v1/patients/logdrink")
-    suspend fun postNewDrink(@Header("Bearer") authToken: String, @Body drinkAmount: LogDrink) : Call<LogDrinkResponse>
+    suspend fun postNewDrink(@Header("Authorization") authToken: String, @Body drinkAmount: LogDrink) : Call<LogDrinkResponse>
 
     @GET("api/v1/patients")
-    suspend fun getAllPatients(@Header("Authorization:") authToken: String) : ArrayList<PatientResponse>
+    suspend fun getAllPatients(@Header("Authorization") authToken: String) : ArrayList<PatientResponse>
 
     companion object {
         var apiUserService: UsersAuthApi? = null
