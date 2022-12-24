@@ -1,5 +1,6 @@
 package nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.dashboard
 
+import android.annotation.SuppressLint
 import android.content.SharedPreferences
 import android.util.Log
 import androidx.compose.foundation.*
@@ -19,19 +20,20 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import nl.narvekar.abhishek.omring_fluid_intake_app.utils.Constants.AUTH_TOKEN_KEY
-import nl.narvekar.abhishek.omring_fluid_intake_app.utils.Constants.PATIENT_ID
 import nl.narvekar.abhishek.omring_fluid_intake_app.R
 import nl.narvekar.abhishek.omring_fluid_intake_app.data.UserResponse
 import nl.narvekar.abhishek.omring_fluid_intake_app.navigation.AppBottomNav
 import nl.narvekar.abhishek.omring_fluid_intake_app.navigation.Routes
 import nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.dashboard.components.CircularProgressBar
 import nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.dashboard.components.SelectDrinkDialog
+import nl.narvekar.abhishek.omring_fluid_intake_app.utils.AppSession
 import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.LogDrinkViewModel
 import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.LoginViewModel
 import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.PatientViewModel
+import kotlin.math.log
 
 
+@SuppressLint("SuspiciousIndentation")
 @Composable
 fun DashBoardScreen(
     navController: NavController,
@@ -39,23 +41,41 @@ fun DashBoardScreen(
     loginViewModel: LoginViewModel,
     patientViewModel: PatientViewModel
 ) {
+    // setCircularProgress(getDrinkAmountFromAPI())
+
     val showDialog = remember { mutableStateOf(false) }
-    var inputProp = 0.0f
-    val inputValue = remember { mutableStateOf(inputProp) }
+    val phoneNumber = AppSession.getPhoneNumber()
+
+    val patient = patientViewModel.patientListResponse.find { patient ->
+        patient.phoneNumber == phoneNumber
+    }
     val context = LocalContext.current
+    val logDrinkResponse = patientViewModel.getCurrentFluidIntakeStatus(patient?.id.toString())
 
+    
+    val inputNumber = (logDrinkResponse.Achieved?.toFloat()
+        ?.div(logDrinkResponse.DailyLimit?.toFloat()!!))?.times( 100)
+    val newInputNumber = inputNumber?.toFloat()
+    //val inputNumber = (logDrinkResponse.Achieved!! / logDrinkResponse.DailyLimit!!) * 100
+    Log.d("inputnumber", "$inputNumber")
+    Log.d("ACHIEVED", "${logDrinkResponse.Achieved?.toFloat()}")
+    Log.d("DAILYLIMIT", "${logDrinkResponse.DailyLimit?.toFloat()}")
+    val inputValue = remember { mutableStateOf(0.0f) }
+    // todo 2. set drinkAmount to spinner
+    // setCircularProgress()
 
+    Log.d("Patient Id", "${patient?.id}")
     if (showDialog.value) {
         SelectDrinkDialog(
             logDrinkViewModel,
             patientViewModel,
             setShowDialog = {
-            showDialog.value = it
+                showDialog.value = it
         }) {
-            inputValue.value += it
+            inputValue.value = inputValue.value?.plus(it)
         }
     }
-
+    //val todayintake = AppSession.getTodayIntake()
     Scaffold(
         topBar = {
             FluidTopAppBar("Dashboard")
@@ -68,21 +88,25 @@ fun DashBoardScreen(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.SpaceBetween
             ) {
-
-                Text(text = "Today's goal: 800ml", textAlign = TextAlign.Center, fontSize = 35.sp)
+                Text(text = "Welcome ${patient?.firstName} ${patient?.lastName}", textAlign = TextAlign.Center, fontSize = 35.sp)
+                Spacer(modifier = Modifier.height(20.dp))
+                Text(text = "Today's goal: ${patient?.dailyLimit} ml", textAlign = TextAlign.Center, fontSize = 35.sp)
+                //Text(text = "Achieved: ${logDrinkResponse.Achieved.toString()}", textAlign = TextAlign.Center, fontSize = 35.sp)
                 Spacer(modifier = Modifier.height(60.dp))
                 Box(modifier = Modifier
                     .fillMaxWidth()
                     .fillMaxHeight()) {
-
-                    DashBoardSpinnerAndQuote(inputValue.value.toFloat(), logDrinkViewModel)
+                    if (patient != null) {
+                         DashBoardSpinnerAndQuote(inputValue.value, patient.dailyLimit.toInt())
+                        Log.d("INPUTVALUE", "${inputValue.value}")
+                    }
                     Row(
                         horizontalArrangement = Arrangement.Center,
                         verticalAlignment = Alignment.CenterVertically,
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(vertical = 300.dp, horizontal = 100.dp)
-                            //.safeContentPadding()
+
                     ) {
                         // Fluid Intake Button
                         Column(
@@ -105,6 +129,7 @@ fun DashBoardScreen(
                             Text(text = "Fluid Intake", fontSize = 35.sp)
                         }
                         Spacer(modifier = Modifier.width(34.dp))
+                        // Recipe button
                         Column(
                             modifier = Modifier
                                 .border(BorderStroke(5.dp, Color(0xFF1B7D71)))
@@ -137,11 +162,13 @@ fun DashBoardScreen(
 
 }
 
-@Composable
-fun DashBoardSpinnerAndQuote(drinkAmount: Float, logDrinkViewModel: LogDrinkViewModel) {
+//fun setCircularProgress() {
+//    var drinkAmountFromApi = getDrinkAmountFromAPI()
+//    DashBoardSpinnerAndQuote(drinkAmountFromApi.achieved.toFloat(), drinkAmountFromApi.dailyLimit.toInt())
+//}
 
-    //val authToken = sharedPreferences.getString(AUTH_TOKEN_KEY, "").toString()
-    //val patient: UserResponse = logDrinkViewModel.getPatientById(authToken, PATIENT_ID)
+@Composable
+fun DashBoardSpinnerAndQuote(drinkAmount: Float, dailyLimit: Int) {
 
     Row(
         modifier = Modifier
@@ -154,15 +181,9 @@ fun DashBoardSpinnerAndQuote(drinkAmount: Float, logDrinkViewModel: LogDrinkView
             modifier = Modifier
                 .size(200.dp)
                 .padding(10.dp)
-                ) {
-//                if (patient.dailyLimit != null) {
-//                    // TODO: 2. fetch today's intake from shared preference = drinkAmount
-//                    CircularProgressBar(percentage = drinkAmount, number = patient.dailyLimit)
-//                }
-//                else {
-                    CircularProgressBar(drinkAmount, 100)
-                //}
-
+                )
+        {
+            CircularProgressBar(drinkAmount, dailyLimit)
         }
         Box(modifier = Modifier
             .size(200.dp)
@@ -207,6 +228,7 @@ fun LogoutButton(
         Spacer(modifier = Modifier.height(850.dp))
         Button(
             onClick = {
+                //todo 3. clear the value of drinkAmoutnt from shared preferences (set to 0)
                 loginViewModel.logout(navController)
             },
             modifier = Modifier

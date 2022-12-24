@@ -6,6 +6,7 @@ import nl.narvekar.abhishek.omring_fluid_intake_app.R
 import nl.narvekar.abhishek.omring_fluid_intake_app.utils.Constants.AUTH_TOKEN_KEY
 import nl.narvekar.abhishek.omring_fluid_intake_app.utils.Constants.IS_LOGGED_IN
 import nl.narvekar.abhishek.omring_fluid_intake_app.utils.Constants.PASSWORD
+import nl.narvekar.abhishek.omring_fluid_intake_app.utils.Constants.TODAY_INTAKE
 import nl.narvekar.abhishek.omring_fluid_intake_app.utils.Constants.USERNAME
 
 object AppSession {
@@ -27,6 +28,22 @@ object AppSession {
 
     fun getPhoneNumber() : String {
         return sharedPreferences.getString(USERNAME, "") ?: ""
+    }
+
+    fun saveTodaysIntake(drinkAmount: Float) {
+        return sharedPreferences.edit().apply {
+            putFloat(TODAY_INTAKE, drinkAmount)
+        }.apply()
+    }
+
+    fun getTodayIntake() : Float {
+        return sharedPreferences.getFloat(TODAY_INTAKE, 0.0f)
+    }
+
+    fun removeTodayIntake() {
+        sharedPreferences.edit().apply {
+            putFloat(TODAY_INTAKE, 0.0f)
+        }.apply()
     }
 
     fun saveUserData(username: String, password: String, authToken: String) {

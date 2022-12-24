@@ -6,10 +6,11 @@ data class LogDrinkResponse(
     @SerializedName("dailyGoal")
     val DailyGoal: Int? = null,
     @SerializedName("achieved")
-    val achieved : Int? = null,
+    val Achieved : Int? = null,
     @SerializedName("dailyLimit")
-    val dailyLimit : Int? = null,
+    val DailyLimit : Int? = null,
     @SerializedName("drankNow")
-    var drankNow: Int? = null,
-    @SerializedName("amountLeftToLimit" ) var amountLeftToLimit : Int? = null
+    val DrankNow: Int? = null,
+    @SerializedName("amountLeftToLimit")
+    val AmountLeftToLimit : Int? = null
 )

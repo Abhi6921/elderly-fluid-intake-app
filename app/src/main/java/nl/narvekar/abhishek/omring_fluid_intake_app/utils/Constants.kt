@@ -6,5 +6,6 @@ object Constants {
     const val USERNAME = "username"
     const val PASSWORD = "password"
     const val IS_LOGGED_IN = "isloggedin"
-    const val PATIENT_ID = "e50d7a12-e5e4-4cd9-8e8f-2a688b9a9d1a"
+    const val TODAY_INTAKE = "TodayIntake"
+
 }

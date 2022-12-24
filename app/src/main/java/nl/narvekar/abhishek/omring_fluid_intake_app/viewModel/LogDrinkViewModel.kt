@@ -24,19 +24,14 @@ import retrofit2.Response
 
 class LogDrinkViewModel : ViewModel() {
 
-    val drankNow = mutableStateOf("")
-    val dailyLimit = mutableStateOf("")
-    val amountLeftToLimit = mutableStateOf("")
-
 
     fun postANewDrink(
         context: Context,
-        logdrink: LogDrink,
-        setValue: (Float) -> Unit
+        logdrink: Int
     ) {
         viewModelScope.launch(Dispatchers.IO) {
             val authToken = AppSession.getAuthToken()
-
+            Log.d("USERauthToken", authToken)
             val retrofitInstance = UsersAuthApi.getUsersAuthApiInstance()
             retrofitInstance.postNewDrink("Bearer ${authToken}", logdrink).enqueue(
                 object : Callback<LogDrinkResponse> {
@@ -48,28 +43,18 @@ class LogDrinkViewModel : ViewModel() {
                         call: Call<LogDrinkResponse>,
                         response: Response<LogDrinkResponse>
                     ) {
-                        Toast.makeText(context, response.code().toString(), Toast.LENGTH_LONG).show()
+                        val intakeNow = response.body()?.DrankNow
+                        if (intakeNow != null) {
+                            saveTodaysIntake(intakeNow.toFloat())
+                        }
+                        Toast.makeText(context, "Drink logged in succesfully!", Toast.LENGTH_LONG).show()
                     }
                 }
             )
         }
     }
 
-    var patientResponse: UserResponse by mutableStateOf(UserResponse())
-    var errorMessage: String by mutableStateOf("")
-
-//    fun getPatientById(authToken: String, id: String) : UserResponse {
-//        viewModelScope.launch(Dispatchers.Default) {
-//            val apiSerivce = UsersAuthApi.getUsersAuthApiInstance()
-//
-//            try {
-//                val patient = apiSerivce.getPatientById(authToken, id)
-//                patientResponse = patient
-//            } catch (e: Exception) {
-//                errorMessage = e.message.toString()
-//                Log.d(TAG, errorMessage.toString())
-//            }
-//        }
-//        return patientResponse
-//    }
+    fun saveTodaysIntake(drinkAmount: Float) {
+        AppSession.saveTodaysIntake(drinkAmount)
+    }
 }

@@ -157,6 +157,7 @@ fun LoginUI(loginViewModel: LoginViewModel, navController: NavController) {
         Spacer(modifier = Modifier.height(35.dp))
         Button(
             onClick = {
+                // todo 0. create new key in shared preferences by the name of drink amount
                 loginViewModel.loginUser(context, Login(phonenumber, password), navController)
             },
             colors = ButtonDefaults.buttonColors(backgroundColor = Color(0xFF1B7D71)),
