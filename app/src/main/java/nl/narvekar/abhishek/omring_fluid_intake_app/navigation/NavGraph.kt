@@ -57,7 +57,7 @@ fun AppNavigation(
         }
 
         composable(Routes.Recipes.route) {
-            RecipeList(recipes = recipeViewModel.recipeListResponse, navController)
+            RecipeList(recipes = recipeViewModel.recipeListResponse, navController, patientViewModel)
         }
 
         composable(

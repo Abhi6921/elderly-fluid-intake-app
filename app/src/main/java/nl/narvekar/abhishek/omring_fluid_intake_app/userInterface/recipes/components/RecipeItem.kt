@@ -21,13 +21,19 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import nl.narvekar.abhishek.omring_fluid_intake_app.R
 import nl.narvekar.abhishek.omring_fluid_intake_app.data.Recipe
+import nl.narvekar.abhishek.omring_fluid_intake_app.utils.AppSession
+import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.PatientViewModel
 
 
 @Composable
 fun RecipeItem(
     recipe: Recipe,
+    patientViewModel: PatientViewModel,
     onClickAction: (Recipe) -> Unit
 ) {
+    val phoneNumber = AppSession.getPhoneNumber()
+    val patient = patientViewModel.getPatientByPhoneNumber(phoneNumber)
+
     Card(
         modifier = Modifier
             // The space between each card and the other
@@ -43,8 +49,9 @@ fun RecipeItem(
         ) {
 
             AsyncImage(
-                model = R.drawable.recipe_img,
-                contentDescription = "recipe images",
+                //model = R.drawable.recipe_img,
+                model = recipe.imageLink,
+                contentDescription = "recipe image",
                 modifier = Modifier
                     .width(350.dp).height(350.dp)
                     .padding(8.dp),
@@ -64,7 +71,9 @@ fun RecipeItem(
 
                 Spacer(modifier = Modifier.height(12.dp))
                 Row {
-                    FavoritesButton()
+                    if (patient!= null) {
+                        FavoritesButton(patient.id, recipe.recipeId, patientViewModel)
+                    }
                     Spacer(modifier = Modifier.width(38.dp))
                     Button(
                         onClick = {
@@ -83,15 +92,17 @@ fun RecipeItem(
 }
 
 @Composable
-fun FavoritesButton() {
-
+fun FavoritesButton(patientId: String, recipeId: String, patientViewModel: PatientViewModel) {
+    // recipe id
+    // viewmodel
+    // patientid
     var isFavorite by remember { mutableStateOf(false) }
     IconButton(
         onClick = {
             isFavorite = !isFavorite
 
             if (isFavorite) {
-                // call the likeRecipe from the api to add to liked list
+                patientViewModel.likeRecipeByPatient(patientId, recipeId)
             }
             else {
                 // call the remove likeRecipe call from api from liked list

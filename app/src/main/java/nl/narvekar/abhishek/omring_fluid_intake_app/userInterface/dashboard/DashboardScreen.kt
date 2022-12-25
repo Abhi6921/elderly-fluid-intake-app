@@ -21,6 +21,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import nl.narvekar.abhishek.omring_fluid_intake_app.R
+import nl.narvekar.abhishek.omring_fluid_intake_app.data.PatientResponse
 import nl.narvekar.abhishek.omring_fluid_intake_app.data.UserResponse
 import nl.narvekar.abhishek.omring_fluid_intake_app.navigation.AppBottomNav
 import nl.narvekar.abhishek.omring_fluid_intake_app.navigation.Routes
@@ -46,10 +47,11 @@ fun DashBoardScreen(
     val showDialog = remember { mutableStateOf(false) }
     val phoneNumber = AppSession.getPhoneNumber()
 
-    val patient = patientViewModel.patientListResponse.find { patient ->
-        patient.phoneNumber == phoneNumber
-    }
-    val context = LocalContext.current
+//    val patient = patientViewModel.patientListResponse.find { patient ->
+//        patient.phoneNumber == phoneNumber
+//    }
+    val patient = patientViewModel.getPatientByPhoneNumber(phoneNumber)
+
     val logDrinkResponse = patientViewModel.getCurrentFluidIntakeStatus(patient?.id.toString())
 
     
@@ -270,4 +272,6 @@ fun FluidTopAppBar(dashboardTitle: String) {
         }
     }
 }
+
+
 

@@ -31,6 +31,13 @@ interface UsersAuthApi {
     @GET("api/v1/patients/drinks/today/{id}")
     suspend fun getCurrentFluidStatus(@Header("Authorization") authToken: String, @Path("id") patientId: String) : LogDrinkResponse
 
+    // endpoint under construction from back-end side
+    @POST("api/v1/patients/{patientId}/likeRecipe")
+    suspend fun likeRecipeByPatient(@Header("Authorization") authToken: String, @Path("patientId") patientId: String, @Body recipeId: String) : Response<PatientResponse>
+
+    @GET("api/v1/patients/drinks/{patientId}")
+    fun getPatientDrinkLogs(@Header("Authorization") authToken: String, @Path("patientId") patientId: String) : List<DrinkRecordResponse>
+
     companion object {
         var apiUserService: UsersAuthApi? = null
         fun getUsersAuthApiInstance() : UsersAuthApi {

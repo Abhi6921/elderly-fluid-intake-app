@@ -100,7 +100,7 @@ fun RecipeDetailView(
                     Spacer(modifier = Modifier.height(30.dp))
                     Text(text = "Steps", fontSize = 34.sp)
                     Spacer(modifier = Modifier.height(30.dp))
-                    Text(text = recipe.instructions, fontSize = 34.sp)
+                    Text(text = recipe.instructions, fontSize = 24.sp)
                 }
             }
 
