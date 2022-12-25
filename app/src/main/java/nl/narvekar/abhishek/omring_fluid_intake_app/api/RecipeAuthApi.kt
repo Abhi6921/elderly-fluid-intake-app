@@ -4,11 +4,15 @@ import nl.narvekar.abhishek.omring_fluid_intake_app.data.Recipe
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
+import retrofit2.http.Path
 
 interface RecipeAuthApi {
 
     @GET("api/v1/recipes")
     suspend fun getAllRecipes() : List<Recipe>
+
+    @GET("api/v1/recipes/{id}")
+    suspend fun getRecipeById(@Path("id") recipeId: String) : Recipe
 
     companion object {
         var apiService: RecipeAuthApi? = null

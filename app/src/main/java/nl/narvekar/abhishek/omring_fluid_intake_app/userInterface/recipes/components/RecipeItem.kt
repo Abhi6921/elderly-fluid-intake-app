@@ -60,7 +60,7 @@ fun RecipeItem(
             )
             Column(Modifier.padding(8.dp)) {
                 Text(
-                    text = recipe.name,
+                    text = recipe?.name.toString(),
                     style = MaterialTheme.typography.h6,
                     modifier = Modifier
                         .padding(bottom = 8.dp)
@@ -72,7 +72,7 @@ fun RecipeItem(
                 Spacer(modifier = Modifier.height(12.dp))
                 Row {
                     if (patient!= null) {
-                        FavoritesButton(patient.id, recipe.recipeId, patientViewModel)
+                        FavoritesButton(patient.id, recipe.recipeId.toString(), patientViewModel)
                     }
                     Spacer(modifier = Modifier.width(38.dp))
                     Button(

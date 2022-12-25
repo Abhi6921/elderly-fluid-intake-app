@@ -26,6 +26,7 @@ import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import nl.narvekar.abhishek.omring_fluid_intake_app.R
 import nl.narvekar.abhishek.omring_fluid_intake_app.data.Recipe
+import nl.narvekar.abhishek.omring_fluid_intake_app.data.tips
 import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.RecipeViewModel
 import kotlin.math.log
 
@@ -41,10 +42,11 @@ fun RecipeDetailView(
 //    val recipe = recipeViewModel.recipeListResponse.find { recipe ->
 //        detailId == recipe.recipeId
 //    }
-    val recipe = recipeViewModel.recipeListResponse.find { recipe ->
-        detailId == recipe.recipeId
-    }
+//    val recipe = recipeViewModel.recipeListResponse.find { recipe ->
+//        detailId == recipe.recipeId
+//    }
 
+    val recipe = recipeViewModel.getRecipeById(detailId)
     Scaffold(
         topBar = {
             TopAppBar(
@@ -57,13 +59,11 @@ fun RecipeDetailView(
                         modifier = Modifier.fillMaxWidth(),
                         textAlign = TextAlign.Center,
                         maxLines = 1,
-                        text = recipe?.name ?: "",
+                        text = recipe.name ?: "",
                         color = Color.White,
                         fontSize = 34.sp
                     )
-                    if (recipe!= null) {
-                        Text(text = recipe.name)
-                    }
+
                 },
                 backgroundColor =  Color(0xFF1BAEEE),
                 navigationIcon = {
@@ -90,17 +90,20 @@ fun RecipeDetailView(
                         contentScale = ContentScale.Crop,
                         placeholder = painterResource(R.drawable.placeholder)
                     )
-                    Text(text = recipe.name, fontSize = 44.sp)
+                    Text(text = recipe.name.toString(), fontSize = 44.sp)
                     Spacer(modifier = Modifier.height(30.dp))
                     Text(text = "Ingredients:", fontSize = 34.sp)
                     Spacer(modifier = Modifier.height(30.dp))
-                    for((key, value) in recipe.ingredients) {
+
+
+                    for((key, value) in recipe.ingredients ?: tips) {
                         Text(text = "$key: $value", fontSize = 24.sp)
                     }
+
                     Spacer(modifier = Modifier.height(30.dp))
                     Text(text = "Steps", fontSize = 34.sp)
                     Spacer(modifier = Modifier.height(30.dp))
-                    Text(text = recipe.instructions, fontSize = 24.sp)
+                    recipe.instructions?.let { it1 -> Text(text = it1, fontSize = 24.sp) }
                 }
             }
 

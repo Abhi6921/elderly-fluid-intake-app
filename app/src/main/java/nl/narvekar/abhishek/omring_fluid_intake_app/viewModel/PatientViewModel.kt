@@ -25,8 +25,9 @@ class PatientViewModel : ViewModel() {
     fun getAllPatients() {
         viewModelScope.launch(Dispatchers.IO) {
             val usersAuthApi = UsersAuthApi.getUsersAuthApiInstance()
+            // admin token
             val authToken = "eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOlsiQURNSU4iLCJDQVJFX0dJVkVSIl0sImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWUiOiIrMzE2NDU4MjYwMDAiLCJuYmYiOjE2NzE2NTgyNTEsImV4cCI6MTcwMzE5NDI1MSwiaWF0IjoxNjcxNjU4MjUxLCJpc3MiOiJEcmlua0FwcFJlY2lwZXMuYXp1cmV3ZWJzaXRlcy5uZXQiLCJhdWQiOiJEcmlua0FwcFVzZXJzIC8gUGF0aWVudHMgLyBDYXJlZ2l2ZXJzIC8gQWRtaW5zIn0.sgh_qAXL9GyQ_GLiXjPOBxZBQlaSaC91Cxc8iobF9XM"
-            val userAuthToken = AppSession.getAuthToken()
+
             Log.d("userAuthToken", authToken)
             try {
                 val patientList = usersAuthApi.getAllPatients("Bearer ${authToken}")
@@ -56,6 +57,31 @@ class PatientViewModel : ViewModel() {
             }
         }
         return logDrinkResponse
+    }
+
+    var errorMessageForLikeRecipe: String by mutableStateOf("")
+    fun likeRecipeByPatient(patientId: String, recipeId: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val usersAuthApi = UsersAuthApi.getUsersAuthApiInstance()
+            val authToken = AppSession.getAuthToken()
+            try {
+                val response = usersAuthApi.likeRecipeByPatient("Bearer ${authToken}", patientId, recipeId)
+                if (response.isSuccessful) {
+                    Log.d("LikeOnSuccess", "recipe liked successfully ${response.code().toString()}")
+                }
+                else {
+                    Log.d("LikeOnFailure", "error! could not like the recipe ${response.code().toString()}")
+                }
+            }catch (ex: Exception) {
+                errorMessageForLikeRecipe = ex.message.toString()
+            }
+        }
+    }
+
+    fun getPatientByPhoneNumber(phoneNumber: String) : PatientResponse? {
+        return patientListResponse.find { patientResponse ->
+            patientResponse.phoneNumber == phoneNumber
+        }
     }
 
 }
