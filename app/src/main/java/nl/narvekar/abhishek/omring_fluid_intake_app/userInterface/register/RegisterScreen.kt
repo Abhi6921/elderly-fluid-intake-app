@@ -38,11 +38,11 @@ import kotlin.math.log
 
 @Composable
 fun RegisterScreen(registerViewModel: RegisterViewModel, navController: NavController) {
-    val showDialog = registerViewModel.showSuccessMessage
+    var showDialog = registerViewModel.showSuccessMessage
 
-    if (showDialog.value) {
+    if (showDialog) {
         RegisterConfirmDialog(setShowDialog = {
-            showDialog.value = it
+            showDialog = it
         }, navController)
     }
     val context = LocalContext.current
@@ -319,22 +319,6 @@ fun RegisterScreen(registerViewModel: RegisterViewModel, navController: NavContr
 
                     registerViewModel.registerUser(
                         context,
-//                                UserRequest(
-//                                     "Aram4",
-//                                         "Jones2",
-//                             "aram4.jones@gmail.com",
-//                             "+312323179754",
-//                             "Aram12345!",
-//                             true,
-//                             1000,
-//                             null,
-//                            null,
-//                                    UserRole("PATIENT"),
-//                             1000,
-//                             "1965-04-04T00:00:00",
-//                             "10000000-0000-0000-0000-000000000001"
-//                          )
-
                         UserRequest(
                             firstName,
                             lastName,
@@ -351,8 +335,6 @@ fun RegisterScreen(registerViewModel: RegisterViewModel, navController: NavContr
                             "00000000-0000-0000-0000-000000000000"
                         )
                     )
-
-                    //showDialog.value = true
                 }
             },
             colors = ButtonDefaults.buttonColors(backgroundColor = Color(0xFF1B7D71)),
