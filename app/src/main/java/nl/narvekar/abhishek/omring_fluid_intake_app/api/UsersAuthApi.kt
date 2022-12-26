@@ -35,8 +35,11 @@ interface UsersAuthApi {
     @POST("api/v1/patients/{patientId}/likeRecipe")
     suspend fun likeRecipeByPatient(@Header("Authorization") authToken: String, @Path("patientId") patientId: String, @Body recipeId: String) : Response<PatientResponse>
 
-//    @GET("api/v1/patients/drinks/{patientId}")
-//    fun getPatientDrinkLogs(@Header("Authorization") authToken: String, @Path("patientId") patientId: String) : List<DrinkDate>
+    @GET("api/v1/patients/drinks/{patientId}")
+    suspend fun getPatientDrinkLogs(@Header("Authorization") authToken: String, @Path("patientId") patientId: String) : Response<List<DrinkLogResponse>>
+
+    @GET("api/v1/patients/recipes/{id}")
+    fun fetchAllLikedRecipes(@Header("Authorization") authToken: String, @Path("id") patientId: String) : List<Recipe>
 
     companion object {
         var apiUserService: UsersAuthApi? = null

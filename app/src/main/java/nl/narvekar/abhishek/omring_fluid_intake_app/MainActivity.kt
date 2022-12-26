@@ -63,9 +63,18 @@ class MainActivity : ComponentActivity() {
                    )
                     recipeViewModel.getRecipeList()
                     patientViewModel.getAllPatients()
+                    expandableListViewModel.getAllDrinkDates(patientViewModel)
+                    recipeViewModel.getAllLikedRecipes(patientViewModel)
+
                    Log.d("Patients", "${patientViewModel.patientListResponse.count()}")
 
                 }
+
+                // todo retrieve liked patients recipes
+                // todo fix the drink records expandable lists
+                // todo fix the navigation onselected color
+                // todo fix the register endpoint
+
             }
         }
     }

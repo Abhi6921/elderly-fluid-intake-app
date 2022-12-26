@@ -13,8 +13,10 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import nl.narvekar.abhishek.omring_fluid_intake_app.api.RecipeAuthApi
+import nl.narvekar.abhishek.omring_fluid_intake_app.api.UsersAuthApi
 import nl.narvekar.abhishek.omring_fluid_intake_app.data.DrinkDate
 import nl.narvekar.abhishek.omring_fluid_intake_app.data.Recipe
+import nl.narvekar.abhishek.omring_fluid_intake_app.utils.AppSession
 
 class RecipeViewModel : ViewModel() {
     var recipeListResponse: List<Recipe> by mutableStateOf(listOf())
@@ -43,6 +45,28 @@ class RecipeViewModel : ViewModel() {
             recipeResponse = recipe
         }
        return recipeResponse
+    }
+
+    var likedRecipeListResponse: List<Recipe> by mutableStateOf(listOf())
+    var likedRecipeErrorMessage by mutableStateOf("")
+
+    fun getAllLikedRecipes(patientViewModel: PatientViewModel) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val usersAuthApi = UsersAuthApi.getUsersAuthApiInstance()
+            try {
+                val authToken = AppSession.getAuthToken()
+                val phoneNumber = AppSession.getPhoneNumber()
+                val patient = patientViewModel.getPatientByPhoneNumber(phoneNumber)
+                val likedRecipes = usersAuthApi.fetchAllLikedRecipes("Bearer ${authToken}", patient?.id.toString())
+                likedRecipeListResponse = likedRecipes
+
+            } catch (ex: Exception) {
+                likedRecipeErrorMessage = ex.message.toString()
+            }
+
+
+
+        }
     }
 
 }
