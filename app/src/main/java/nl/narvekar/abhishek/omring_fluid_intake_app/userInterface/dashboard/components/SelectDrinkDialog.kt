@@ -37,7 +37,7 @@ fun SelectDrinkDialog(
     logDrinkViewModel: LogDrinkViewModel,
     patientViewModel: PatientViewModel,
     setShowDialog: (Boolean) -> Unit,
-    setValue: (Float) -> Unit,
+    setValue: (Float) -> Unit
 ) {
     val phoneNumber = AppSession.getPhoneNumber()
     val patient = patientViewModel.patientListResponse.find { patient ->
@@ -91,6 +91,7 @@ fun SelectDrinkDialog(
                                 logDrinkViewModel.postANewDrink(context, drinkAmount)
 
                                 setValue(floatAmount)
+
                                 //todo 4. updateDrinkAmount(floatAmount)
                                 setShowDialog(false)
                             },
@@ -112,8 +113,6 @@ fun SelectDrinkDialog(
                                   val dailyLimit = 3000
                                   val floatAmount = drinkAmount.toFloat() / patient?.dailyLimit?.toFloat()!!
                                   logDrinkViewModel.postANewDrink(context, drinkAmount)
-                                //todo 4. updateDrinkAmount(floatAmount)
-
                                   setValue(floatAmount)
                                   setShowDialog(false)
                             },
@@ -133,8 +132,7 @@ fun SelectDrinkDialog(
                                 val drinkAmount = 200
                                 val floatAmount = drinkAmount.toFloat() / patient?.dailyLimit?.toFloat()!!
                                 logDrinkViewModel.postANewDrink(context, drinkAmount)
-                                //todo 4. updateDrinkAmount(floatAmount)
-                                updateDrinkAmount(floatAmount)
+
                                 setValue(floatAmount)
                                 setShowDialog(false)
                             },
@@ -152,11 +150,4 @@ fun SelectDrinkDialog(
             }
         }
     }
-}
-
-fun updateDrinkAmount(floatAmount: Float) {
-    // todo 5. get drink amount from shared preferences
-    // total amount = floatAmount + drinkamount
-    // update drink amount in sharedpreferences to total amount
-    // set circular progress bar and pass total amount value
 }

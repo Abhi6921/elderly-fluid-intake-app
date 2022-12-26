@@ -42,40 +42,23 @@ fun DashBoardScreen(
     loginViewModel: LoginViewModel,
     patientViewModel: PatientViewModel
 ) {
-    // setCircularProgress(getDrinkAmountFromAPI())
-
     val showDialog = remember { mutableStateOf(false) }
     val phoneNumber = AppSession.getPhoneNumber()
 
-//    val patient = patientViewModel.patientListResponse.find { patient ->
-//        patient.phoneNumber == phoneNumber
-//    }
     val patient = patientViewModel.getPatientByPhoneNumber(phoneNumber)
 
-    val logDrinkResponse = patientViewModel.getCurrentFluidIntakeStatus(patient?.id.toString())
-
-    
-    val inputNumber = (logDrinkResponse.Achieved?.toFloat()
-        ?.div(logDrinkResponse.DailyLimit?.toFloat()!!))?.times( 100)
-    val newInputNumber = inputNumber?.toFloat()
-    //val inputNumber = (logDrinkResponse.Achieved!! / logDrinkResponse.DailyLimit!!) * 100
-    Log.d("inputnumber", "$inputNumber")
-    Log.d("ACHIEVED", "${logDrinkResponse.Achieved?.toFloat()}")
-    Log.d("DAILYLIMIT", "${logDrinkResponse.DailyLimit?.toFloat()}")
-    val inputValue = remember { mutableStateOf(0.0f) }
-    // todo 2. set drinkAmount to spinner
-    // setCircularProgress()
-
-    Log.d("Patient Id", "${patient?.id}")
     if (showDialog.value) {
+
         SelectDrinkDialog(
             logDrinkViewModel,
             patientViewModel,
             setShowDialog = {
                 showDialog.value = it
-        }) {
-            inputValue.value = inputValue.value?.plus(it)
-        }
+
+        }, setValue = { })
+    }
+    else {
+        SetCircularProgress(patientViewModel = patientViewModel)
     }
     //val todayintake = AppSession.getTodayIntake()
     Scaffold(
@@ -98,10 +81,11 @@ fun DashBoardScreen(
                 Box(modifier = Modifier
                     .fillMaxWidth()
                     .fillMaxHeight()) {
-                    if (patient != null) {
-                         DashBoardSpinnerAndQuote(inputValue.value, patient.dailyLimit.toInt())
-                        Log.d("INPUTVALUE", "${inputValue.value}")
-                    }
+                    //if (patient != null) {
+//                         DashBoardSpinnerAndQuote(inputValue.value, patient.dailyLimit.toInt())
+//                        Log.d("INPUTVALUE", "${inputValue.value}")
+                        SetCircularProgress(patientViewModel)
+                    //}
                     Row(
                         horizontalArrangement = Arrangement.Center,
                         verticalAlignment = Alignment.CenterVertically,
@@ -164,13 +148,23 @@ fun DashBoardScreen(
 
 }
 
-//fun setCircularProgress() {
-//    var drinkAmountFromApi = getDrinkAmountFromAPI()
-//    DashBoardSpinnerAndQuote(drinkAmountFromApi.achieved.toFloat(), drinkAmountFromApi.dailyLimit.toInt())
-//}
+@Composable
+fun SetCircularProgress(patientViewModel: PatientViewModel) {
+    val phoneNumber = AppSession.getPhoneNumber()
+    val patient = patientViewModel.getPatientByPhoneNumber(phoneNumber)
+
+    val logDrinkResponse = patientViewModel.getCurrentFluidIntakeStatus(patient?.id.toString())
+    logDrinkResponse.Achieved?.toFloat()
+        ?.let { logDrinkResponse.DailyLimit?.toInt()
+            ?.let { it1 -> DashBoardSpinnerAndQuote(it, it1) } }
+
+}
 
 @Composable
 fun DashBoardSpinnerAndQuote(drinkAmount: Float, dailyLimit: Int) {
+    Log.d("dashbord-drinkAmount ", drinkAmount.toString())
+    Log.d("dashbord-dailyLimit ", dailyLimit.toString())
+
 
     Row(
         modifier = Modifier

@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import nl.narvekar.abhishek.omring_fluid_intake_app.ui.theme.backgroundColorForCircle
+import kotlin.math.roundToInt
 
 
 @Composable
@@ -28,7 +29,7 @@ fun CircularProgressBar(
     number: Int,
     fontSize: TextUnit = 68.sp,
     radius: Dp = 100.dp,
-    color: Color = Color.Blue,
+    color: Color = Color.Red,
     strokeWidth: Dp = 20.dp,
     animDuration: Int = 1000,
     animDelay: Int = 0
@@ -52,22 +53,24 @@ fun CircularProgressBar(
         contentAlignment = Alignment.Center,
         modifier = Modifier.size(radius * 2f)
     ) {
+        val percentProgress = ((curPercentage.value / number) * 100).roundToInt()
         Canvas(modifier = Modifier.size(radius * 2f)) {
             val size: Dp = 180.dp
             drawCircle(
-                color = backgroundColorForCircle.copy(alpha = 0.3f),
+                color = Color.White,
                 radius = size.toPx() / 2,
                 style = Stroke(width = 30f, cap = StrokeCap.Round)
             )
             drawArc(
-                color = color,
+                color = Color.Blue,
                 -90f,
                 360 * curPercentage.value,
                 useCenter = false,
                 style = Stroke(strokeWidth.toPx(), cap = StrokeCap.Round)
             )
         }
-        Text(text = "${(curPercentage.value * number).toInt().toString()}%", color = Color.Black, fontSize = fontSize)
+
+        Text(text = "${percentProgress}%", color = Color.Black, fontSize = fontSize)
     }
 }
 

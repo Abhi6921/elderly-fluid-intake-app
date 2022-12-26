@@ -53,7 +53,10 @@ class CardListViewModel : ViewModel() {
                 Log.d("phonecardlist", phoneNumber)
                 val patient = patientViewModel.getPatientByPhoneNumber(phoneNumber)
                 Log.d("patient id at card list", patient?.id.toString())
+                val fromDate: String = "06/12/2022"
+                val toDate: String = "22/12/2022"
                 val drinkLogs = usersAuthApi.getPatientDrinkLogs("Bearer ${adminToken}", patient?.id.toString())
+
                 if (drinkLogs.isSuccessful) {
                     drinkDateResponse = drinkLogs.body()!!
                     Log.d("Success!", "Drink logs are NOT empty")
