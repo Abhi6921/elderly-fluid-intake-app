@@ -36,6 +36,7 @@ fun AppBottomNav(navController: NavController) {
                 Icon(
                     imageVector = if (homeSelected) Icons.Filled.Home else Icons.Default.Home,
                     contentDescription = "home icon",
+                    tint = if (homeSelected) Color.Black else Color.White,
                     modifier = Modifier.size(44.dp)
                 )
                 Spacer(modifier = Modifier.height(55.dp))
@@ -48,9 +49,7 @@ fun AppBottomNav(navController: NavController) {
                     }
                 }
             },
-            label = { Text(Routes.Home.route, fontSize = 23.sp) },
-            unselectedContentColor = Color.White,
-            selectedContentColor = Color.Black
+            label = { Text(Routes.Home.route, fontSize = 23.sp, color = if (homeSelected) Color.Black else Color.White) },
         )
 
         val favoriteSelected = currentRoute == Routes.Favorite.route
@@ -60,6 +59,7 @@ fun AppBottomNav(navController: NavController) {
                  Icon(
                      imageVector = if (favoriteSelected) Icons.Filled.Favorite else Icons.Default.FavoriteBorder,
                      contentDescription = "Favorite icon",
+                     tint = if (favoriteSelected) Color.Black else Color.White,
                      modifier = Modifier.size(44.dp)
                  )
                 Spacer(modifier = Modifier.height(56.dp))
@@ -70,9 +70,7 @@ fun AppBottomNav(navController: NavController) {
                     navController.navigate(Routes.Favorite.route)
                 }
             },
-            label = { Text(Routes.Favorite.route, fontSize = 23.sp)},
-            unselectedContentColor = Color.White,
-            selectedContentColor = Color.Black
+            label = { Text(Routes.Favorite.route, fontSize = 23.sp, color = if (favoriteSelected) Color.Black else Color.White)},
         )
 
         val recordsSelected = currentRoute == Routes.Drink.route
@@ -81,7 +79,8 @@ fun AppBottomNav(navController: NavController) {
                 Icon(
                     imageVector = Icons.Filled.LocalDrink,
                     contentDescription = "Local Drink",
-                    modifier = Modifier.size(44.dp)
+                    modifier = Modifier.size(44.dp),
+                    tint = if (recordsSelected) Color.Black else Color.White
                 )
                 Spacer(modifier = Modifier.height(56.dp))
             },
@@ -91,8 +90,7 @@ fun AppBottomNav(navController: NavController) {
                     navController.navigate(Routes.Drink.route)
                 }
             },
-            label = { Text(Routes.Drink.route, fontSize = 23.sp)},
-            unselectedContentColor = Color.White
+            label = { Text(Routes.Drink.route, fontSize = 23.sp, color = if (recordsSelected) Color.Black else Color.White)},
         )
         val shareIconSelected = currentRoute == Routes.Share.route
         BottomNavigationItem(
@@ -100,7 +98,8 @@ fun AppBottomNav(navController: NavController) {
                 Icon(
                     imageVector = Icons.Filled.Share,
                     contentDescription = "share icon",
-                    modifier = Modifier.size(44.dp)
+                    modifier = Modifier.size(44.dp),
+                    tint = if (shareIconSelected) Color.Black else Color.White
                 )
                 Spacer(modifier = Modifier.height(55.dp))
             },
@@ -114,8 +113,7 @@ fun AppBottomNav(navController: NavController) {
                     }
                 }
             },
-            label = { Text(Routes.Share.route, fontSize = 23.sp)},
-            unselectedContentColor = Color.White
+            label = { Text(Routes.Share.route, fontSize = 23.sp, color = if (shareIconSelected) Color.Black else Color.White)},
         )
 
     }
