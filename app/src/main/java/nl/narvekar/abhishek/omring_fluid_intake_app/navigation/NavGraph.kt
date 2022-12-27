@@ -72,7 +72,7 @@ fun AppNavigation(
         }
 
         composable(Routes.Favorite.route) {
-            RecipeFavorited(navController, recipeViewModel.likedRecipeListResponse, patientViewModel)
+            RecipeFavorited(navController, patientViewModel.likedRecipeListResponse, patientViewModel)
         }
         composable(Routes.Drink.route) {
             DrinkRecords(navController = navController, viewModel, patientViewModel)

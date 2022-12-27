@@ -25,10 +25,17 @@ import nl.narvekar.abhishek.omring_fluid_intake_app.navigation.AppBottomNav
 import nl.narvekar.abhishek.omring_fluid_intake_app.navigation.Routes
 import nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.recipes.components.FavoritesButton
 import nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.recipes.components.RecipeItem
+import nl.narvekar.abhishek.omring_fluid_intake_app.utils.AppSession
 import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.PatientViewModel
 
 @Composable
 fun RecipeFavorited(navController: NavController, recipes: List<Recipe>, patientViewModel: PatientViewModel) {
+
+    val phoneNumber = AppSession.getPhoneNumber()
+    val patient = patientViewModel.patientListResponse.find { patientResponse ->
+        patientResponse.phoneNumber == phoneNumber
+    }
+    patientViewModel.getAllLikedRecipes(patient?.id.toString())
 
     Scaffold(
         topBar = {

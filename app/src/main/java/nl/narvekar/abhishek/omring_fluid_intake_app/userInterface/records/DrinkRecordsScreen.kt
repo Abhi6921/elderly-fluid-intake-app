@@ -47,6 +47,7 @@ fun DrinkRecords(navController: NavController, cardListViewModel: CardListViewMo
     val patient = patientViewModel.patientListResponse.find { patient ->
         patient.phoneNumber == phoneNumber
     }
+    Log.d("patientIddrinkrecords", patient?.id.toString())
 
     val itemIds by cardListViewModel.itemIds.collectAsState()
     Scaffold(

@@ -1,7 +1,6 @@
 package nl.narvekar.abhishek.omring_fluid_intake_app.data
 
 data class PatientResponse (
-
     val id: String,
     val firstName: String,
     val lastName: String,
@@ -11,7 +10,7 @@ data class PatientResponse (
     val nurse: Nurse,
     val dailyLimit: String,
     val userRole: UserRole,
-    val recipes: Map<String, String>,
+    val recipes: List<Recipe>,
     val dailyGoal: String,
     val dateOfBirth: String
 )

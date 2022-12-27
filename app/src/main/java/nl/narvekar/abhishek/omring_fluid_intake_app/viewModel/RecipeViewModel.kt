@@ -46,27 +46,4 @@ class RecipeViewModel : ViewModel() {
         }
        return recipeResponse
     }
-
-    var likedRecipeListResponse: List<Recipe> by mutableStateOf(listOf())
-    var likedRecipeErrorMessage by mutableStateOf("")
-
-    fun getAllLikedRecipes(patientViewModel: PatientViewModel) {
-        viewModelScope.launch(Dispatchers.IO) {
-            val usersAuthApi = UsersAuthApi.getUsersAuthApiInstance()
-            try {
-                val authToken = AppSession.getAuthToken()
-                val phoneNumber = AppSession.getPhoneNumber()
-                val patient = patientViewModel.getPatientByPhoneNumber(phoneNumber)
-                val likedRecipes = usersAuthApi.fetchAllLikedRecipes("Bearer ${authToken}", patient?.id.toString())
-                likedRecipeListResponse = likedRecipes
-
-            } catch (ex: Exception) {
-                likedRecipeErrorMessage = ex.message.toString()
-            }
-
-
-
-        }
-    }
-
 }

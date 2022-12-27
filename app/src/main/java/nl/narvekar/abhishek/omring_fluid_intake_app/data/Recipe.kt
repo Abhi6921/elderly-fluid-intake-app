@@ -6,6 +6,7 @@ data class Recipe(
     val name: String? = null,
     val ingredients: Map<String, String>? = null,
     val instructions: String? = null,
+    val visible: Boolean? = true,
     val imageLink: String? = null
 )
 val tips = hashMapOf("Having a balanced diet is the key" to "Have nutritious foods like vegetables and fruits along with legumes, whole wheat, cereals etc."

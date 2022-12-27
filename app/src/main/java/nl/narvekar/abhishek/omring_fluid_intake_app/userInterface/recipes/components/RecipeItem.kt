@@ -1,5 +1,6 @@
 package nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.recipes.components
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -58,6 +59,7 @@ fun RecipeItem(
                 contentScale = ContentScale.Fit,
                 error = painterResource(R.drawable.placeholder),
             )
+            Log.d("recipeimage", "${recipe.imageLink}")
             Column(Modifier.padding(8.dp)) {
                 Text(
                     text = recipe?.name.toString(),
