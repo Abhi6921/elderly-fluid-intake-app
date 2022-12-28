@@ -1,8 +1,8 @@
 package nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.recipes.components
 
+import android.content.Context
 import android.util.Log
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -15,8 +15,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
@@ -34,6 +34,9 @@ fun RecipeItem(
 ) {
     val phoneNumber = AppSession.getPhoneNumber()
     val patient = patientViewModel.getPatientByPhoneNumber(phoneNumber)
+    val context = LocalContext.current
+    Log.d("patientidrecipeitem", patient?.id.toString())
+    Log.d("recipeId", recipe.recipeId.toString())
 
     Card(
         modifier = Modifier
@@ -54,7 +57,8 @@ fun RecipeItem(
                 model = recipe.imageLink,
                 contentDescription = "recipe image",
                 modifier = Modifier
-                    .width(350.dp).height(350.dp)
+                    .width(350.dp)
+                    .height(350.dp)
                     .padding(8.dp),
                 contentScale = ContentScale.Fit,
                 error = painterResource(R.drawable.placeholder),
@@ -62,7 +66,7 @@ fun RecipeItem(
             Log.d("recipeimage", "${recipe.imageLink}")
             Column(Modifier.padding(8.dp)) {
                 Text(
-                    text = recipe?.name.toString(),
+                    text = recipe.name.toString(),
                     style = MaterialTheme.typography.h6,
                     modifier = Modifier
                         .padding(bottom = 8.dp)
@@ -73,9 +77,9 @@ fun RecipeItem(
 
                 Spacer(modifier = Modifier.height(12.dp))
                 Row {
-                    if (patient!= null) {
-                        FavoritesButton(patient.id, recipe.recipeId.toString(), patientViewModel)
-                    }
+//                    if (patient!= null) {
+//                        FavoritesButton(patient.id, recipe.recipeId.toString(), patientViewModel, context)
+//                    }
                     Spacer(modifier = Modifier.width(38.dp))
                     Button(
                         onClick = {
@@ -83,7 +87,9 @@ fun RecipeItem(
                         },
                         shape = RoundedCornerShape(40),
                         colors = ButtonDefaults.buttonColors(backgroundColor = Color(0xFF1B7D71)),
-                        modifier = Modifier.width(200.dp).height(70.dp)
+                        modifier = Modifier
+                            .width(200.dp)
+                            .height(70.dp)
                     ) {
                         Text(text = "Instructions", color = Color.White, fontSize = 25.sp)
                     }
@@ -94,23 +100,24 @@ fun RecipeItem(
 }
 
 @Composable
-fun FavoritesButton(patientId: String, recipeId: String, patientViewModel: PatientViewModel) {
-    // recipe id
-    // viewmodel
-    // patientid
+fun FavoritesButton(patientId: String, recipeId: String, patientViewModel: PatientViewModel, context: Context) {
+    val strippedrecipeId = recipeId.replace("^\"|\"$", "")
+    Log.d("strippedrecipeId", strippedrecipeId)
     var isFavorite by remember { mutableStateOf(false) }
     IconButton(
         onClick = {
             isFavorite = !isFavorite
-
             if (isFavorite) {
-                patientViewModel.likeRecipeByPatient(patientId, recipeId)
+                patientViewModel.likeRecipeByPatient(patientId, strippedrecipeId, context)
             }
             else {
                 // call the remove likeRecipe call from api from liked list
             }
         },
-        Modifier.background(Color((0xFF1B7D71))).clip(RoundedCornerShape(44.dp)).size(75.dp),
+        Modifier
+            .background(Color((0xFF1B7D71)))
+            .clip(RoundedCornerShape(44.dp))
+            .size(75.dp),
 
         ) {
         Icon(

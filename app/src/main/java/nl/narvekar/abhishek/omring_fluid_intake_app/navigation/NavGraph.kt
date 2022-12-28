@@ -57,7 +57,7 @@ fun AppNavigation(
         }
 
         composable(Routes.Recipes.route) {
-            RecipeList(recipes = recipeViewModel.recipeListResponse, navController, patientViewModel)
+            RecipeList(recipes = recipeViewModel.recipeListResponse, navController, patientViewModel, recipeViewModel)
         }
 
         composable(
@@ -66,9 +66,13 @@ fun AppNavigation(
                 type = NavType.StringType
             })
         ) { navBackStackEntry ->
-            navBackStackEntry.arguments!!.getString(
-                recipeId)
-                ?.let { RecipeDetailView(recipeViewModel = recipeViewModel, detailId = it, navController) }
+
+            RecipeDetailView(
+                recipeViewModel = recipeViewModel,
+                detailId = navBackStackEntry.arguments!!.getString(recipeId.toString())!!,
+                patientViewModel = patientViewModel,
+                navController = navController
+            )
         }
 
         composable(Routes.Favorite.route) {

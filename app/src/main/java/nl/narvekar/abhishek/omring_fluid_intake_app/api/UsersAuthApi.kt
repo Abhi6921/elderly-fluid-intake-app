@@ -7,7 +7,6 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.Body
 import retrofit2.http.GET
-import retrofit2.http.HEAD
 import retrofit2.http.Header
 import retrofit2.http.Headers
 import retrofit2.http.POST
@@ -31,9 +30,9 @@ interface UsersAuthApi {
     @GET("api/v1/patients/drinks/today/{id}")
     suspend fun getCurrentFluidStatus(@Header("Authorization") authToken: String, @Path("id") patientId: String) : LogDrinkResponse
 
-    // endpoint under construction from back-end side
+    @Headers("Content-Type:application/json")
     @POST("api/v1/patients/{patientId}/likeRecipe")
-    suspend fun likeRecipeByPatient(@Header("Authorization") authToken: String, @Path("patientId") patientId: String, @Body recipeId: String) : Response<PatientResponse>
+    fun likeRecipeByPatient(@Header("Authorization") authToken: String, @Path("patientId") patientId: String, @Body recipeId: String) : Call<LikeRecipeResponse>
 
     @GET("api/v1/patients/drinks/{patientId}")
     suspend fun getPatientDrinkLogs(@Header("Authorization") authToken: String, @Path("patientId") patientId: String) : Response<List<DrinkLogResponse>>

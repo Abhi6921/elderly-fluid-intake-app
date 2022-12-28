@@ -11,6 +11,7 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import nl.narvekar.abhishek.omring_fluid_intake_app.api.UsersAuthApi
+import nl.narvekar.abhishek.omring_fluid_intake_app.data.LikeRecipeResponse
 import nl.narvekar.abhishek.omring_fluid_intake_app.data.LogDrinkResponse
 import nl.narvekar.abhishek.omring_fluid_intake_app.data.PatientResponse
 import nl.narvekar.abhishek.omring_fluid_intake_app.data.Recipe
@@ -77,21 +78,56 @@ class PatientViewModel : ViewModel() {
     }
 
     var errorMessageForLikeRecipe: String by mutableStateOf("")
-    fun likeRecipeByPatient(patientId: String, recipeId: String) {
+//    fun likeRecipeByPatient(patientId: String, recipeId: String, context: Context) {
+//        viewModelScope.launch(Dispatchers.IO) {
+//            val usersAuthApi = UsersAuthApi.getUsersAuthApiInstance()
+//            val authToken = AppSession.getAuthToken()
+//            try {
+//                val response = usersAuthApi.likeRecipeByPatient("Bearer ${authToken}", patientId, recipeId)
+//                if (response.isSuccessful) {
+//                    Log.d("LikeOnSuccess", "recipe liked successfully ${response.code().toString()}")
+//                    Toast.makeText(context, "recipe added to favorites!", Toast.LENGTH_SHORT).show()
+//                }
+//                else {
+//                    Log.d("LikeOnFailure", "error! could not like the recipe ${response.code().toString()} ${response.message().toString()} ${response.headers()}")
+//                    Toast.makeText(context, "error, in adding the recipe to favorites", Toast.LENGTH_SHORT).show()
+//                }
+//            }catch (ex: Exception) {
+//                errorMessageForLikeRecipe = ex.message.toString()
+//            }
+//        }
+//    }
+
+    fun likeRecipeByPatient(
+        patientId: String,
+        recipeId: String,
+        context: Context) {
+
         viewModelScope.launch(Dispatchers.IO) {
-            val usersAuthApi = UsersAuthApi.getUsersAuthApiInstance()
+            val retrofitInstance = UsersAuthApi.getUsersAuthApiInstance()
             val authToken = AppSession.getAuthToken()
-            try {
-                val response = usersAuthApi.likeRecipeByPatient("Bearer ${authToken}", patientId, recipeId)
-                if (response.isSuccessful) {
-                    Log.d("LikeOnSuccess", "recipe liked successfully ${response.code().toString()}")
+
+            retrofitInstance.likeRecipeByPatient("Bearer ${authToken}", patientId, recipeId).enqueue(object :
+                Callback<LikeRecipeResponse> {
+                    override fun onFailure(call: Call<LikeRecipeResponse>, t: Throwable) {
+                        Toast.makeText(context, "Something went wrong! ${t.message.toString()}", Toast.LENGTH_LONG).show()
+                    }
+
+                    override fun onResponse(
+                        call: Call<LikeRecipeResponse>,
+                        response: Response<LikeRecipeResponse>
+                    ) {
+                        if (response.isSuccessful || response.code() == 201) {
+                            Toast.makeText(context, "recipe added to favroites!", Toast.LENGTH_SHORT).show()
+                            Log.d("LikeOnSuccess", "recipe liked successfully ${response.code().toString()}")
+                        }
+                        else {
+                            Log.d("LikeOnFailure", "error! could not like the recipe ${response.code().toString()} ${response.message().toString()} ${response.headers()} ${response.errorBody().toString()} ${response.body()}")
+                            Toast.makeText(context, "error, in adding the recipe to favorites", Toast.LENGTH_SHORT).show()
+                        }
+                    }
                 }
-                else {
-                    Log.d("LikeOnFailure", "error! could not like the recipe ${response.code().toString()}")
-                }
-            }catch (ex: Exception) {
-                errorMessageForLikeRecipe = ex.message.toString()
-            }
+            )
         }
     }
 

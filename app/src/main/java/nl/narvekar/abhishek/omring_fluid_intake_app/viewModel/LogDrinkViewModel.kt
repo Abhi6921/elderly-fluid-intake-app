@@ -24,7 +24,6 @@ import retrofit2.Response
 
 class LogDrinkViewModel : ViewModel() {
 
-
     fun postANewDrink(
         context: Context,
         logdrink: Int

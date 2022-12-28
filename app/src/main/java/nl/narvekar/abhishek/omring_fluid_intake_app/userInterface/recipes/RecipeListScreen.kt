@@ -19,9 +19,11 @@ import nl.narvekar.abhishek.omring_fluid_intake_app.navigation.AppBottomNav
 import nl.narvekar.abhishek.omring_fluid_intake_app.navigation.Routes
 import nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.recipes.components.RecipeItem
 import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.PatientViewModel
+import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.RecipeViewModel
 
 @Composable
-fun RecipeList(recipes: List<Recipe>, navController: NavController, patientViewModel: PatientViewModel) {
+fun RecipeList(recipes: List<Recipe>, navController: NavController, patientViewModel: PatientViewModel, recipeViewModel: RecipeViewModel) {
+
     val context = LocalContext.current
     Scaffold(
         topBar = {

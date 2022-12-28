@@ -9,6 +9,11 @@ data class Recipe(
     val visible: Boolean? = true,
     val imageLink: String? = null
 )
+
+//data class LikeRecipeId(
+//    val recipeId: String? = null
+//)
+
 val tips = hashMapOf("Having a balanced diet is the key" to "Have nutritious foods like vegetables and fruits along with legumes, whole wheat, cereals etc."
     , "Fluids will help you manage" to "Drink sufficient water and fluids to maintain the retention of water in your body."
     , "Do not miss prenatal supplements" to "Doctors prescribe prenatal vitamin and mineral supplements for the normal growth and development."
