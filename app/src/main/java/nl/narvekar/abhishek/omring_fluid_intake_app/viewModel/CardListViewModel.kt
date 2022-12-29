@@ -25,37 +25,19 @@ class CardListViewModel : ViewModel() {
     val items1: StateFlow<List<DrinkDate>> get() = dateItemList
 
 
-    // call getData() method in constructors so whenever screen appears we load the data
-    //init {
-      //  getAllDrinkDates()
-        //getAllDrinkRecords()
-    //}
-
-//     getting all the demo data change with value from api
-//    private fun getAllDrinkRecords() {
-//        viewModelScope.launch {
-//            withContext(Dispatchers.Default) {
-//                itemsList.emit(AllDrinkRecords)
-//            }
-//        }
-//    }
 
     var drinkDateResponse: List<DrinkLogResponse> by mutableStateOf(listOf())
     var errorMessage: String by mutableStateOf("")
 
-     fun getAllDrinkDates(patientViewModel: PatientViewModel) {
+     fun getAllDrinkDates(patientId: String) {
         viewModelScope.launch(Dispatchers.IO) {
             val usersAuthApi = UsersAuthApi.getUsersAuthApiInstance()
             val adminToken = "eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOlsiQURNSU4iLCJDQVJFX0dJVkVSIl0sImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWUiOiIrMzE2NDU4MjYwMDAiLCJuYmYiOjE2NzE2NTgyNTEsImV4cCI6MTcwMzE5NDI1MSwiaWF0IjoxNjcxNjU4MjUxLCJpc3MiOiJEcmlua0FwcFJlY2lwZXMuYXp1cmV3ZWJzaXRlcy5uZXQiLCJhdWQiOiJEcmlua0FwcFVzZXJzIC8gUGF0aWVudHMgLyBDYXJlZ2l2ZXJzIC8gQWRtaW5zIn0.sgh_qAXL9GyQ_GLiXjPOBxZBQlaSaC91Cxc8iobF9XM"
 
             try {
-                val phoneNumber = AppSession.getPhoneNumber()
-                Log.d("phonecardlist", phoneNumber)
-                val patient = patientViewModel.getPatientByPhoneNumber(phoneNumber)
-                Log.d("patient id at card list", patient?.id.toString())
                 val fromDate: String = "06/12/2022"
-                val toDate: String = "22/12/2022"
-                val drinkLogs = usersAuthApi.getPatientDrinkLogs("Bearer ${adminToken}", patient?.id.toString())
+                val toDate: String = "29/12/2022"
+                val drinkLogs = usersAuthApi.getPatientDrinkLogs("Bearer ${adminToken}", patientId, fromDate, toDate, 0, 20)
 
                 if (drinkLogs.isSuccessful) {
                     drinkDateResponse = drinkLogs.body()!!

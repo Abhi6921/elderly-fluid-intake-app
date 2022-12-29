@@ -55,9 +55,9 @@ fun DashBoardScreen(
                 showDialog.value = it
         }, setValue = { })
     }
-    //else {
+    else {
         SetCircularProgress(patientViewModel = patientViewModel)
-    //}
+    }
 
     Scaffold(
         topBar = {
@@ -198,6 +198,7 @@ fun DashBoardSpinnerAndQuote(drinkAmount: Float, dailyLimit: Int) {
             .padding(0.dp)
         ) {
             val quoteOfTheDay = getRandomQuoteOfTheDay(MotivationalQuotes)
+
             val image = painterResource(id = R.drawable.message_box)
             Image(painter = image, contentDescription = null)
             Text(

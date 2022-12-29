@@ -64,13 +64,9 @@ class MainActivity : ComponentActivity() {
                     recipeViewModel.getRecipeList()
                     patientViewModel.getAllPatients()
                     //patientViewModel.getAllLikedRecipes(patientViewModel)
-                    expandableListViewModel.getAllDrinkDates(patientViewModel)
+                    //expandableListViewModel.getAllDrinkDates(patientViewModel)
 
                    Log.d("Recipes", "${patientViewModel.likedRecipeListResponse.count()}")
-
-                   // todo fetch all liked recipes of current user -> DONE
-                    // todo add recipe to favorites on favorite click ->
-                    // todo remove recipe from favorites view on unfavorite click
                 }
             }
         }

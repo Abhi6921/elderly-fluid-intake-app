@@ -25,6 +25,9 @@ import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.RecipeViewModel
 fun RecipeList(recipes: List<Recipe>, navController: NavController, patientViewModel: PatientViewModel, recipeViewModel: RecipeViewModel) {
 
     val context = LocalContext.current
+    // todo fetch all liked recipes of current user -> DONE
+    // todo add recipe to favorites on favorite click ->
+    // todo remove recipe from favorites view on unfavorite click
     Scaffold(
         topBar = {
             TopAppBar(

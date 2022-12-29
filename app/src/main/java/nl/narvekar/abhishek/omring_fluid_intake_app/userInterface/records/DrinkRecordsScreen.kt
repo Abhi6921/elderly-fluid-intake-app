@@ -48,7 +48,7 @@ fun DrinkRecords(navController: NavController, cardListViewModel: CardListViewMo
         patient.phoneNumber == phoneNumber
     }
     Log.d("patientIddrinkrecords", patient?.id.toString())
-
+    cardListViewModel.getAllDrinkDates(patient?.id.toString())
     val itemIds by cardListViewModel.itemIds.collectAsState()
     Scaffold(
         topBar = {
@@ -72,7 +72,7 @@ fun DrinkRecords(navController: NavController, cardListViewModel: CardListViewMo
                                 modifier = Modifier.fillMaxWidth(),
                                 textAlign = TextAlign.Center,
                                 maxLines = 1,
-                                text = patient?.firstName.toString(),
+                                text = "Drink Records",
                                 color = Color.White,
                                 fontSize = 34.sp
                             )
@@ -82,64 +82,20 @@ fun DrinkRecords(navController: NavController, cardListViewModel: CardListViewMo
             }
         },
         content = { padding ->
-            Column(
-                modifier = Modifier.fillMaxSize(),
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    CircularProgressBar(percentage = 0.0f, number = 100)
-                    Spacer(modifier = Modifier.width(40.dp))
-                    Image(
-                        painter = painterResource(R.drawable.rain_drop),
-                        contentDescription = "drop emoji",
-                        alignment = Alignment.Center,
-                        contentScale = ContentScale.Fit,
-                        modifier = Modifier.size(160.dp)
-                    )
-                    Spacer(modifier = Modifier.width(40.dp))
-                    Box(modifier = Modifier
-                        .size(250.dp)
-                        .padding(0.dp)
-                    ) {
-                        val image = painterResource(id = R.drawable.message_box)
-                        Image(painter = image, contentDescription = null)
-                        if(cardListViewModel.drinkDateResponse.isEmpty()) {
-                            Text(
-                                text = "List is empty",
-                                //text = "A cup a day keeps the doctor away",
-                                textAlign = TextAlign.Center, fontSize = 29.sp,
-                                color = Color.White
-                            )
-                        }
-                        else {
-                            Text(
-                                text = "LIST IS NOT EMPTY",
-                                //text = "A cup a day keeps the doctor away",
-                                textAlign = TextAlign.Center, fontSize = 29.sp,
-                                color = Color.White
-                            )
-                        }
-
-                    }
-                }
-                Column {
-                    Button(
-                        onClick = {
-                            // edit drink on this action
-                        },
-                        shape = RoundedCornerShape(30),
-                        colors = ButtonDefaults.buttonColors(backgroundColor = Color(0xFF1B7D71)),
-                        modifier = Modifier
-                            .width(200.dp)
-                            .height(60.dp)
-                            .align(Alignment.End)
-                    ) {
-                        Text(text = "Drink Fluid", color = Color.White, fontSize = 24.sp)
-                    }
-                }
-
-                LazyColumn(modifier = Modifier.padding(padding)) {
+//            Column(
+//                modifier = Modifier
+//                    .fillMaxSize()
+//                    .padding(padding),
+//                verticalArrangement = Arrangement.Center,
+//                horizontalAlignment = Alignment.CenterHorizontally
+//            ) {
+//                if (cardListViewModel.drinkDateResponse.isEmpty()) {
+//                    Text(text = "list is empty")
+//                }
+//                else {
+//                    Text(text = "list is not empty")
+//                }
+                LazyColumn {
                     itemsIndexed(cardListViewModel.drinkDateResponse) { index, item ->
                         ExpandableContainerView(
                             drinklogResponse = item,
@@ -148,7 +104,7 @@ fun DrinkRecords(navController: NavController, cardListViewModel: CardListViewMo
                         )
                     }
                 }
-            }
+            //}
 
         },
         bottomBar = {
@@ -159,13 +115,13 @@ fun DrinkRecords(navController: NavController, cardListViewModel: CardListViewMo
 
 
 @Composable
-fun HeaderView(questionText: String, onClickItem: () -> Unit) {
+fun HeaderView(questionText: String, drinkAmount: String, onClickItem: () -> Unit) {
     Box(
         modifier = Modifier
             .background(recordsTitleColor)
             .height(80.dp)
             .fillMaxWidth()
-            .border(BorderStroke(5.dp, Color.Blue))
+//            .border(BorderStroke(5.dp, Color.Blue))
             .clickable(
                 indication = null,
                 interactionSource = remember { MutableInteractionSource() },
@@ -191,8 +147,8 @@ fun HeaderView(questionText: String, onClickItem: () -> Unit) {
             }
             Spacer(modifier = Modifier.width(20.dp))
             Text(
-                text = "3.0 Litres",
-                fontSize = 21.sp,
+                text = drinkAmount,
+                fontSize = 23.sp,
                 color = Color.White,
                 modifier = Modifier.fillMaxWidth()
             )
@@ -288,8 +244,8 @@ fun ExpandableContainerView(
 ) {
     Box(modifier = Modifier.background(Color.Green)) {
         Column {
-//            val drinkDateTime = formatDateTimeForDrinkLogs(drinklogResponse.dateTime.toString())
-//            val time = formatTimeForDrinkLogs(drinklogResponse.dateTime.toString())
+            val drinkDateTime = formatDateTimeForDrinkLogs(drinklogResponse.dateTime.toString())
+            //val time = formatTimeForDrinkLogs(drinklogResponse.dateTime.toString())
 
             val records: List<DrinkRecord> = listOf(
                 DrinkRecord(drinklogResponse.dateTime.toString(), drinklogResponse.amount)
@@ -299,7 +255,7 @@ fun ExpandableContainerView(
 //            Log.d("time", time)
 
 
-            HeaderView(questionText = drinkDate.dateTime.toString(), onClickItem = onClickItem)
+            HeaderView(questionText = drinkDateTime, drinklogResponse.amount.toString(),onClickItem = onClickItem)
             drinkDate.drinkRecord?.forEach { logs ->
                 ExpandableView(time = logs.dateTime.toString(), drinkAmount = logs.amount.toString(), isExpanded = expanded)
             }
@@ -310,19 +266,19 @@ fun ExpandableContainerView(
     }
 }
 
-//@RequiresApi(Build.VERSION_CODES.O)
-//fun formatDateTimeForDrinkLogs(dateTime: String): String {
-//    val strippedDate = dateTime.dropLast(13)
-//    val date = LocalDateTime.parse(strippedDate)
-//    val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm", Locale.GERMANY)
-//    val zonedDateTime = formatter.format(date)
-//    return zonedDateTime
-//}
+@RequiresApi(Build.VERSION_CODES.O)
+fun formatDateTimeForDrinkLogs(dateTime: String): String {
+    val strippedDate = dateTime.dropLast(13)
+    val date = LocalDateTime.parse(strippedDate)
+    val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm", Locale.GERMANY)
+    val zonedDateTime = formatter.format(date)
+    return zonedDateTime
+}
 
 //@RequiresApi(Build.VERSION_CODES.O)
 //fun formatTimeForDrinkLogs(dateTime: String) : String {
 //
-//    val strippedDate = dateTime.dropLast(14)
+//    val strippedDate = dateTime.dropLast(13)
 //    val datetime = LocalDateTime.parse(strippedDate)
 //    val formatter = DateTimeFormatter.ofPattern("HH:mm:ss a", Locale.GERMANY)
 //    val zonedDateTime = formatter.format(datetime)

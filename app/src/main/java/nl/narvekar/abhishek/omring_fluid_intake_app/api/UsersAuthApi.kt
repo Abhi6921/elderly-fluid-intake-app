@@ -35,7 +35,14 @@ interface UsersAuthApi {
     fun likeRecipeByPatient(@Header("Authorization") authToken: String, @Path("patientId") patientId: String, @Body recipeId: String) : Call<LikeRecipeResponse>
 
     @GET("api/v1/patients/drinks/{patientId}")
-    suspend fun getPatientDrinkLogs(@Header("Authorization") authToken: String, @Path("patientId") patientId: String) : Response<List<DrinkLogResponse>>
+    suspend fun getPatientDrinkLogs(
+        @Header("Authorization") authToken: String,
+        @Path("patientId") patientId: String,
+        @Query("from") fromDate: String,
+        @Query("to") toDate: String,
+        @Query("offset") offset: Int,
+        @Query("limit") limit: Int
+    ) : Response<List<DrinkLogResponse>>
 
     @GET("api/v1/patients/recipes/{id}")
     suspend fun fetchAllLikedRecipes(@Header("Authorization") authToken: String, @Path("id") patientId: String) : List<Recipe>
