@@ -30,7 +30,8 @@ fun AppNavigation(
     registerViewModel: RegisterViewModel,
     recipeViewModel: RecipeViewModel,
     viewModel: CardListViewModel,
-    logDrinkViewModel: LogDrinkViewModel
+    logDrinkViewModel: LogDrinkViewModel,
+    patientViewModel: PatientViewModel
 ) {
     val navController = rememberNavController()
     val authToken = AppSession.getAuthToken()
@@ -52,11 +53,11 @@ fun AppNavigation(
         }
 
         composable(Routes.Home.route) {
-            DashBoardScreen(navController, logDrinkViewModel, loginViewModel)
+            DashBoardScreen(navController, logDrinkViewModel, loginViewModel, patientViewModel)
         }
 
         composable(Routes.Recipes.route) {
-            RecipeList(recipes = recipeViewModel.recipeListResponse, navController)
+            RecipeList(recipes = recipeViewModel.recipeListResponse, navController, patientViewModel, recipeViewModel)
         }
 
         composable(
@@ -65,20 +66,25 @@ fun AppNavigation(
                 type = NavType.StringType
             })
         ) { navBackStackEntry ->
-            navBackStackEntry.arguments!!.getString(
-                recipeId)
-                ?.let { RecipeDetailView(recipeViewModel = recipeViewModel, detailId = it, navController) }
+
+            RecipeDetailView(
+                recipeViewModel = recipeViewModel,
+                detailId = navBackStackEntry.arguments!!.getString(recipeId.toString())!!,
+                patientViewModel = patientViewModel,
+                navController = navController
+            )
         }
 
         composable(Routes.Favorite.route) {
-            RecipeFavorited(navController)
+            RecipeFavorited(navController, patientViewModel.likedRecipeListResponse, patientViewModel)
         }
         composable(Routes.Drink.route) {
-            DrinkRecords(navController = navController, viewModel)
+            DrinkRecords(navController = navController, viewModel, patientViewModel)
         }
 
         composable(Routes.Share.route) {
-            ShareScreen(navController)
+           ShareScreen(navController)
+            //FluidIntakeCircularProgressBar()
         }
     }
 }

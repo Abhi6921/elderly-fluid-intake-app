@@ -1,15 +1,9 @@
 package nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.recipes
 
-import android.widget.Toast
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Settings
-import androidx.compose.material.icons.filled.Share
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
@@ -24,10 +18,12 @@ import nl.narvekar.abhishek.omring_fluid_intake_app.data.Recipe
 import nl.narvekar.abhishek.omring_fluid_intake_app.navigation.AppBottomNav
 import nl.narvekar.abhishek.omring_fluid_intake_app.navigation.Routes
 import nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.recipes.components.RecipeItem
-
+import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.PatientViewModel
+import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.RecipeViewModel
 
 @Composable
-fun RecipeList(recipes: List<Recipe>, navController: NavController) {
+fun RecipeList(recipes: List<Recipe>, navController: NavController, patientViewModel: PatientViewModel, recipeViewModel: RecipeViewModel) {
+
     val context = LocalContext.current
     Scaffold(
         topBar = {
@@ -64,7 +60,7 @@ fun RecipeList(recipes: List<Recipe>, navController: NavController) {
             else {
                 LazyColumn(Modifier.padding(innerPadding)) {
                     items(recipes) { item ->
-                        RecipeItem(item) {
+                        RecipeItem(item, patientViewModel) {
                             navController.navigate(Routes.RecipeDetail.route + "/${it.recipeId}")
                         }
                     }

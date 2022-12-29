@@ -1,21 +1,22 @@
 package nl.narvekar.abhishek.omring_fluid_intake_app.viewModel
 
-import android.provider.ContactsContract
+import android.util.Log
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import nl.narvekar.abhishek.omring_fluid_intake_app.data.AllDrinkDates
+import nl.narvekar.abhishek.omring_fluid_intake_app.api.UsersAuthApi
+
 import nl.narvekar.abhishek.omring_fluid_intake_app.data.DrinkDate
-import nl.narvekar.abhishek.omring_fluid_intake_app.data.DrinkRecord
+import nl.narvekar.abhishek.omring_fluid_intake_app.data.DrinkLogResponse
+import nl.narvekar.abhishek.omring_fluid_intake_app.utils.AppSession
 
 class CardListViewModel : ViewModel() {
-
-    private val itemsList = MutableStateFlow(listOf<DrinkRecord>())
-    val items: StateFlow<List<DrinkRecord>> get() = itemsList
 
     private val itemIdsList = MutableStateFlow(listOf<Int>())
     val itemIds: StateFlow<List<Int>> get() = itemIdsList
@@ -25,12 +26,12 @@ class CardListViewModel : ViewModel() {
 
 
     // call getData() method in constructors so whenever screen appears we load the data
-    init {
-        getAllDrinkDates()
+    //init {
+      //  getAllDrinkDates()
         //getAllDrinkRecords()
-    }
+    //}
 
-//    // getting all the demo data change with value from api
+//     getting all the demo data change with value from api
 //    private fun getAllDrinkRecords() {
 //        viewModelScope.launch {
 //            withContext(Dispatchers.Default) {
@@ -39,10 +40,33 @@ class CardListViewModel : ViewModel() {
 //        }
 //    }
 
-    private fun getAllDrinkDates() {
-        viewModelScope.launch {
-            withContext(Dispatchers.Default) {
-                dateItemList.emit(AllDrinkDates)
+    var drinkDateResponse: List<DrinkLogResponse> by mutableStateOf(listOf())
+    var errorMessage: String by mutableStateOf("")
+
+     fun getAllDrinkDates(patientViewModel: PatientViewModel) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val usersAuthApi = UsersAuthApi.getUsersAuthApiInstance()
+            val adminToken = "eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOlsiQURNSU4iLCJDQVJFX0dJVkVSIl0sImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWUiOiIrMzE2NDU4MjYwMDAiLCJuYmYiOjE2NzE2NTgyNTEsImV4cCI6MTcwMzE5NDI1MSwiaWF0IjoxNjcxNjU4MjUxLCJpc3MiOiJEcmlua0FwcFJlY2lwZXMuYXp1cmV3ZWJzaXRlcy5uZXQiLCJhdWQiOiJEcmlua0FwcFVzZXJzIC8gUGF0aWVudHMgLyBDYXJlZ2l2ZXJzIC8gQWRtaW5zIn0.sgh_qAXL9GyQ_GLiXjPOBxZBQlaSaC91Cxc8iobF9XM"
+
+            try {
+                val phoneNumber = AppSession.getPhoneNumber()
+                Log.d("phonecardlist", phoneNumber)
+                val patient = patientViewModel.getPatientByPhoneNumber(phoneNumber)
+                Log.d("patient id at card list", patient?.id.toString())
+                val fromDate: String = "06/12/2022"
+                val toDate: String = "22/12/2022"
+                val drinkLogs = usersAuthApi.getPatientDrinkLogs("Bearer ${adminToken}", patient?.id.toString())
+
+                if (drinkLogs.isSuccessful) {
+                    drinkDateResponse = drinkLogs.body()!!
+                    Log.d("Success!", "Drink logs are NOT empty")
+                }
+                else {
+                    Log.d("Failure!", "Drink logs are empty")
+                }
+            }
+            catch (ex: Exception) {
+                errorMessage = ex.message.toString()
             }
         }
     }
