@@ -36,15 +36,6 @@ object AppSession {
         }.apply()
     }
 
-    fun getTodayIntake() : Float {
-        return sharedPreferences.getFloat(TODAY_INTAKE, 0.0f)
-    }
-
-    fun removeTodayIntake() {
-        sharedPreferences.edit().apply {
-            putFloat(TODAY_INTAKE, 0.0f)
-        }.apply()
-    }
 
     fun saveUserData(username: String, password: String, authToken: String) {
         sharedPreferences.edit().apply {

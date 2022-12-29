@@ -18,6 +18,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import nl.narvekar.abhishek.omring_fluid_intake_app.R
+import nl.narvekar.abhishek.omring_fluid_intake_app.data.MotivationalQuotes
 import nl.narvekar.abhishek.omring_fluid_intake_app.data.PatientResponse
 import nl.narvekar.abhishek.omring_fluid_intake_app.data.UserResponse
 import nl.narvekar.abhishek.omring_fluid_intake_app.navigation.AppBottomNav
@@ -29,6 +30,7 @@ import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.LogDrinkViewModel
 import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.LoginViewModel
 import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.PatientViewModel
 import kotlin.math.log
+import kotlin.random.Random
 
 
 @SuppressLint("SuspiciousIndentation")
@@ -39,6 +41,7 @@ fun DashBoardScreen(
     loginViewModel: LoginViewModel,
     patientViewModel: PatientViewModel
 ) {
+    SetCircularProgress(patientViewModel)
     val showDialog = remember { mutableStateOf(false) }
     val phoneNumber = AppSession.getPhoneNumber()
 
@@ -52,9 +55,9 @@ fun DashBoardScreen(
                 showDialog.value = it
         }, setValue = { })
     }
-    else {
+    //else {
         SetCircularProgress(patientViewModel = patientViewModel)
-    }
+    //}
 
     Scaffold(
         topBar = {
@@ -102,7 +105,9 @@ fun DashBoardScreen(
                             Image(
                                 painter = painterResource(R.drawable.water_intake),
                                 contentDescription = "water intake image",
-                                modifier = Modifier.width(200.dp).height(230.dp)
+                                modifier = Modifier
+                                    .width(200.dp)
+                                    .height(230.dp)
                             )
                             Spacer(modifier = Modifier.height(1.dp))
                             Text(text = "Fluid Intake", fontSize = 35.sp)
@@ -138,7 +143,6 @@ fun DashBoardScreen(
         }
     )
     LogoutButton(navController, loginViewModel)
-
 }
 
 @Composable
@@ -147,6 +151,10 @@ fun SetCircularProgress(patientViewModel: PatientViewModel) {
     val patient = patientViewModel.getPatientByPhoneNumber(phoneNumber)
 
     val logDrinkResponse = patientViewModel.getCurrentFluidIntakeStatus(patient?.id.toString())
+
+    if (logDrinkResponse.Achieved?.toFloat() == null || logDrinkResponse.DailyLimit?.toInt() == null) {
+        DashBoardSpinnerAndQuote(drinkAmount = 0.0f, dailyLimit = 100)
+    }
     logDrinkResponse.Achieved?.toFloat()
         ?.let { achieved -> logDrinkResponse.DailyLimit?.toInt()
             ?.let { dailyLimit -> DashBoardSpinnerAndQuote(achieved, dailyLimit) } }
@@ -157,7 +165,6 @@ fun SetCircularProgress(patientViewModel: PatientViewModel) {
 fun DashBoardSpinnerAndQuote(drinkAmount: Float, dailyLimit: Int) {
     Log.d("dashbord-drinkAmount ", drinkAmount.toString())
     Log.d("dashbord-dailyLimit ", dailyLimit.toString())
-
 
     Row(
         modifier = Modifier
@@ -172,9 +179,6 @@ fun DashBoardSpinnerAndQuote(drinkAmount: Float, dailyLimit: Int) {
                 .padding(10.dp)
         )
         {
-            if (drinkAmount.toFloat() == null) {
-                CircularProgressBar(0.0f, dailyLimit)
-            }
             CircularProgressBar(drinkAmount, dailyLimit)
         }
         Box(modifier = Modifier
@@ -193,10 +197,11 @@ fun DashBoardSpinnerAndQuote(drinkAmount: Float, dailyLimit: Int) {
             .size(250.dp)
             .padding(0.dp)
         ) {
+            val quoteOfTheDay = getRandomQuoteOfTheDay(MotivationalQuotes)
             val image = painterResource(id = R.drawable.message_box)
             Image(painter = image, contentDescription = null)
             Text(
-                text = "A cup a day keeps the doctor away",
+                text = quoteOfTheDay.toString(),
                 textAlign = TextAlign.Center, fontSize = 29.sp,
                 color = Color.White
             )
@@ -259,6 +264,12 @@ fun FluidTopAppBar(dashboardTitle: String) {
             }
         }
     }
+}
+
+fun getRandomQuoteOfTheDay(quotes: List<String>) : String {
+    val randomIndex = Random.nextInt(quotes.size)
+    val randomElement = quotes[randomIndex]
+    return randomElement
 }
 
 

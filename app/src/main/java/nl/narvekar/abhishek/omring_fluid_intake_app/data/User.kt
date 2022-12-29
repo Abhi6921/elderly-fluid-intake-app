@@ -17,3 +17,12 @@ data class Role(
     val role: String
 )
 
+val MotivationalQuotes = arrayListOf(
+    "drinking water at correct time helps in staying haydrated",
+    "drinking water is essential to healthy lifestyle",
+    "drinking water cleans your body from inside",
+    "if you are not hungry, drink glass of water",
+    "water provides the path to happiness",
+    "A cup a day keeps the doctor away"
+)
+
