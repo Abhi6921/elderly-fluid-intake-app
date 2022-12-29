@@ -220,7 +220,6 @@ fun LogoutButton(
         Spacer(modifier = Modifier.height(850.dp))
         Button(
             onClick = {
-                //todo 3. clear the value of drinkAmoutnt from shared preferences (set to 0)
                 loginViewModel.logout(navController)
             },
             modifier = Modifier
@@ -230,7 +229,6 @@ fun LogoutButton(
         ) {
             Text(text = "Logout", fontSize = 35.sp, color = Color.White)
         }
-
     }
 }
 

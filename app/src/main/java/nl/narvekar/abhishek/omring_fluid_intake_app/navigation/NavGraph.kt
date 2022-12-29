@@ -4,6 +4,7 @@ import android.content.SharedPreferences
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
+import androidx.navigation.NavController
 import androidx.navigation.NavType
 import androidx.navigation.compose.ComposeNavigator
 import androidx.navigation.compose.NavHost
@@ -13,6 +14,7 @@ import androidx.navigation.navArgument
 import nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.dashboard.DashBoardScreen
 import nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.favorites.RecipeFavorited
 import nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.login.LoginUI
+import nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.profile.UserProfilePage
 import nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.recipes.RecipeList
 import nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.recipes.components.RecipeDetailView
 import nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.records.DrinkRecords
@@ -85,6 +87,9 @@ fun AppNavigation(
         composable(Routes.Share.route) {
            ShareScreen(navController)
             //FluidIntakeCircularProgressBar()
+        }
+        composable(Routes.Profile.route) {
+            UserProfilePage(navController, loginViewModel, patientViewModel)
         }
     }
 }

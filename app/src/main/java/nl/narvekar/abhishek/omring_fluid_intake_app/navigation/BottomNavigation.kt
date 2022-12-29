@@ -53,7 +53,6 @@ fun AppBottomNav(navController: NavController) {
         )
 
         val favoriteSelected = currentRoute == Routes.Favorite.route
-
         BottomNavigationItem(
             icon = {
                  Icon(
@@ -114,6 +113,26 @@ fun AppBottomNav(navController: NavController) {
                 }
             },
             label = { Text(Routes.Share.route, fontSize = 23.sp, color = if (shareIconSelected) Color.Black else Color.White)},
+        )
+
+        val profileIconSlected = currentRoute == Routes.Profile.route
+        BottomNavigationItem(
+            icon = {
+                Icon(
+                    imageVector = Icons.Default.Person,
+                    contentDescription = "profile icon",
+                    modifier = Modifier.size(44.dp),
+                    tint = if (profileIconSlected) Color.Black else Color.White
+                )
+                Spacer(modifier = Modifier.height(55.dp))
+            },
+            selected = false,
+            onClick = {
+                if (!profileIconSlected) {
+                    navController.navigate(Routes.Profile.route)
+                }
+            },
+            label = { Text(Routes.Profile.route, fontSize = 23.sp, color = if (profileIconSlected) Color.Black else Color.White)}
         )
 
     }
