@@ -6,10 +6,7 @@ import android.util.Log
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -48,19 +45,17 @@ fun DashBoardScreen(
     val patient = patientViewModel.getPatientByPhoneNumber(phoneNumber)
 
     if (showDialog.value) {
-
         SelectDrinkDialog(
             logDrinkViewModel,
             patientViewModel,
             setShowDialog = {
                 showDialog.value = it
-
         }, setValue = { })
     }
     else {
         SetCircularProgress(patientViewModel = patientViewModel)
     }
-    //val todayintake = AppSession.getTodayIntake()
+
     Scaffold(
         topBar = {
             FluidTopAppBar("Dashboard")
@@ -76,22 +71,19 @@ fun DashBoardScreen(
                 Text(text = "Welcome ${patient?.firstName} ${patient?.lastName}", textAlign = TextAlign.Center, fontSize = 35.sp)
                 Spacer(modifier = Modifier.height(20.dp))
                 Text(text = "Today's goal: ${patient?.dailyLimit} ml", textAlign = TextAlign.Center, fontSize = 35.sp)
-                //Text(text = "Achieved: ${logDrinkResponse.Achieved.toString()}", textAlign = TextAlign.Center, fontSize = 35.sp)
+                val logDrinkResponse = patientViewModel.logDrinkResponse.Achieved.toString()
+                Text(text = "Achieved: $logDrinkResponse", textAlign = TextAlign.Center, fontSize = 35.sp)
                 Spacer(modifier = Modifier.height(60.dp))
                 Box(modifier = Modifier
                     .fillMaxWidth()
                     .fillMaxHeight()) {
-                    //if (patient != null) {
-//                         DashBoardSpinnerAndQuote(inputValue.value, patient.dailyLimit.toInt())
-//                        Log.d("INPUTVALUE", "${inputValue.value}")
                         SetCircularProgress(patientViewModel)
-                    //}
                     Row(
                         horizontalArrangement = Arrangement.Center,
                         verticalAlignment = Alignment.CenterVertically,
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(vertical = 300.dp, horizontal = 100.dp)
+                            .padding(vertical = 290.dp, horizontal = 100.dp)
 
                     ) {
                         // Fluid Intake Button
@@ -99,7 +91,7 @@ fun DashBoardScreen(
                             modifier = Modifier
                                 .border(BorderStroke(5.dp, Color(0xFF1B7D71)))
                                 .width(270.dp)
-                                .height(380.dp)
+                                .height(490.dp)
                                 .clickable {
                                     showDialog.value = true
                                 },
@@ -109,9 +101,10 @@ fun DashBoardScreen(
                             Spacer(modifier = Modifier.height(40.dp))
                             Image(
                                 painter = painterResource(R.drawable.water_intake),
-                                contentDescription = "water intake image"
+                                contentDescription = "water intake image",
+                                modifier = Modifier.width(200.dp).height(230.dp)
                             )
-                            Spacer(modifier = Modifier.height(2.dp))
+                            Spacer(modifier = Modifier.height(1.dp))
                             Text(text = "Fluid Intake", fontSize = 35.sp)
                         }
                         Spacer(modifier = Modifier.width(34.dp))
@@ -155,8 +148,8 @@ fun SetCircularProgress(patientViewModel: PatientViewModel) {
 
     val logDrinkResponse = patientViewModel.getCurrentFluidIntakeStatus(patient?.id.toString())
     logDrinkResponse.Achieved?.toFloat()
-        ?.let { logDrinkResponse.DailyLimit?.toInt()
-            ?.let { it1 -> DashBoardSpinnerAndQuote(it, it1) } }
+        ?.let { achieved -> logDrinkResponse.DailyLimit?.toInt()
+            ?.let { dailyLimit -> DashBoardSpinnerAndQuote(achieved, dailyLimit) } }
 
 }
 
@@ -177,8 +170,11 @@ fun DashBoardSpinnerAndQuote(drinkAmount: Float, dailyLimit: Int) {
             modifier = Modifier
                 .size(200.dp)
                 .padding(10.dp)
-                )
+        )
         {
+            if (drinkAmount.toFloat() == null) {
+                CircularProgressBar(0.0f, dailyLimit)
+            }
             CircularProgressBar(drinkAmount, dailyLimit)
         }
         Box(modifier = Modifier

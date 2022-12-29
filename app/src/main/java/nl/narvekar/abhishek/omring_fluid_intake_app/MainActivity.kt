@@ -82,11 +82,11 @@ fun Greeting(name: String) {
     Text(text = "Hello $name!")
 }
 
-@Preview(showBackground = true)
+@Preview(showBackground = true, widthDp = 900)
 @Composable
 fun DefaultPreview() {
     ElderlyfluidintakeappTheme {
-        Greeting("Android")
+        //FluidIntakeCircularProgressBar()
     }
 }
 

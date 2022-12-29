@@ -31,6 +31,8 @@ import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.LogDrinkViewModel
 import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.PatientViewModel
 
 
+// on button click show dialog
+//
 
 @Composable
 fun SelectDrinkDialog(
@@ -67,7 +69,6 @@ fun SelectDrinkDialog(
                             fontWeight = FontWeight.Bold,
                             textAlign = TextAlign.Center
                         ),
-                        textAlign = TextAlign.Center
                     )
                     Spacer(modifier = Modifier.width(10.dp))
                     Icon(imageVector = Icons.Filled.Cancel,
@@ -85,14 +86,10 @@ fun SelectDrinkDialog(
                     Box(modifier = Modifier.padding(40.dp, 150.dp, 40.dp, 0.dp)) {
                         Button(
                             onClick = {
-
                                 val drinkAmount = 100
                                 val floatAmount = (drinkAmount.toFloat() / patient?.dailyLimit?.toFloat()!!) / 100f
                                 logDrinkViewModel.postANewDrink(context, drinkAmount)
-
                                 setValue(floatAmount)
-
-                                //todo 4. updateDrinkAmount(floatAmount)
                                 setShowDialog(false)
                             },
                             shape = RoundedCornerShape(50.dp),
@@ -129,7 +126,7 @@ fun SelectDrinkDialog(
                     Box(modifier = Modifier.padding(40.dp, 15.dp, 40.dp, 0.dp)) {
                         Button(
                             onClick = {
-                                val drinkAmount = 200
+                                val drinkAmount = 20
                                 val floatAmount = drinkAmount.toFloat() / patient?.dailyLimit?.toFloat()!!
                                 logDrinkViewModel.postANewDrink(context, drinkAmount)
 

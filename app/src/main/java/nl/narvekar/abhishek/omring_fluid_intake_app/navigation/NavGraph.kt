@@ -83,7 +83,8 @@ fun AppNavigation(
         }
 
         composable(Routes.Share.route) {
-            ShareScreen(navController)
+           ShareScreen(navController)
+            //FluidIntakeCircularProgressBar()
         }
     }
 }
