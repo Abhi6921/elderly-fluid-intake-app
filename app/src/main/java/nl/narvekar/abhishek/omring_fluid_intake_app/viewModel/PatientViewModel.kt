@@ -1,20 +1,21 @@
 package nl.narvekar.abhishek.omring_fluid_intake_app.viewModel
 
+import android.content.ClipData.Item
 import android.content.Context
 import android.util.Log
 import android.widget.Toast
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import nl.narvekar.abhishek.omring_fluid_intake_app.api.UsersAuthApi
-import nl.narvekar.abhishek.omring_fluid_intake_app.data.LikeRecipeResponse
-import nl.narvekar.abhishek.omring_fluid_intake_app.data.LogDrinkResponse
-import nl.narvekar.abhishek.omring_fluid_intake_app.data.PatientResponse
-import nl.narvekar.abhishek.omring_fluid_intake_app.data.Recipe
+import nl.narvekar.abhishek.omring_fluid_intake_app.data.*
 import nl.narvekar.abhishek.omring_fluid_intake_app.utils.AppSession
 import retrofit2.Call
 import retrofit2.Callback
@@ -62,6 +63,9 @@ class PatientViewModel : ViewModel() {
     }
 
     var likedRecipeListResponse: List<Recipe> by mutableStateOf(listOf())
+    private val recipesList = MutableStateFlow(listOf<Recipe>())
+    val items: StateFlow<List<Recipe>> get() = recipesList
+
     var likedRecipeErrorMessage by mutableStateOf("")
 
     fun getAllLikedRecipes(patientId: String) {
@@ -70,6 +74,8 @@ class PatientViewModel : ViewModel() {
             try {
                 val authToken = AppSession.getAuthToken()
                 val likedRecipes = usersAuthApi.fetchAllLikedRecipes("Bearer ${authToken}", patientId)
+                //items.value = items.value?.addAll(likedRecipes) as MutableList<Recipe>
+                recipesList.value = likedRecipes
                 likedRecipeListResponse = likedRecipes
 
             } catch (ex: Exception) {
@@ -78,26 +84,6 @@ class PatientViewModel : ViewModel() {
         }
     }
 
-    var errorMessageForLikeRecipe: String by mutableStateOf("")
-//    fun likeRecipeByPatient(patientId: String, recipeId: String, context: Context) {
-//        viewModelScope.launch(Dispatchers.IO) {
-//            val usersAuthApi = UsersAuthApi.getUsersAuthApiInstance()
-//            val authToken = AppSession.getAuthToken()
-//            try {
-//                val response = usersAuthApi.likeRecipeByPatient("Bearer ${authToken}", patientId, recipeId)
-//                if (response.isSuccessful) {
-//                    Log.d("LikeOnSuccess", "recipe liked successfully ${response.code().toString()}")
-//                    Toast.makeText(context, "recipe added to favorites!", Toast.LENGTH_SHORT).show()
-//                }
-//                else {
-//                    Log.d("LikeOnFailure", "error! could not like the recipe ${response.code().toString()} ${response.message().toString()} ${response.headers()}")
-//                    Toast.makeText(context, "error, in adding the recipe to favorites", Toast.LENGTH_SHORT).show()
-//                }
-//            }catch (ex: Exception) {
-//                errorMessageForLikeRecipe = ex.message.toString()
-//            }
-//        }
-//    }
 
     fun likeRecipeByPatient(
         patientId: String,
@@ -108,7 +94,7 @@ class PatientViewModel : ViewModel() {
             val retrofitInstance = UsersAuthApi.getUsersAuthApiInstance()
             val authToken = AppSession.getAuthToken()
 
-            retrofitInstance.likeRecipeByPatient("Bearer ${authToken}", patientId, recipeId).enqueue(object :
+            retrofitInstance.likeRecipeByPatient("Bearer $authToken", patientId, recipeId).enqueue(object :
                 Callback<LikeRecipeResponse> {
                     override fun onFailure(call: Call<LikeRecipeResponse>, t: Throwable) {
                         Toast.makeText(context, "Something went wrong! ${t.message.toString()}", Toast.LENGTH_LONG).show()
@@ -118,13 +104,41 @@ class PatientViewModel : ViewModel() {
                         call: Call<LikeRecipeResponse>,
                         response: Response<LikeRecipeResponse>
                     ) {
-                        if (response.isSuccessful || response.code() == 201) {
+                        if (response.isSuccessful) {
                             Toast.makeText(context, "recipe added to favroites!", Toast.LENGTH_SHORT).show()
                             Log.d("LikeOnSuccess", "recipe liked successfully ${response.code().toString()}")
                         }
                         else {
                             Log.d("LikeOnFailure", "error! could not like the recipe ${response.code().toString()} ${response.message().toString()} ${response.headers()} ${response.errorBody().toString()} ${response.body()}")
                             Toast.makeText(context, "error, in adding the recipe to favorites", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                }
+            )
+        }
+    }
+
+    fun removeRecipeByPatient(patientId: String, recipeId: String, context: Context) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val retrofitInstance = UsersAuthApi.getUsersAuthApiInstance()
+            val authToken = AppSession.getAuthToken()
+
+            retrofitInstance.removeRecipeFromFavorites("Bearer ${authToken}", patientId, recipeId).enqueue(
+                object : Callback<LikeRecipeResponse> {
+                    override fun onFailure(call: Call<LikeRecipeResponse>, t: Throwable) {
+                        Toast.makeText(context, "Something went wrong! ${t.message.toString()}", Toast.LENGTH_LONG).show()
+                    }
+                    override fun onResponse(
+                        call: Call<LikeRecipeResponse>,
+                        response: Response<LikeRecipeResponse>
+                    ) {
+                        if (response.isSuccessful || response.code() == 201) {
+                            Toast.makeText(context, "recipe removed to favroites!", Toast.LENGTH_SHORT).show()
+                            Log.d("LikeOnSuccess", "recipe liked successfully ${response.code().toString()}")
+                        }
+                        else {
+                            Log.d("LikeOnFailure", "error! could not like the recipe ${response.code().toString()} ${response.message().toString()} ${response.headers()} ${response.errorBody().toString()} ${response.body()}")
+                            Toast.makeText(context, "error, in removing the recipe from favorites", Toast.LENGTH_SHORT).show()
                         }
                     }
                 }
