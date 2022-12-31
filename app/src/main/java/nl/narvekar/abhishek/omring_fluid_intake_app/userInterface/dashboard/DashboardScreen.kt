@@ -41,18 +41,18 @@ fun DashBoardScreen(
     loginViewModel: LoginViewModel,
     patientViewModel: PatientViewModel
 ) {
-    SetCircularProgress(patientViewModel)
-    val showDialog = remember { mutableStateOf(false) }
-    val phoneNumber = AppSession.getPhoneNumber()
+//    SetCircularProgress(patientViewModel)
+    val fluidIntakeDialog = remember { mutableStateOf(false) }
+    val firstName = AppSession.getFirstName()
+    val lastName = AppSession.getLastName()
+    val dailyLimit = AppSession.getDailyLimit()
 
-    val patient = patientViewModel.getPatientByPhoneNumber(phoneNumber)
-
-    if (showDialog.value) {
+    if (fluidIntakeDialog.value) {
         SelectDrinkDialog(
             logDrinkViewModel,
             patientViewModel,
             setShowDialog = {
-                showDialog.value = it
+                fluidIntakeDialog.value = it
         }, setValue = { })
     }
     else {
@@ -71,9 +71,9 @@ fun DashBoardScreen(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.SpaceBetween
             ) {
-                Text(text = "Welcome ${patient?.firstName} ${patient?.lastName}", textAlign = TextAlign.Center, fontSize = 35.sp)
+                Text(text = "Welcome ${firstName} ${lastName}", textAlign = TextAlign.Center, fontSize = 35.sp)
                 Spacer(modifier = Modifier.height(20.dp))
-                Text(text = "Today's goal: ${patient?.dailyLimit} ml", textAlign = TextAlign.Center, fontSize = 35.sp)
+                Text(text = "Today's goal: ${dailyLimit} ml", textAlign = TextAlign.Center, fontSize = 35.sp)
                 val logDrinkResponse = patientViewModel.logDrinkResponse.Achieved.toString()
                 Text(text = "Achieved: $logDrinkResponse", textAlign = TextAlign.Center, fontSize = 35.sp)
                 Spacer(modifier = Modifier.height(60.dp))
@@ -96,7 +96,7 @@ fun DashBoardScreen(
                                 .width(270.dp)
                                 .height(490.dp)
                                 .clickable {
-                                    showDialog.value = true
+                                    fluidIntakeDialog.value = true
                                 },
                             horizontalAlignment = Alignment.CenterHorizontally,
                             verticalArrangement = Arrangement.SpaceBetween
@@ -149,16 +149,15 @@ fun DashBoardScreen(
 fun SetCircularProgress(patientViewModel: PatientViewModel) {
     val phoneNumber = AppSession.getPhoneNumber()
     val patient = patientViewModel.getPatientByPhoneNumber(phoneNumber)
-
+    val dailyLimit = AppSession.getDailyLimit()
     val logDrinkResponse = patientViewModel.getCurrentFluidIntakeStatus(patient?.id.toString())
 
     if (logDrinkResponse.Achieved?.toFloat() == null || logDrinkResponse.DailyLimit?.toInt() == null) {
         DashBoardSpinnerAndQuote(drinkAmount = 0.0f, dailyLimit = 100)
     }
-    logDrinkResponse.Achieved?.toFloat()
-        ?.let { achieved -> logDrinkResponse.DailyLimit?.toInt()
-            ?.let { dailyLimit -> DashBoardSpinnerAndQuote(achieved, dailyLimit) } }
 
+    logDrinkResponse.Achieved?.toFloat()
+        ?.let { achieved -> DashBoardSpinnerAndQuote(drinkAmount = achieved, dailyLimit = dailyLimit) }
 }
 
 @Composable

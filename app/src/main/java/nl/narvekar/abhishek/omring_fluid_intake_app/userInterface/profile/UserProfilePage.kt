@@ -33,10 +33,13 @@ import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.PatientViewModel
 
 
 @Composable
-fun UserProfilePage(navController: NavController, loginViewModel: LoginViewModel, patientViewModel: PatientViewModel) {
+fun UserProfilePage(navController: NavController, patientViewModel: PatientViewModel) {
     val scrollState = rememberScrollState()
     val phoneNumber = AppSession.getPhoneNumber()
     val patient = patientViewModel.getPatientByPhoneNumber(phoneNumber)
+    val firstName = AppSession.getFirstName()
+    val lastName = AppSession.getLastName()
+    val dailyLimit = AppSession.getDailyLimit()
 
     Scaffold(
         topBar = {
@@ -69,7 +72,7 @@ fun UserProfilePage(navController: NavController, loginViewModel: LoginViewModel
             ) {
                 Text(text = "FirstName:", fontSize = 44.sp)
                 Spacer(modifier = Modifier.width(183.dp))
-                Text(text = "${patient?.firstName}", fontSize = 44.sp)
+                Text(text = firstName, fontSize = 44.sp)
             }
 
             Row(
@@ -78,7 +81,7 @@ fun UserProfilePage(navController: NavController, loginViewModel: LoginViewModel
             ) {
                 Text(text = "Lastname: ", fontSize = 44.sp)
                 Spacer(modifier = Modifier.width(183.dp))
-                Text(text = "${patient?.lastName}", fontSize = 44.sp)
+                Text(text = lastName, fontSize = 44.sp)
             }
 
             Row(
@@ -87,7 +90,7 @@ fun UserProfilePage(navController: NavController, loginViewModel: LoginViewModel
             ) {
                 Text(text = "PhoneNumber:", fontSize = 44.sp)
                 Spacer(modifier = Modifier.width(103.dp))
-                Text(text = "${patient?.phoneNumber}", fontSize = 44.sp)
+                Text(text = phoneNumber, fontSize = 44.sp)
             }
 
             Row(
@@ -96,7 +99,7 @@ fun UserProfilePage(navController: NavController, loginViewModel: LoginViewModel
             ) {
                 Text(text = "DailyLimit: ", fontSize = 44.sp)
                 Spacer(modifier = Modifier.width(183.dp))
-                Text(text = "${patient?.dailyLimit}ml", fontSize = 44.sp)
+                Text(text = "${dailyLimit}ml", fontSize = 44.sp)
             }
 
             Row(
@@ -106,27 +109,6 @@ fun UserProfilePage(navController: NavController, loginViewModel: LoginViewModel
                 Text(text = "DailyGoal: ", fontSize = 44.sp)
                 Spacer(modifier = Modifier.width(183.dp))
                 Text(text = "${patient?.dailyGoal}ml", fontSize = 44.sp)
-            }
-
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .fillMaxHeight(),
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Spacer(modifier = Modifier.height(880.dp))
-                Button(
-                    onClick = {
-                        loginViewModel.logout(navController)
-                    },
-                    modifier = Modifier
-                        .height(80.dp)
-                        .width(220.dp),
-                    colors = ButtonDefaults.buttonColors(backgroundColor = Color(0xFF1B7D71))
-                ) {
-                    Text(text = "Logout", fontSize = 35.sp, color = Color.White)
-                }
             }
         },
         bottomBar = {

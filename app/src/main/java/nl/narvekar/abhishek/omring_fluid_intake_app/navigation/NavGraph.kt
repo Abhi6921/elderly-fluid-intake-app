@@ -86,10 +86,9 @@ fun AppNavigation(
 
         composable(Routes.Share.route) {
            ShareScreen(navController)
-            //FluidIntakeCircularProgressBar()
         }
         composable(Routes.Profile.route) {
-            UserProfilePage(navController, loginViewModel, patientViewModel)
+            UserProfilePage(navController, patientViewModel)
         }
     }
 }

@@ -43,11 +43,7 @@ fun AppBottomNav(navController: NavController) {
             },
             selected = false,
             onClick = {
-                navController.navigate(Routes.Home.route) {
-                    popUpTo(Routes.Home.route) {
-                        inclusive = true
-                    }
-                }
+                navController.navigate(Routes.Home.route)
             },
             label = { Text(Routes.Home.route, fontSize = 23.sp, color = if (homeSelected) Color.Black else Color.White) },
         )

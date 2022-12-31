@@ -26,6 +26,7 @@ import androidx.compose.ui.window.Dialog
 import nl.narvekar.abhishek.omring_fluid_intake_app.utils.Constants.AUTH_TOKEN_KEY
 import nl.narvekar.abhishek.omring_fluid_intake_app.data.LogDrink
 import nl.narvekar.abhishek.omring_fluid_intake_app.data.LogDrinkResponse
+import nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.dashboard.SetCircularProgress
 import nl.narvekar.abhishek.omring_fluid_intake_app.utils.AppSession
 import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.LogDrinkViewModel
 import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.PatientViewModel
@@ -87,7 +88,7 @@ fun SelectDrinkDialog(
                         Button(
                             onClick = {
                                 val drinkAmount = 100
-                                val floatAmount = (drinkAmount.toFloat() / patient?.dailyLimit?.toFloat()!!) / 100f
+                                val floatAmount = (drinkAmount.toFloat() / patient?.dailyLimit?.toFloat()!!) * 100f
                                 logDrinkViewModel.postANewDrink(context, drinkAmount)
                                 setValue(floatAmount)
                                 setShowDialog(false)
@@ -107,7 +108,6 @@ fun SelectDrinkDialog(
                         Button(
                             onClick = {
                                   val drinkAmount = 150
-                                  val dailyLimit = 3000
                                   val floatAmount = drinkAmount.toFloat() / patient?.dailyLimit?.toFloat()!!
                                   logDrinkViewModel.postANewDrink(context, drinkAmount)
                                   setValue(floatAmount)
@@ -126,8 +126,8 @@ fun SelectDrinkDialog(
                     Box(modifier = Modifier.padding(40.dp, 15.dp, 40.dp, 0.dp)) {
                         Button(
                             onClick = {
-                                val drinkAmount = 20
-                                val floatAmount = drinkAmount.toFloat() / patient?.dailyLimit?.toFloat()!!
+                                val drinkAmount = 200
+                                val floatAmount = drinkAmount.toFloat() / patient?.dailyLimit?.toFloat()!! / 100f
                                 logDrinkViewModel.postANewDrink(context, drinkAmount)
 
                                 setValue(floatAmount)

@@ -35,11 +35,20 @@ class LoginViewModel : ViewModel() {
                 ) {
                     if (response.isSuccessful) {
                         val authToken = response.body()?.accessToken
+                        val patientId = response.body()?.id
+                        val firstname = response.body()?.firstName
+                        val lastname = response.body()?.lastName
+                        val dailyLimit = response.body()?.dailyLimit
                         if (authToken != null) {
-                            saveUserData(login.phoneNumber, login.password, authToken)
+                            saveUserData(
+                                login.phoneNumber,
+                                login.password,
+                                authToken,
+                                patientId.toString(), firstname.toString(),
+                                lastname.toString(), dailyLimit!!)
                         }
 
-                        Toast.makeText(context, authToken.toString(), Toast.LENGTH_LONG).show()
+                        Toast.makeText(context, "Login Successful", Toast.LENGTH_LONG).show()
 
                         navController.navigate(Routes.Home.route) {
                             popUpTo(Routes.Login.route) {
@@ -57,6 +66,7 @@ class LoginViewModel : ViewModel() {
 
     fun logout(navController: NavController) {
         AppSession.removeUserData()
+        AppSession.removeAchievedIntake()
         navController.navigate(Routes.Start.route) {
             popUpTo(Routes.Login.route) {
                 inclusive = true
@@ -64,7 +74,7 @@ class LoginViewModel : ViewModel() {
         }
     }
 
-    private fun saveUserData(username: String, password: String, authToken: String) {
-        AppSession.saveUserData(username, password, authToken)
+    private fun saveUserData(username: String, password: String, authToken: String, patientId: String, firstName: String, lastName: String, dailyLimit: Int) {
+        AppSession.saveUserData(username, password, authToken, patientId, firstName, lastName, dailyLimit)
     }
 }
