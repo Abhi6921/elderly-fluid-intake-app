@@ -35,6 +35,7 @@ import nl.narvekar.abhishek.omring_fluid_intake_app.R
 import nl.narvekar.abhishek.omring_fluid_intake_app.data.Login
 import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.LoginViewModel
 
+
 @Composable
 fun LoginUI(loginViewModel: LoginViewModel, navController: NavController) {
 
@@ -73,7 +74,7 @@ fun LoginUI(loginViewModel: LoginViewModel, navController: NavController) {
         var password by remember { mutableStateOf("") }
         var passwordVisible by remember { mutableStateOf(false) }
 
-        // Username field
+        // PhoneNumber field
         OutlinedTextField(
             modifier = Modifier
                 .height(81.dp)
@@ -81,13 +82,23 @@ fun LoginUI(loginViewModel: LoginViewModel, navController: NavController) {
             value = phonenumber,
             colors = TextFieldDefaults.textFieldColors(backgroundColor = MaterialTheme.colors.surface.copy(Color.White.alpha)),
             textStyle = TextStyle.Default.copy(fontSize = 28.sp),
-            leadingIcon = { Icon(
-                imageVector = Icons.Default.Person,
-                contentDescription = "personIcon",
-                Modifier
-                    .width(60.dp)
-                    .height(40.dp)
-            ) },
+            leadingIcon = {
+//                Icon(
+//                    imageVector = Icons.Default.Person,
+//                    contentDescription = "personIcon",
+//                    Modifier
+//                        .width(60.dp)
+//                        .height(40.dp)
+//                )
+//                Spacer(modifier = Modifier.width(10.dp))
+                Text(
+                    text = "+31",
+                    color = Color.Gray,
+                    fontSize = 25.sp,
+                    modifier = Modifier.padding(start = 14.dp, bottom = 10.dp),
+                    textAlign = TextAlign.Center
+                )
+            },
             keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
             onValueChange = {
                 phonenumber = it
@@ -95,36 +106,6 @@ fun LoginUI(loginViewModel: LoginViewModel, navController: NavController) {
             label = { Text(text = "PhoneNumber", fontSize = 20.sp) }
         )
         Spacer(modifier = Modifier.height(29.dp))
-//        OutlinedTextField(
-//            modifier = Modifier
-//                .height(81.dp)
-//                .width(400.dp),
-//            value = password.value,
-//            colors = TextFieldDefaults.textFieldColors(backgroundColor = MaterialTheme.colors.surface.copy(Color.White.alpha)),
-//            textStyle = TextStyle.Default.copy(fontSize = 28.sp),
-//            visualTransformation = if (passwordVisible.value) { VisualTransformation.None } else { PasswordVisualTransformation() },
-//            leadingIcon = { Icon(imageVector = Icons.Default.Lock, contentDescription = "lockIcon",
-//                Modifier
-//                    .width(60.dp)
-//                    .height(40.dp))
-//            },
-//            trailingIcon = {
-//                val image = if (passwordVisible.value) {
-//                    Icons.Default.Visibility
-//                }
-//                else {
-//                    Icons.Filled.VisibilityOff
-//                }
-//                val description = if(passwordVisible.value) "Hide Password" else "Show Password"
-//                IconButton(onClick = { passwordVisible.value =! passwordVisible.value }) {
-//                    Icon(imageVector = image, contentDescription = null)
-//                }
-//            },
-//            onValueChange = {
-//                password.value = it
-//            },
-//            label = { Text(text = "Password", fontSize = 20.sp, textAlign = TextAlign.Center) },
-//        )
         // Password field
         OutlinedTextField(
             modifier = Modifier
@@ -158,7 +139,7 @@ fun LoginUI(loginViewModel: LoginViewModel, navController: NavController) {
         Button(
             onClick = {
                 // todo 0. create new key in shared preferences by the name of drink amount
-                loginViewModel.loginUser(context, Login(phonenumber, password), navController)
+                loginViewModel.loginUser(context, Login("+31${phonenumber}", password), navController)
             },
             colors = ButtonDefaults.buttonColors(backgroundColor = Color(0xFF1B7D71)),
             modifier = Modifier

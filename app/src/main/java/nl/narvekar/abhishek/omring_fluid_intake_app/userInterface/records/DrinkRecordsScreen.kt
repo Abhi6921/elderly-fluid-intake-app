@@ -43,12 +43,10 @@ import java.util.*
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun DrinkRecords(navController: NavController, cardListViewModel: CardListViewModel, patientViewModel: PatientViewModel) {
-    val phoneNumber = AppSession.getPhoneNumber()
-    val patient = patientViewModel.patientListResponse.find { patient ->
-        patient.phoneNumber == phoneNumber
-    }
-    Log.d("patientIddrinkrecords", patient?.id.toString())
-    cardListViewModel.getAllDrinkDates(patient?.id.toString())
+
+    val patientId = AppSession.getPatientId()
+
+    cardListViewModel.getAllDrinkDates(patientId)
     val itemIds by cardListViewModel.itemIds.collectAsState()
     Scaffold(
         topBar = {
@@ -121,7 +119,7 @@ fun HeaderView(questionText: String, drinkAmount: String, onClickItem: () -> Uni
             .background(recordsTitleColor)
             .height(80.dp)
             .fillMaxWidth()
-//            .border(BorderStroke(5.dp, Color.Blue))
+            .border(BorderStroke(5.dp, Color.Blue))
             .clickable(
                 indication = null,
                 interactionSource = remember { MutableInteractionSource() },
@@ -155,7 +153,6 @@ fun HeaderView(questionText: String, drinkAmount: String, onClickItem: () -> Uni
         }
     }
 }
-
 
 @Composable
 fun ExpandableView(time: String, drinkAmount: String, isExpanded: Boolean) {

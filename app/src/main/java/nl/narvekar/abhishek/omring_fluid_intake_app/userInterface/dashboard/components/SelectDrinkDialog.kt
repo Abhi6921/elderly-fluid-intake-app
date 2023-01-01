@@ -23,30 +23,25 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
+import androidx.navigation.NavController
 import nl.narvekar.abhishek.omring_fluid_intake_app.utils.Constants.AUTH_TOKEN_KEY
 import nl.narvekar.abhishek.omring_fluid_intake_app.data.LogDrink
 import nl.narvekar.abhishek.omring_fluid_intake_app.data.LogDrinkResponse
+import nl.narvekar.abhishek.omring_fluid_intake_app.navigation.Routes
 import nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.dashboard.SetCircularProgress
 import nl.narvekar.abhishek.omring_fluid_intake_app.utils.AppSession
 import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.LogDrinkViewModel
 import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.PatientViewModel
 
 
-// on button click show dialog
-//
 
 @Composable
 fun SelectDrinkDialog(
     logDrinkViewModel: LogDrinkViewModel,
-    patientViewModel: PatientViewModel,
+    navController: NavController,
     setShowDialog: (Boolean) -> Unit,
-    setValue: (Float) -> Unit
 ) {
     val phoneNumber = AppSession.getPhoneNumber()
-    val patient = patientViewModel.patientListResponse.find { patient ->
-        patient.phoneNumber == phoneNumber
-    }
-
     val context = LocalContext.current
     Dialog(
         onDismissRequest = { setShowDialog(false) },
@@ -88,10 +83,9 @@ fun SelectDrinkDialog(
                         Button(
                             onClick = {
                                 val drinkAmount = 100
-                                val floatAmount = (drinkAmount.toFloat() / patient?.dailyLimit?.toFloat()!!) * 100f
                                 logDrinkViewModel.postANewDrink(context, drinkAmount)
-                                setValue(floatAmount)
                                 setShowDialog(false)
+                                navController.navigate(Routes.Home.route)
                             },
                             shape = RoundedCornerShape(50.dp),
                             modifier = Modifier
@@ -108,10 +102,9 @@ fun SelectDrinkDialog(
                         Button(
                             onClick = {
                                   val drinkAmount = 150
-                                  val floatAmount = drinkAmount.toFloat() / patient?.dailyLimit?.toFloat()!!
                                   logDrinkViewModel.postANewDrink(context, drinkAmount)
-                                  setValue(floatAmount)
                                   setShowDialog(false)
+                                  navController.navigate(Routes.Home.route)
                             },
                             shape = RoundedCornerShape(50.dp),
                             modifier = Modifier
@@ -127,11 +120,9 @@ fun SelectDrinkDialog(
                         Button(
                             onClick = {
                                 val drinkAmount = 200
-                                val floatAmount = drinkAmount.toFloat() / patient?.dailyLimit?.toFloat()!! / 100f
                                 logDrinkViewModel.postANewDrink(context, drinkAmount)
-
-                                setValue(floatAmount)
                                 setShowDialog(false)
+                                navController.navigate(Routes.Home.route)
                             },
                             shape = RoundedCornerShape(50.dp),
                             modifier = Modifier

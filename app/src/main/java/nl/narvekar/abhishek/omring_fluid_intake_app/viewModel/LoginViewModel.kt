@@ -66,7 +66,6 @@ class LoginViewModel : ViewModel() {
 
     fun logout(navController: NavController) {
         AppSession.removeUserData()
-        AppSession.removeAchievedIntake()
         navController.navigate(Routes.Start.route) {
             popUpTo(Routes.Login.route) {
                 inclusive = true

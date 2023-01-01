@@ -32,12 +32,6 @@ fun RecipeItem(
     patientViewModel: PatientViewModel,
     onClickAction: (Recipe) -> Unit
 ) {
-    val phoneNumber = AppSession.getPhoneNumber()
-    val patient = patientViewModel.getPatientByPhoneNumber(phoneNumber)
-    val context = LocalContext.current
-    Log.d("patientidrecipeitem", patient?.id.toString())
-    Log.d("recipeId", recipe.recipeId.toString())
-
     Card(
         modifier = Modifier
             // The space between each card and the other

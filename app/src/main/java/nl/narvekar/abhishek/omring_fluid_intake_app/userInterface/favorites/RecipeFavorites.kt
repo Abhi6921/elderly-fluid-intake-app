@@ -31,46 +31,24 @@ import nl.narvekar.abhishek.omring_fluid_intake_app.R
 import nl.narvekar.abhishek.omring_fluid_intake_app.data.Recipe
 import nl.narvekar.abhishek.omring_fluid_intake_app.navigation.AppBottomNav
 import nl.narvekar.abhishek.omring_fluid_intake_app.navigation.Routes
+import nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.dashboard.FluidTopAppBar
 import nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.recipes.components.FavoritesButton
 import nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.recipes.components.RecipeItem
 import nl.narvekar.abhishek.omring_fluid_intake_app.utils.AppSession
 import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.PatientViewModel
 
-@OptIn(ExperimentalMaterialApi::class)
+
 @SuppressLint("UnrememberedMutableState")
 @Composable
 fun RecipeFavorited(navController: NavController, recipes: List<Recipe>, patientViewModel: PatientViewModel) {
-
-    val phoneNumber = AppSession.getPhoneNumber()
-    val patient = patientViewModel.patientListResponse.find { patientResponse ->
-        patientResponse.phoneNumber == phoneNumber
-    }
-    patientViewModel.getAllLikedRecipes(patient?.id.toString())
-    val recipeList = patientViewModel.items.collectAsState()
-    val mutableRecipeList = recipeList.value.toMutableList()
     val context = LocalContext.current
+    patientViewModel.getAllLikedRecipes(context)
     Scaffold(
         topBar = {
-            TopAppBar(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(60.dp),
-                elevation = 4.dp,
-                backgroundColor = Color(0xFF1BAEEE),
-                title = {
-                    Text(
-                        modifier = Modifier.fillMaxWidth(),
-                        textAlign = TextAlign.Center,
-                        maxLines = 1,
-                        text = "Favorites",
-                        color = Color.White,
-                        fontSize = 34.sp
-                    )
-                }
-            )
+              FluidTopAppBar(topBarTitle = "Favorites")
         },
         content = { innnerPadding ->
-            if (recipeList.value.isEmpty()) {
+            if (recipes.isEmpty()) {
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
@@ -83,47 +61,12 @@ fun RecipeFavorited(navController: NavController, recipes: List<Recipe>, patient
             }
             else {
                 LazyColumn(Modifier.padding(innnerPadding)) {
-                      itemsIndexed(items = mutableRecipeList, key= { _, listItem ->
-                            listItem.recipeId.toString()
-                      }) { index, item ->
-                              val state = rememberDismissState(
-                                  confirmStateChange = {
-                                      if (it == DismissValue.DismissedToStart) {
-                                          mutableRecipeList.remove(item)
-                                          patientViewModel.removeRecipeByPatient(patient?.id.toString(), item.recipeId!!, context)
-                                      }
-                                      true
-                                  }
-                              )
-                              SwipeToDismiss(state = state, background = {
-                                  val color = when(state.dismissDirection) {
-                                      DismissDirection.StartToEnd -> Color.Transparent
-                                      DismissDirection.EndToStart -> Color.Red
-                                      null -> Color.White
-                                  }
-
-                                  Box(
-                                      modifier = Modifier
-                                          .fillMaxSize()
-                                          .background(color = color)
-                                          .padding(10.dp)
-                                  ) {
-                                     Icon(
-                                         imageVector = Icons.Default.Delete,
-                                         contentDescription = "delete icon",
-                                         tint = Color.Gray,
-                                         modifier = Modifier.align(Alignment.CenterEnd).size(44.dp),
-                                     )
-                                  }
-                              },
-                              dismissContent = {
-                                    RecipeItem(recipe = item, patientViewModel = patientViewModel) {
-                                        navController.navigate(Routes.RecipeDetail.route + "/${it.recipeId}")
-                                    }
-                              },
-                              directions = setOf(DismissDirection.EndToStart))
-                              Divider()
+                      items(recipes) { recipe ->
+                          RecipeItem(recipe, patientViewModel) {
+                              navController.navigate(Routes.RecipeDetail.route + "/${it.recipeId}")
+                          }
                       }
+
                 }
             }
 

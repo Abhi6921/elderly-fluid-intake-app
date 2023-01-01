@@ -68,11 +68,13 @@ class PatientViewModel : ViewModel() {
 
     var likedRecipeErrorMessage by mutableStateOf("")
 
-    fun getAllLikedRecipes(patientId: String) {
+    fun getAllLikedRecipes(context: Context) {
         viewModelScope.launch(Dispatchers.IO) {
             val usersAuthApi = UsersAuthApi.getUsersAuthApiInstance()
             try {
                 val authToken = AppSession.getAuthToken()
+                val patientId = AppSession.getPatientId()
+
                 val likedRecipes = usersAuthApi.fetchAllLikedRecipes("Bearer ${authToken}", patientId)
                 //items.value = items.value?.addAll(likedRecipes) as MutableList<Recipe>
                 recipesList.value = likedRecipes

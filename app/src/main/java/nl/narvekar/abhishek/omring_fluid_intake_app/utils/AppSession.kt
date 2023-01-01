@@ -49,10 +49,9 @@ object AppSession {
         return sharedPreferences.getString(USERNAME, "") ?: ""
     }
 
-    fun removeAchievedIntake() {
-        sharedPreferences.edit().apply {
-            putFloat(ACHIEVED, 0f)
-        }.apply()
+    fun getPatientId() : String {
+        val patientId = sharedPreferences.getString(ID, "") ?: ""
+        return patientId
     }
 
     fun saveUserData(username: String,

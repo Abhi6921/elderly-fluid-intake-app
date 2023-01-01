@@ -51,9 +51,6 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                   //RecipeList(recipes = recipeViewModel.recipeListResponse)
-
-
                    AppNavigation(
                        loginViewModel = loginViewModel,
                        registerViewModel,
@@ -64,7 +61,7 @@ class MainActivity : ComponentActivity() {
                    )
                     recipeViewModel.getRecipeList()
                     patientViewModel.getAllPatients()
-                    //patientViewModel.getAllLikedRecipes(patientViewModel)
+                    patientViewModel.getAllLikedRecipes(this)
                     //expandableListViewModel.getAllDrinkDates(patientViewModel)
 
                    //Log.d("Recipes", "${patientViewModel.likedRecipeListResponse.count()}")

@@ -47,13 +47,16 @@ fun DashBoardScreen(
     val lastName = AppSession.getLastName()
     val dailyLimit = AppSession.getDailyLimit()
 
+    val patientId = AppSession.getPatientId()
+    Log.d("patientId", patientId)
+
     if (fluidIntakeDialog.value) {
         SelectDrinkDialog(
             logDrinkViewModel,
-            patientViewModel,
+            navController,
             setShowDialog = {
                 fluidIntakeDialog.value = it
-        }, setValue = { })
+        })
     }
     else {
         SetCircularProgress(patientViewModel = patientViewModel)
@@ -147,17 +150,19 @@ fun DashBoardScreen(
 
 @Composable
 fun SetCircularProgress(patientViewModel: PatientViewModel) {
-    val phoneNumber = AppSession.getPhoneNumber()
-    val patient = patientViewModel.getPatientByPhoneNumber(phoneNumber)
+
     val dailyLimit = AppSession.getDailyLimit()
-    val logDrinkResponse = patientViewModel.getCurrentFluidIntakeStatus(patient?.id.toString())
+    val patientId = AppSession.getPatientId()
+    val logDrinkResponse = patientViewModel.getCurrentFluidIntakeStatus(patientId)
 
     if (logDrinkResponse.Achieved?.toFloat() == null || logDrinkResponse.DailyLimit?.toInt() == null) {
         DashBoardSpinnerAndQuote(drinkAmount = 0.0f, dailyLimit = 100)
     }
+    else {
+        logDrinkResponse.Achieved.toFloat()
+            .let { achieved -> DashBoardSpinnerAndQuote(drinkAmount = achieved, dailyLimit = dailyLimit) }
+    }
 
-    logDrinkResponse.Achieved?.toFloat()
-        ?.let { achieved -> DashBoardSpinnerAndQuote(drinkAmount = achieved, dailyLimit = dailyLimit) }
 }
 
 @Composable
@@ -238,11 +243,13 @@ fun LogoutButton(
 }
 
 @Composable
-fun FluidTopAppBar(dashboardTitle: String) {
+fun FluidTopAppBar(topBarTitle: String) {
     TopAppBar(
         backgroundColor = Color(0xFF1BAEEE),
         elevation = 0.dp,
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(60.dp)
     ) {
         Row(
             Modifier.fillMaxSize(),
@@ -256,7 +263,7 @@ fun FluidTopAppBar(dashboardTitle: String) {
                         modifier = Modifier.fillMaxWidth(),
                         textAlign = TextAlign.Center,
                         maxLines = 1,
-                        text = dashboardTitle,
+                        text = topBarTitle,
                         color = Color.White,
                         fontSize = 34.sp
                     )

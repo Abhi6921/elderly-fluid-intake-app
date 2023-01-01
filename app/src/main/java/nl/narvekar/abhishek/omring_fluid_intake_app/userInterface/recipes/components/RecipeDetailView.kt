@@ -42,7 +42,7 @@ fun RecipeDetailView(
     Log.d(TAG, "RecipeDetailView passed from recipe list: $detailId")
     val scrollState = rememberScrollState()
     val phoneNumber = AppSession.getPhoneNumber()
-    val patient = patientViewModel.getPatientByPhoneNumber(phoneNumber)
+    val patientId = AppSession.getPatientId()
 
     val context = LocalContext.current
 //    val recipe = recipeViewModel.recipeListResponse.find { recipe ->
@@ -53,13 +53,10 @@ fun RecipeDetailView(
     }
 
     val recipeIdOnce = recipe?.recipeId.toString()
-    val patientIdOnce = patient?.id.toString()
 
     val recipeID = remember { mutableStateOf("") }
     val patientID = remember { mutableStateOf("") }
-
     recipeID.value = recipeIdOnce
-    patientID.value = patientIdOnce
 
     Log.d("recipedetail-recipeID", "$recipeID")
     Log.d("recipedetail-patientID", "$patientID")
@@ -86,8 +83,8 @@ fun RecipeDetailView(
                 },
                 backgroundColor =  Color(0xFF1BAEEE),
                 navigationIcon = {
-                    IconButton(onClick = { navController.popBackStack() }, ) {
-                        Icon(Icons.Filled.ArrowBack, null, tint = Color.White, modifier = Modifier.size(35.dp))
+                    IconButton(onClick = { navController.popBackStack() } ) {
+                        Icon(Icons.Filled.ArrowBack, contentDescription = "arrow back icon", tint = Color.White, modifier = Modifier.size(35.dp))
                     }
                 }
             )
@@ -108,36 +105,35 @@ fun RecipeDetailView(
                 )
                 Text(text = recipe?.name.toString(), fontSize = 44.sp)
                 Spacer(modifier = Modifier.height(30.dp))
-                if(patient != null) {
-                    var isFavorite by remember { mutableStateOf(false) }
-                    if (!isRecipeInFavorites) {
-                        IconButton(
-                            onClick = {
-                                isFavorite = !isFavorite
-                                if (isFavorite) {
-                                    patientViewModel.likeRecipeByPatient(patientID.value, recipeID.value, context)
-                                }
-                                else {
-                                    // call the remove likeRecipe call from api from liked list
-                                }
-                            },
-                            Modifier
-                                .background(Color((0xFF1B7D71)))
-                                .clip(RoundedCornerShape(44.dp))
-                                .size(75.dp),
 
-                            ) {
-                            Icon(
-                                imageVector = if (isFavorite) { Icons.Filled.Favorite }
-                                else { Icons.Filled.FavoriteBorder},
-                                contentDescription = "favorite icon",
-                                tint = Color.White,
-                                modifier = Modifier.size(44.dp),
-                            )
-                        }
+                var isFavorite by remember { mutableStateOf(false) }
+                if (!isRecipeInFavorites) {
+                    IconButton(
+                        onClick = {
+                            isFavorite = !isFavorite
+                            if (isFavorite) {
+                                patientViewModel.likeRecipeByPatient(patientId, recipe?.recipeId!!, context)
+                            }
+                            else {
+                                // call the remove likeRecipe call from api from liked list
+                            }
+                        },
+                        Modifier
+                            .background(Color((0xFF1B7D71)))
+                            .clip(RoundedCornerShape(44.dp))
+                            .size(75.dp),
+
+                        ) {
+                        Icon(
+                            imageVector = if (isFavorite) { Icons.Filled.Favorite }
+                            else { Icons.Filled.FavoriteBorder},
+                            contentDescription = "favorite icon",
+                            tint = Color.White,
+                            modifier = Modifier.size(44.dp),
+                        )
                     }
-
                 }
+
                 Spacer(modifier = Modifier.height(30.dp))
                 Text(text = "Ingredients:", fontSize = 34.sp)
                 Spacer(modifier = Modifier.height(30.dp))
