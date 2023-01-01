@@ -93,7 +93,7 @@ fun LoginUI(loginViewModel: LoginViewModel, navController: NavController) {
 //                Spacer(modifier = Modifier.width(10.dp))
                 Text(
                     text = "+31",
-                    color = Color.Gray,
+                    color = Color.Black,
                     fontSize = 25.sp,
                     modifier = Modifier.padding(start = 14.dp, bottom = 10.dp),
                     textAlign = TextAlign.Center
