@@ -30,13 +30,6 @@ interface UsersAuthApi {
     suspend fun getCurrentFluidStatus(@Header("Authorization") authToken: String, @Path("id") patientId: String) : LogDrinkResponse
     // is string expected in body of this endpoint
 
-    @Headers("Content-Type:application/json")
-    @POST("api/v1/patients/{patientId}/likeRecipe")
-    fun likeRecipeByPatient(@Header("Authorization") authToken: String, @Path("patientId") patientId: String, @Body recipeId: String) : Call<LikeRecipeResponse>
-
-    @POST("api/v1/patients/{patientId}/unlikeRecipe")
-    fun removeRecipeFromFavorites(@Header("Authorization") authToken: String, @Path("patientId") patientId: String, @Body recipeId: String) : Call<LikeRecipeResponse>
-
     @GET("api/v1/patients/drinks/{patientId}")
     suspend fun getPatientDrinkLogs(
         @Header("Authorization") authToken: String,
@@ -49,6 +42,13 @@ interface UsersAuthApi {
 
     @GET("api/v1/patients/recipes/{id}")
     suspend fun fetchAllLikedRecipes(@Header("Authorization") authToken: String, @Path("id") patientId: String) : List<Recipe>
+
+    @Headers("Content-Type:application/json")
+    @POST("api/v1/patients/{patientId}/likeRecipe")
+    fun likeRecipeByPatient(@Header("Authorization") authToken: String, @Path("patientId") patientId: String, @Body recipeId: String) : Call<LikeRecipeResponse>
+
+    @POST("api/v1/patients/{patientId}/unlikeRecipe")
+    fun removeRecipeFromFavorites(@Header("Authorization") authToken: String, @Path("patientId") patientId: String, @Body recipeId: String) : Call<LikeRecipeResponse>
 
     companion object {
         var apiUserService: UsersAuthApi? = null

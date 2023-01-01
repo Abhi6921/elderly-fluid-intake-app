@@ -76,7 +76,6 @@ class PatientViewModel : ViewModel() {
                 val patientId = AppSession.getPatientId()
 
                 val likedRecipes = usersAuthApi.fetchAllLikedRecipes("Bearer ${authToken}", patientId)
-                //items.value = items.value?.addAll(likedRecipes) as MutableList<Recipe>
                 recipesList.value = likedRecipes
                 likedRecipeListResponse = likedRecipes
 
@@ -120,7 +119,7 @@ class PatientViewModel : ViewModel() {
         }
     }
 
-    fun removeRecipeByPatient(patientId: String, recipeId: String, context: Context) {
+    fun removeLikeRecipeByPatient(patientId: String, recipeId: String, context: Context) {
         viewModelScope.launch(Dispatchers.IO) {
             val retrofitInstance = UsersAuthApi.getUsersAuthApiInstance()
             val authToken = AppSession.getAuthToken()
@@ -135,8 +134,8 @@ class PatientViewModel : ViewModel() {
                         response: Response<LikeRecipeResponse>
                     ) {
                         if (response.isSuccessful || response.code() == 201) {
-                            Toast.makeText(context, "recipe removed to favroites!", Toast.LENGTH_SHORT).show()
-                            Log.d("LikeOnSuccess", "recipe liked successfully ${response.code().toString()}")
+                            Toast.makeText(context, "recipe removed from favroites!", Toast.LENGTH_SHORT).show()
+                            Log.d("LikeOnSuccess", "recipe removed successfully ${response.code().toString()}")
                         }
                         else {
                             Log.d("LikeOnFailure", "error! could not like the recipe ${response.code().toString()} ${response.message().toString()} ${response.headers()} ${response.errorBody().toString()} ${response.body()}")

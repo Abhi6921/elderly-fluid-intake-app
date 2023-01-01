@@ -29,7 +29,6 @@ import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.PatientViewModel
 @Composable
 fun RecipeItem(
     recipe: Recipe,
-    patientViewModel: PatientViewModel,
     onClickAction: (Recipe) -> Unit
 ) {
     Card(

@@ -63,7 +63,7 @@ fun RecipeList(recipes: List<Recipe>, navController: NavController, patientViewM
             else {
                 LazyColumn(Modifier.padding(innerPadding)) {
                     items(recipes) { item ->
-                        RecipeItem(item, patientViewModel) {
+                        RecipeItem(item) {
                             navController.navigate(Routes.RecipeDetail.route + "/${it.recipeId}")
                         }
                     }

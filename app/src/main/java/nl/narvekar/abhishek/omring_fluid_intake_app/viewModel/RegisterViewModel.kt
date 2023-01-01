@@ -20,7 +20,6 @@ import kotlin.math.log
 
 class RegisterViewModel : ViewModel() {
 
-
     var showSuccessMessage: Boolean by mutableStateOf(false)
     fun registerUser(
         context: Context,

@@ -39,13 +39,15 @@ class LoginViewModel : ViewModel() {
                         val firstname = response.body()?.firstName
                         val lastname = response.body()?.lastName
                         val dailyLimit = response.body()?.dailyLimit
+                        val dailyGoal = response.body()?.dailyGoal
                         if (authToken != null) {
                             saveUserData(
                                 login.phoneNumber,
                                 login.password,
                                 authToken,
                                 patientId.toString(), firstname.toString(),
-                                lastname.toString(), dailyLimit!!)
+                                lastname.toString(), dailyLimit!!
+                            )
                         }
 
                         Toast.makeText(context, "Login Successful", Toast.LENGTH_LONG).show()
