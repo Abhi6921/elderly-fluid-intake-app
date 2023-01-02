@@ -108,30 +108,6 @@ fun RecipeDetailView(
 
                 var isFavorite by remember { mutableStateOf(false) }
                 if (!isRecipeInFavorites) {
-//                    IconButton(
-//                        onClick = {
-//                            isFavorite = !isFavorite
-//                            if (isFavorite) {
-//                                patientViewModel.likeRecipeByPatient(patientId, recipe?.recipeId!!, context)
-//                            }
-//                            else {
-//                                // call the remove likeRecipe call from api from liked list
-//                            }
-//                        },
-//                        Modifier
-//                            .background(Color((0xFF1B7D71)))
-//                            .clip(RoundedCornerShape(44.dp))
-//                            .size(75.dp),
-//
-//                        ) {
-//                        Icon(
-//                            imageVector = if (isFavorite) { Icons.Filled.Favorite }
-//                            else { Icons.Filled.FavoriteBorder},
-//                            contentDescription = "favorite icon",
-//                            tint = Color.White,
-//                            modifier = Modifier.size(44.dp),
-//                        )
-//                    }
                     FavoritesButton(patientId = patientId, recipeId = recipe?.recipeId!!, patientViewModel = patientViewModel, context = context)
                 }
                 else if (isRecipeInFavorites) {

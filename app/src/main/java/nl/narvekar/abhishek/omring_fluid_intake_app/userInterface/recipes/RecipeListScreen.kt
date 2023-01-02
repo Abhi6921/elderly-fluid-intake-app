@@ -26,7 +26,7 @@ fun RecipeList(recipes: List<Recipe>, navController: NavController, patientViewM
 
     val context = LocalContext.current
     // todo fetch all liked recipes of current user -> DONE
-    // todo add recipe to favorites on favorite click -> PENDING
+    // todo add recipe to favorites on favorite click -> DONE
     // todo remove recipe from favorites view on unfavorite click -> PENDING
     Scaffold(
         topBar = {

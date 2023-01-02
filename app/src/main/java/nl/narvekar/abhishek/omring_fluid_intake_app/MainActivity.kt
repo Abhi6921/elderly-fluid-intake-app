@@ -61,7 +61,7 @@ class MainActivity : ComponentActivity() {
                    )
                     recipeViewModel.getRecipeList()
                     patientViewModel.getAllPatients()
-                    patientViewModel.getAllLikedRecipes(this)
+                    patientViewModel.getAllLikedRecipes()
                     //expandableListViewModel.getAllDrinkDates(patientViewModel)
 
                    //Log.d("Recipes", "${patientViewModel.likedRecipeListResponse.count()}")

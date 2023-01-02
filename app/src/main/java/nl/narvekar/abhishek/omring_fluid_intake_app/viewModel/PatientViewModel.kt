@@ -64,12 +64,11 @@ class PatientViewModel : ViewModel() {
     }
 
     var likedRecipeListResponse: List<Recipe> by mutableStateOf(listOf())
-    private val recipesList = MutableStateFlow(listOf<Recipe>())
-    val items: StateFlow<List<Recipe>> get() = recipesList
-
     var likedRecipeErrorMessage by mutableStateOf("")
 
-    fun getAllLikedRecipes(context: Context) {
+
+
+    fun getAllLikedRecipes() {
         viewModelScope.launch(Dispatchers.IO) {
             val usersAuthApi = UsersAuthApi.getUsersAuthApiInstance()
             try {
@@ -77,7 +76,6 @@ class PatientViewModel : ViewModel() {
                 val patientId = AppSession.getPatientId()
 
                 val likedRecipes = usersAuthApi.fetchAllLikedRecipes("Bearer ${authToken}", patientId)
-                recipesList.value = likedRecipes
                 likedRecipeListResponse = likedRecipes
 
             } catch (ex: Exception) {
@@ -95,7 +93,8 @@ class PatientViewModel : ViewModel() {
         viewModelScope.launch(Dispatchers.IO) {
             val retrofitInstance = UsersAuthApi.getUsersAuthApiInstance()
             val authToken = AppSession.getAuthToken()
-
+            Log.d("likerecipe-patientId", patientId)
+            Log.d("likerecipe-recipeId", recipeId)
             retrofitInstance.likeRecipeByPatient("Bearer $authToken", patientId, recipeId).enqueue(object :
                 Callback<LikeRecipeResponse> {
                     override fun onFailure(call: Call<LikeRecipeResponse>, t: Throwable) {
