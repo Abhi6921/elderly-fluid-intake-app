@@ -4,6 +4,7 @@ import android.content.ClipData.Item
 import android.content.Context
 import android.util.Log
 import android.widget.Toast
+import androidx.compose.material.Text
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -107,10 +108,10 @@ class PatientViewModel : ViewModel() {
                     ) {
                         if (response.isSuccessful) {
                             Toast.makeText(context, "recipe added to favroites!", Toast.LENGTH_SHORT).show()
-                            Log.d("LikeOnSuccess", "recipe liked successfully ${response.code().toString()}")
+                            Log.d("recipe-LikeOnSuccess", "recipe liked successfully ${response.code().toString()}")
                         }
                         else {
-                            Log.d("LikeOnFailure", "error! could not like the recipe ${response.code().toString()} ${response.message().toString()} ${response.headers()} ${response.errorBody().toString()} ${response.body()}")
+                            Log.d("recipe-LikeOnFailure", "error! could not like the recipe ${response.code().toString()} ${response.message().toString()} ${response.headers()}")
                             Toast.makeText(context, "error, in adding the recipe to favorites", Toast.LENGTH_SHORT).show()
                         }
                     }

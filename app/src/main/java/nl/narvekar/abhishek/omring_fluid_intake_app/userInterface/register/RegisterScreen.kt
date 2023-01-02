@@ -32,34 +32,30 @@ import nl.narvekar.abhishek.omring_fluid_intake_app.data.Role
 import nl.narvekar.abhishek.omring_fluid_intake_app.data.UserRequest
 import nl.narvekar.abhishek.omring_fluid_intake_app.data.UserRole
 import nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.register.components.RegisterConfirmDialog
+import nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.register.components.RegisterFailureDialog
 import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.RegisterViewModel
 import kotlin.math.log
 
 
 @Composable
 fun RegisterScreen(registerViewModel: RegisterViewModel, navController: NavController) {
-    var showDialog = registerViewModel.showSuccessMessage
-
-    if (showDialog) {
-        RegisterConfirmDialog(setShowDialog = {
-            showDialog = it
-        }, navController)
-    }
     val context = LocalContext.current
+    val showSuccessDialog = registerViewModel.showSuccessMessage.value
+    val showFailureDialog = registerViewModel.showFailureMessage.value
+
+    if (showSuccessDialog) {
+        RegisterConfirmDialog(navController)
+    }
+
+    if (showFailureDialog) {
+        RegisterFailureDialog(registerViewModel.showFailureMessage)
+    }
     Column(
         Modifier
             .fillMaxSize()
             .background(Color(0xFF39CCFF)),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        val showDialog = remember { mutableStateOf(false) }
-
-        if (showDialog.value) {
-            RegisterConfirmDialog(setShowDialog = {
-                showDialog.value = it
-            }, navController)
-        }
-
         Spacer(modifier = Modifier.height(40.dp))
         Image(
             painter = painterResource(R.drawable.omring_logo),
@@ -122,9 +118,9 @@ fun RegisterScreen(registerViewModel: RegisterViewModel, navController: NavContr
                 Icon(
                 imageVector = Icons.Default.Person,
                 contentDescription = "personIcon",
-                Modifier
-                    .width(60.dp)
-                    .height(40.dp)
+                    Modifier
+                        .width(60.dp)
+                        .height(40.dp)
             ) },
             onValueChange = {
                firstname.value = it
@@ -188,13 +184,15 @@ fun RegisterScreen(registerViewModel: RegisterViewModel, navController: NavContr
             colors = TextFieldDefaults.textFieldColors(backgroundColor = MaterialTheme.colors.surface.copy(Color.White.alpha)),
             keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
             textStyle = TextStyle.Default.copy(fontSize = 28.sp),
-            leadingIcon = { Icon(
-                imageVector = Icons.Default.Phone,
-                contentDescription = "phoneIcon",
-                Modifier
-                    .width(60.dp)
-                    .height(40.dp)
-            ) },
+            leadingIcon = {
+                Text(
+                    text = "+31",
+                    color = Color.Black,
+                    fontSize = 27.sp,
+                    modifier = Modifier.padding(start = 14.dp, bottom = 10.dp),
+                    textAlign = TextAlign.Center
+                )
+            },
             onValueChange = {
                 phonenumber.value = it
             },
@@ -323,7 +321,7 @@ fun RegisterScreen(registerViewModel: RegisterViewModel, navController: NavContr
                             firstName,
                             lastName,
                             emailId,
-                            phoneNumber,
+                            "+31${phoneNumber}",
                             Password,
                             true,
                             Dailylimit,

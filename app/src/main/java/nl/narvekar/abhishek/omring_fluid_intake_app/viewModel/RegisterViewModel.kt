@@ -20,7 +20,8 @@ import kotlin.math.log
 
 class RegisterViewModel : ViewModel() {
 
-    var showSuccessMessage: Boolean by mutableStateOf(false)
+    val showSuccessMessage =  mutableStateOf(false)
+    val showFailureMessage = mutableStateOf(false)
     fun registerUser(
         context: Context,
         user: UserRequest
@@ -35,10 +36,12 @@ class RegisterViewModel : ViewModel() {
 
                 override fun onResponse(call: Call<UserResponse>, response: Response<UserResponse>) {
                     if (response.isSuccessful || response.code() == 201) {
-                        Toast.makeText(context, "Registration Successful! ${response.code().toString()}, ${response.message()} ${response.headers()}", Toast.LENGTH_LONG).show()
+                        //Toast.makeText(context, "Registration Successful! ${response.code().toString()}, ${response.message()} ${response.headers()}", Toast.LENGTH_LONG).show()
+                        showSuccessMessage.value = true
                     }
                     else {
-                        Toast.makeText(context, "Registration failure!, ${response.code().toString()},  ${response.message()} ${response.headers()}", Toast.LENGTH_LONG).show()
+                        //Toast.makeText(context, "Registration failure!, ${response.code().toString()},  ${response.message()} ${response.headers()}", Toast.LENGTH_LONG).show()
+                        showFailureMessage.value = true
                     }
                 }
             }
