@@ -41,7 +41,7 @@ fun DashBoardScreen(
     loginViewModel: LoginViewModel,
     patientViewModel: PatientViewModel
 ) {
-//    SetCircularProgress(patientViewModel)
+    SetCircularProgress(patientViewModel)
     val fluidIntakeDialog = remember { mutableStateOf(false) }
     val firstName = AppSession.getFirstName()
     val lastName = AppSession.getLastName()

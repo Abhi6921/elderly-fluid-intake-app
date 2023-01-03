@@ -3,8 +3,8 @@ package nl.narvekar.abhishek.omring_fluid_intake_app.utils
 import android.content.Context
 import android.content.SharedPreferences
 import nl.narvekar.abhishek.omring_fluid_intake_app.R
-import nl.narvekar.abhishek.omring_fluid_intake_app.utils.Constants.ACHIEVED
 import nl.narvekar.abhishek.omring_fluid_intake_app.utils.Constants.AUTH_TOKEN_KEY
+import nl.narvekar.abhishek.omring_fluid_intake_app.utils.Constants.DAILYGOAL
 import nl.narvekar.abhishek.omring_fluid_intake_app.utils.Constants.DAILYLIMIT
 import nl.narvekar.abhishek.omring_fluid_intake_app.utils.Constants.FIRSTNAME
 import nl.narvekar.abhishek.omring_fluid_intake_app.utils.Constants.ID
@@ -54,13 +54,19 @@ object AppSession {
         return patientId
     }
 
+    fun getDailyGoal() : Int {
+        val dailyGoal = sharedPreferences.getInt(DAILYGOAL, 0)
+        return dailyGoal
+    }
+
     fun saveUserData(username: String,
                      password: String,
                      authToken: String,
                      patientId: String,
                      firstname: String,
                      lastname: String,
-                     dailyLimit: Int
+                     dailyLimit: Int,
+                     dailyGoal: Int
     ) {
         sharedPreferences.edit().apply {
             putString(USERNAME, username)
@@ -69,6 +75,7 @@ object AppSession {
             putString(FIRSTNAME, firstname)
             putString(LASTNAME, lastname)
             putInt(DAILYLIMIT, dailyLimit)
+            putInt(DAILYGOAL, dailyGoal)
             putString(AUTH_TOKEN_KEY, authToken)
             putBoolean(IS_LOGGED_IN, true)
         }.apply()
@@ -82,6 +89,7 @@ object AppSession {
             putString(FIRSTNAME, "")
             putString(LASTNAME, "")
             putInt(DAILYLIMIT, 0)
+            putInt(DAILYGOAL, 0)
             putString(AUTH_TOKEN_KEY, "")
             putBoolean(IS_LOGGED_IN, false)
         }.apply()

@@ -36,10 +36,10 @@ import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.PatientViewModel
 fun UserProfilePage(navController: NavController, patientViewModel: PatientViewModel) {
     val scrollState = rememberScrollState()
     val phoneNumber = AppSession.getPhoneNumber()
-    val patient = patientViewModel.getPatientByPhoneNumber(phoneNumber)
     val firstName = AppSession.getFirstName()
     val lastName = AppSession.getLastName()
     val dailyLimit = AppSession.getDailyLimit()
+    val dailyGoal = AppSession.getDailyGoal()
 
     Scaffold(
         topBar = {
@@ -108,7 +108,7 @@ fun UserProfilePage(navController: NavController, patientViewModel: PatientViewM
             ) {
                 Text(text = "DailyGoal: ", fontSize = 44.sp)
                 Spacer(modifier = Modifier.width(183.dp))
-                Text(text = "${patient?.dailyGoal}ml", fontSize = 44.sp)
+                Text(text = "${dailyGoal}ml", fontSize = 44.sp)
             }
         },
         bottomBar = {

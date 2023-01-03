@@ -27,6 +27,9 @@ import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.*
 
 class MainActivity : ComponentActivity() {
     // this commit is from the user-profile-page branch
+    // todo show popup on login failure, if user entered invalid details -> done
+    // todo show message if one of the field is empty login and register -> login done
+    // todo fix the records page
 
     private val loginViewModel by viewModels<LoginViewModel>()
     private val registerViewModel by viewModels<RegisterViewModel>()
@@ -60,8 +63,7 @@ class MainActivity : ComponentActivity() {
                        patientViewModel
                    )
                     recipeViewModel.getRecipeList()
-                    patientViewModel.getAllPatients()
-                    patientViewModel.getAllLikedRecipes()
+                    //patientViewModel.getAllLikedRecipes()
                     //expandableListViewModel.getAllDrinkDates(patientViewModel)
 
                    //Log.d("Recipes", "${patientViewModel.likedRecipeListResponse.count()}")

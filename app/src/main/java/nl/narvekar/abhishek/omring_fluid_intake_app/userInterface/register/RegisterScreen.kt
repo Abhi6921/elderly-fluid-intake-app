@@ -31,6 +31,7 @@ import nl.narvekar.abhishek.omring_fluid_intake_app.R
 import nl.narvekar.abhishek.omring_fluid_intake_app.data.Role
 import nl.narvekar.abhishek.omring_fluid_intake_app.data.UserRequest
 import nl.narvekar.abhishek.omring_fluid_intake_app.data.UserRole
+import nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.login.components.EmptyFieldMessageDialog
 import nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.register.components.RegisterConfirmDialog
 import nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.register.components.RegisterFailureDialog
 import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.RegisterViewModel
@@ -42,13 +43,17 @@ fun RegisterScreen(registerViewModel: RegisterViewModel, navController: NavContr
     val context = LocalContext.current
     val showSuccessDialog = registerViewModel.showSuccessMessage.value
     val showFailureDialog = registerViewModel.showFailureMessage.value
+    val showEmptyFieldsDialog = remember { mutableStateOf(false) }
 
     if (showSuccessDialog) {
         RegisterConfirmDialog(navController)
     }
-
     if (showFailureDialog) {
         RegisterFailureDialog(registerViewModel.showFailureMessage)
+    }
+
+    if (showEmptyFieldsDialog.value) {
+        EmptyFieldMessageDialog(showEmptyFieldsDialog)
     }
     Column(
         Modifier
@@ -100,12 +105,6 @@ fun RegisterScreen(registerViewModel: RegisterViewModel, navController: NavContr
         val dailygoal = remember { mutableStateOf("") }
         val dateofbirth = remember { mutableStateOf("") }
 
-
-
-
-        // firstname textfield
-        // 31542698753
-        // aram123!!
         OutlinedTextField(
             modifier = Modifier
                 .height(81.dp)
@@ -128,10 +127,6 @@ fun RegisterScreen(registerViewModel: RegisterViewModel, navController: NavContr
             label = { Text(text = "firstName", fontSize = 20.sp) }
         )
         Spacer(modifier = Modifier.height(10.dp))
-        // 3125634121521
-        // aram123!!
-        // lastname field
-        // 1965-04-04T00:00:00
         OutlinedTextField(
             modifier = Modifier
                 .height(81.dp)
@@ -303,7 +298,7 @@ fun RegisterScreen(registerViewModel: RegisterViewModel, navController: NavContr
                     || dailygoal.value.isEmpty()
                     || dailylimit.value.isEmpty()
                 ) {
-                    Toast.makeText(context, "Please fill all the credentials!", Toast.LENGTH_LONG).show()
+                    showEmptyFieldsDialog.value = true
                 }
                 else {
                     val firstName: String = firstname.value.toString()

@@ -25,7 +25,6 @@ import nl.narvekar.abhishek.omring_fluid_intake_app.navigation.Routes
 fun RegisterConfirmDialog(navController: NavController) {
 
     Dialog(onDismissRequest = { /*TODO*/ }) {
-
         Surface(
             shape = RoundedCornerShape(16.dp),
             color = Color.White

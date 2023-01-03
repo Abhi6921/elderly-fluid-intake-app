@@ -8,7 +8,7 @@ object Constants {
     const val FIRSTNAME = "firstname"
     const val LASTNAME = "lastname"
     const val DAILYLIMIT = "dailylimit"
-    const val ACHIEVED = "achieved"
+    const val DAILYGOAL = "dailygoal"
     const val IS_LOGGED_IN = "isloggedin"
 
 }

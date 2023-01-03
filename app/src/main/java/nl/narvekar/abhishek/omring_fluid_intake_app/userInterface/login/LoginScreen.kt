@@ -33,6 +33,8 @@ import androidx.navigation.NavController
 import androidx.navigation.navArgument
 import nl.narvekar.abhishek.omring_fluid_intake_app.R
 import nl.narvekar.abhishek.omring_fluid_intake_app.data.Login
+import nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.login.components.EmptyFieldMessageDialog
+import nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.login.components.LoginFailureDialog
 import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.LoginViewModel
 
 
@@ -40,6 +42,18 @@ import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.LoginViewModel
 fun LoginUI(loginViewModel: LoginViewModel, navController: NavController) {
 
     val context = LocalContext.current
+
+    val showEmptyFieldDialog = remember { mutableStateOf(false) }
+    val showLoginFailureDialog = loginViewModel.showLoginFailureDialog.value
+
+    if (showEmptyFieldDialog.value) {
+        EmptyFieldMessageDialog(showEmptyFieldDialog)
+    }
+
+    if (showLoginFailureDialog) {
+        LoginFailureDialog(showLoginFailureDialog = loginViewModel.showLoginFailureDialog)
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -83,14 +97,6 @@ fun LoginUI(loginViewModel: LoginViewModel, navController: NavController) {
             colors = TextFieldDefaults.textFieldColors(backgroundColor = MaterialTheme.colors.surface.copy(Color.White.alpha)),
             textStyle = TextStyle.Default.copy(fontSize = 28.sp),
             leadingIcon = {
-//                Icon(
-//                    imageVector = Icons.Default.Person,
-//                    contentDescription = "personIcon",
-//                    Modifier
-//                        .width(60.dp)
-//                        .height(40.dp)
-//                )
-//                Spacer(modifier = Modifier.width(10.dp))
                 Text(
                     text = "+31",
                     color = Color.Black,
@@ -138,8 +144,12 @@ fun LoginUI(loginViewModel: LoginViewModel, navController: NavController) {
         Spacer(modifier = Modifier.height(35.dp))
         Button(
             onClick = {
-                // todo 0. create new key in shared preferences by the name of drink amount
-                loginViewModel.loginUser(context, Login("+31${phonenumber}", password), navController)
+                if(phonenumber.isEmpty() || password.isEmpty()) {
+                    showEmptyFieldDialog.value = true
+                }
+                else {
+                    loginViewModel.loginUser(context, Login("+31${phonenumber}", password), navController)
+                }
             },
             colors = ButtonDefaults.buttonColors(backgroundColor = Color(0xFF1B7D71)),
             modifier = Modifier

@@ -65,75 +65,10 @@ fun RecipeFavorited(navController: NavController, recipes: List<Recipe>, patient
                               AnimatedVisibility(
                                   visible = !deletedItems.contains(item),
                                   enter = expandVertically(),
-                                  exit = shrinkVertically(animationSpec = tween(durationMillis = 1000))
+                                  exit = shrinkVertically(animationSpec = tween(durationMillis = 2000))
                               ) {
-                                  Card(
-                                      modifier = Modifier
-                                          // The space between each card and the other
-                                          .padding(10.dp)
-                                          .fillMaxWidth()
-                                          .wrapContentHeight(),
-                                      shape = MaterialTheme.shapes.medium,
-                                      elevation = 5.dp,
-                                      backgroundColor = MaterialTheme.colors.surface
-                                  ) {
-                                      Row(
-                                          verticalAlignment = Alignment.CenterVertically,
-                                      ) {
-
-                                          AsyncImage(
-                                              //model = R.drawable.recipe_img,
-                                              model = item.imageLink,
-                                              contentDescription = "recipe image",
-                                              modifier = Modifier
-                                                  .width(350.dp)
-                                                  .height(350.dp)
-                                                  .padding(8.dp),
-                                              contentScale = ContentScale.Fit,
-                                              error = painterResource(R.drawable.placeholder),
-                                          )
-                                          //Log.d("recipeimage", "${recipe.imageLink}")
-                                          Column(Modifier.padding(8.dp)) {
-                                              Text(
-                                                  text = item.name.toString(),
-                                                  style = MaterialTheme.typography.h6,
-                                                  modifier = Modifier
-                                                      .padding(bottom = 8.dp)
-                                                      .fillMaxWidth(),
-                                                  color = MaterialTheme.colors.onSurface,
-                                                  fontSize = 35.sp
-                                              )
-
-                                              Spacer(modifier = Modifier.height(12.dp))
-                                              Row {
-                                                  Spacer(modifier = Modifier.width(38.dp))
-                                                  Button(
-                                                      onClick = {
-                                                          navController.navigate(Routes.RecipeDetail.route + "/${item.recipeId}")
-                                                      },
-                                                      shape = RoundedCornerShape(40),
-                                                      colors = ButtonDefaults.buttonColors(backgroundColor = Color(0xFF1B7D71)),
-                                                      modifier = Modifier
-                                                          .width(200.dp)
-                                                          .height(70.dp)
-                                                  ) {
-                                                      Text(text = "Instructions", color = Color.White, fontSize = 25.sp)
-                                                  }
-                                                  Spacer(modifier = Modifier.width(200.dp))
-                                                  IconButton(
-                                                      onClick = {
-                                                          deletedItems.add(item)
-                                                          patientViewModel.removeLikeRecipeByPatient(patientId, item.recipeId!!, context)
-                                                      }) {
-                                                      Icon(
-                                                          imageVector = Icons.Default.Delete,
-                                                          contentDescription = "delete icon",
-                                                          modifier = Modifier.size(50.dp)
-                                                      )
-                                                  }
-                                              }
-                                          }
-                                      }
+                                  FavoriteRecipeItem(recipe = item, patientViewModel = patientViewModel, deletedItems = deletedItems) {
+                                      navController.navigate(Routes.RecipeDetail.route + "/${it.recipeId}")
                                   }
                               }
                           }
