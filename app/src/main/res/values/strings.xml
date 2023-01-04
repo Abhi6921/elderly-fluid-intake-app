@@ -1,3 +1,24 @@
 <resources>
     <string name="app_name">elderly-fluid-intake-app</string>
+
+    <!--Start Screen Strings-->
+    <string name="account_text_string">Already have an Account?</string>
+    <string name="login_button_text">Log In</string>
+    <string name="new_member_text_string">New Member?</string>
+    <string name="register_text_string">Register Here</string>
+
+    <!--Login Strings-->
+    <string name="login_title_text">Welcome Back!</string>
+    <string name="phonenumber_text">PhoneNumber</string>
+    <string name="password_text">Password</string>
+
+    <!--Empty Field Dialog Strings-->
+    <string name="empty_fields_title">Empty Field!</string>
+    <string name="empty_fields_text">One of the fields is empty!</string>
+    <string name="ok_text">OK</string>
+
+    <!--Login Failure Strings-->
+    <string name="login_failure_title">Login Failure!</string>
+    <string name="incorrect_fields_message">Incorrect username or password!</string>
+
 </resources>

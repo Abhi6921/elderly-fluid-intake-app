@@ -13,6 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -33,14 +34,13 @@ fun LoginFailureDialog(showLoginFailureDialog: MutableState<Boolean>) {
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Image(
-                        painter =
-                        painterResource(R.drawable.failure),
+                        painter = painterResource(R.drawable.failure),
                         contentDescription = "failure image icon"
                     )
                     Spacer(modifier = Modifier.height(20.dp))
-                    Text(text = "Login Failure!", fontSize = 34.sp)
+                    Text(text = stringResource(id = R.string.login_failure_title), fontSize = 34.sp)
                     Text(
-                        text = "Incorrect username or password!",
+                        text = stringResource(id = R.string.incorrect_fields_message),
                         fontWeight = FontWeight.Bold,
                         fontSize = 25.sp
                     )
@@ -55,7 +55,7 @@ fun LoginFailureDialog(showLoginFailureDialog: MutableState<Boolean>) {
                             .height(49.dp)
                             .width(322.dp)
                     ) {
-                        Text(text = "OK", color = Color.White, fontSize = 25.sp)
+                        Text(text = stringResource(id = R.string.ok_text), color = Color.White, fontSize = 25.sp)
                     }
                 }
             }

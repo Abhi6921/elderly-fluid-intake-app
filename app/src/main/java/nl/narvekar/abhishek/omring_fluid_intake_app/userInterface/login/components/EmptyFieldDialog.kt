@@ -13,6 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -22,6 +23,7 @@ import nl.narvekar.abhishek.omring_fluid_intake_app.navigation.Routes
 
 @Composable
 fun EmptyFieldMessageDialog(showMessageDialog: MutableState<Boolean>) {
+    
     Dialog(onDismissRequest = { /*TODO*/ }) {
 
         Surface(
@@ -38,8 +40,8 @@ fun EmptyFieldMessageDialog(showMessageDialog: MutableState<Boolean>) {
                         contentDescription = "warning image icon"
                     )
                     Spacer(modifier = Modifier.height(20.dp))
-                    Text(text = "Empty Fields!", fontSize = 34.sp)
-                    Text(text = "One of the fields is empty!", fontWeight = FontWeight.Bold, fontSize = 27.sp)
+                    Text(text = stringResource(id = R.string.empty_fields_title), fontSize = 34.sp)
+                    Text(text = stringResource(id = R.string.empty_fields_text), fontWeight = FontWeight.Bold, fontSize = 27.sp)
                     Spacer(modifier = Modifier.height(20.dp))
 
                     Button(
@@ -51,7 +53,7 @@ fun EmptyFieldMessageDialog(showMessageDialog: MutableState<Boolean>) {
                             .height(49.dp)
                             .width(322.dp)
                     ) {
-                        Text(text = "OK", color = Color.White, fontSize = 25.sp)
+                        Text(text = stringResource(id = R.string.ok_text), color = Color.White, fontSize = 25.sp)
                     }
                 }
             }

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">elderly-fluid-intake-app</string>
+
+    <!--Start Screen Strings-->
+    <string name="account_text_string">Heb je al een Account?</string>
+    <string name="login_button_text">InLoggen</string>
+    <string name="new_member_text_string">Nieuw lidmaatschap?</string>
+    <string name="register_text_string">Registreer hier</string>
+
+    <!--Login Strings-->
+    <string name="login_title_text">Welkom terug!</string>
+    <string name="phonenumber_text">TelefoonNummer</string>
+    <string name="password_text">Wachtwoord</string>
+
+    <!--Empty Field Dialog Strings-->
+    <string name="empty_fields_title">Leeg veld!</string>
+    <string name="empty_fields_text">Een van de velden is leeg!</string>
+    <string name="ok_text">Oke</string>
+
+    <!--Login Failure Strings-->
+    <string name="login_failure_title">Inloggen mislukt!</string>
+    <string name="incorrect_fields_message">Foutieve gebruikersnaam of wachtwoord!</string>
+
+
+
+</resources>

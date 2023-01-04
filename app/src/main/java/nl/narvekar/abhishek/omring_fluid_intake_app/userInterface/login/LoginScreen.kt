@@ -18,6 +18,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
@@ -77,7 +78,7 @@ fun LoginUI(loginViewModel: LoginViewModel, navController: NavController) {
         )
         Spacer(modifier = Modifier.height(30.dp))
         Text(
-            text = "Welcome Back!",
+            text = stringResource(id = R.string.login_title_text),
             fontSize = 35.sp,
             fontFamily = FontFamily.Default,
             fontWeight = FontWeight.Bold
@@ -109,7 +110,7 @@ fun LoginUI(loginViewModel: LoginViewModel, navController: NavController) {
             onValueChange = {
                 phonenumber = it
             },
-            label = { Text(text = "PhoneNumber", fontSize = 20.sp) }
+            label = { Text(text = stringResource(id = R.string.phonenumber_text), fontSize = 20.sp) }
         )
         Spacer(modifier = Modifier.height(29.dp))
         // Password field
@@ -139,7 +140,7 @@ fun LoginUI(loginViewModel: LoginViewModel, navController: NavController) {
             onValueChange = {
                 password = it
             },
-            label = { Text(text = "Password", fontSize = 20.sp, textAlign = TextAlign.Center) },
+            label = { Text(text = stringResource(id = R.string.password_text), fontSize = 20.sp, textAlign = TextAlign.Center) },
         )
         Spacer(modifier = Modifier.height(35.dp))
         Button(
@@ -156,7 +157,7 @@ fun LoginUI(loginViewModel: LoginViewModel, navController: NavController) {
                 .height(60.dp)
                 .width(300.dp)
         ) {
-            Text(text = "Login here", color = Color.White, fontSize = 30.sp)
+            Text(text = stringResource(id = R.string.login_button_text), color = Color.White, fontSize = 30.sp)
         }
     }
 }

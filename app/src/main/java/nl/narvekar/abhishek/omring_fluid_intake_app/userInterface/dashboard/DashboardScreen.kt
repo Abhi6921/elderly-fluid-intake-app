@@ -41,14 +41,11 @@ fun DashBoardScreen(
     loginViewModel: LoginViewModel,
     patientViewModel: PatientViewModel
 ) {
-    SetCircularProgress(patientViewModel)
     val fluidIntakeDialog = remember { mutableStateOf(false) }
     val firstName = AppSession.getFirstName()
     val lastName = AppSession.getLastName()
     val dailyLimit = AppSession.getDailyLimit()
 
-    val patientId = AppSession.getPatientId()
-    Log.d("patientId", patientId)
 
     if (fluidIntakeDialog.value) {
         SelectDrinkDialog(
@@ -160,7 +157,7 @@ fun SetCircularProgress(patientViewModel: PatientViewModel) {
     }
     else {
         logDrinkResponse.Achieved.toFloat()
-            .let { achieved -> DashBoardSpinnerAndQuote(drinkAmount = achieved, dailyLimit = dailyLimit) }
+            .let { achieved -> DashBoardSpinnerAndQuote(drinkAmount = achieved, dailyLimit = logDrinkResponse.DailyLimit) }
     }
 
 }

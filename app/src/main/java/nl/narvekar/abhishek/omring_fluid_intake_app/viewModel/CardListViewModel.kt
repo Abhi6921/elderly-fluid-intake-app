@@ -36,7 +36,7 @@ class CardListViewModel : ViewModel() {
 
             try {
                 val fromDate: String = "06/12/2022"
-                val toDate: String = "29/12/2022"
+                val toDate: String = "09/12/2023"
                 val drinkLogs = usersAuthApi.getPatientDrinkLogs("Bearer ${adminToken}", patientId, fromDate, toDate, 0, 20)
 
                 if (drinkLogs.isSuccessful) {
