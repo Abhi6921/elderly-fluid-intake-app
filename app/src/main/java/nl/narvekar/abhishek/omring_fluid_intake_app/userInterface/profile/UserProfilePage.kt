@@ -16,6 +16,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -33,7 +34,7 @@ import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.PatientViewModel
 
 
 @Composable
-fun UserProfilePage(navController: NavController, patientViewModel: PatientViewModel) {
+fun UserProfilePage(navController: NavController) {
     val scrollState = rememberScrollState()
     val phoneNumber = AppSession.getPhoneNumber()
     val firstName = AppSession.getFirstName()
@@ -43,7 +44,7 @@ fun UserProfilePage(navController: NavController, patientViewModel: PatientViewM
 
     Scaffold(
         topBar = {
-            FluidTopAppBar("Profile")
+            FluidTopAppBar(stringResource(id = R.string.profile_title))
         },
         content = { innterPadding ->
             Column(
@@ -70,7 +71,7 @@ fun UserProfilePage(navController: NavController, patientViewModel: PatientViewM
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier.padding(start = 39.dp, top = 493.dp)
             ) {
-                Text(text = "FirstName:", fontSize = 44.sp)
+                Text(text = stringResource(id = R.string.first_name_text), fontSize = 44.sp)
                 Spacer(modifier = Modifier.width(183.dp))
                 Text(text = firstName, fontSize = 44.sp)
             }
@@ -79,7 +80,7 @@ fun UserProfilePage(navController: NavController, patientViewModel: PatientViewM
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier.padding(start = 39.dp, top = 593.dp)
             ) {
-                Text(text = "Lastname: ", fontSize = 44.sp)
+                Text(text = stringResource(id = R.string.last_name_text), fontSize = 44.sp)
                 Spacer(modifier = Modifier.width(183.dp))
                 Text(text = lastName, fontSize = 44.sp)
             }
@@ -88,7 +89,7 @@ fun UserProfilePage(navController: NavController, patientViewModel: PatientViewM
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier.padding(start = 39.dp, top = 693.dp)
             ) {
-                Text(text = "PhoneNumber:", fontSize = 44.sp)
+                Text(text = stringResource(id = R.string.phonenumber_text), fontSize = 44.sp)
                 Spacer(modifier = Modifier.width(103.dp))
                 Text(text = phoneNumber, fontSize = 44.sp)
             }
@@ -97,7 +98,7 @@ fun UserProfilePage(navController: NavController, patientViewModel: PatientViewM
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier.padding(start = 39.dp, top = 793.dp)
             ) {
-                Text(text = "DailyLimit: ", fontSize = 44.sp)
+                Text(text = stringResource(id = R.string.daily_limit_label), fontSize = 44.sp)
                 Spacer(modifier = Modifier.width(183.dp))
                 Text(text = "${dailyLimit}ml", fontSize = 44.sp)
             }
@@ -106,7 +107,7 @@ fun UserProfilePage(navController: NavController, patientViewModel: PatientViewM
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier.padding(start = 39.dp, top = 893.dp)
             ) {
-                Text(text = "DailyGoal: ", fontSize = 44.sp)
+                Text(text = stringResource(id = R.string.daily_goal_label), fontSize = 44.sp)
                 Spacer(modifier = Modifier.width(183.dp))
                 Text(text = "${dailyGoal}ml", fontSize = 44.sp)
             }

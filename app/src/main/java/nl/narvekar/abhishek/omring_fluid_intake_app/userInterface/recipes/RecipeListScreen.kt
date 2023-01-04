@@ -10,10 +10,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import nl.narvekar.abhishek.omring_fluid_intake_app.R
 import nl.narvekar.abhishek.omring_fluid_intake_app.data.Recipe
 import nl.narvekar.abhishek.omring_fluid_intake_app.navigation.AppBottomNav
 import nl.narvekar.abhishek.omring_fluid_intake_app.navigation.Routes
@@ -25,13 +27,13 @@ import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.RecipeViewModel
 fun RecipeList(recipes: List<Recipe>, navController: NavController, patientViewModel: PatientViewModel, recipeViewModel: RecipeViewModel) {
 
     val context = LocalContext.current
-    // todo fetch all liked recipes of current user -> DONE
-    // todo add recipe to favorites on favorite click -> DONE
-    // todo remove recipe from favorites view on unfavorite click -> PENDING
+
     Scaffold(
         topBar = {
             TopAppBar(
-                modifier = Modifier.fillMaxWidth().height(60.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(60.dp),
                 backgroundColor = Color(0xFF1BAEEE),
                 elevation = 0.dp
             ) {
@@ -47,7 +49,7 @@ fun RecipeList(recipes: List<Recipe>, navController: NavController, patientViewM
                                 modifier = Modifier.fillMaxWidth(),
                                 textAlign = TextAlign.Center,
                                 maxLines = 1,
-                                text = "Recipes",
+                                text = stringResource(id = R.string.recipe_title),
                                 color = Color.White,
                                 fontSize = 34.sp
                             )
@@ -58,7 +60,15 @@ fun RecipeList(recipes: List<Recipe>, navController: NavController, patientViewM
         },
         content = { innerPadding ->
             if (recipes.isEmpty()) {
-                Text(text = "Recipes is empty")
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(innerPadding),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Text(text = stringResource(id = R.string.empty_recipe_text))
+                }
             }
             else {
                 LazyColumn(Modifier.padding(innerPadding)) {

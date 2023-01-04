@@ -18,6 +18,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -45,21 +46,11 @@ fun RecipeDetailView(
     val patientId = AppSession.getPatientId()
 
     val context = LocalContext.current
-//    val recipe = recipeViewModel.recipeListResponse.find { recipe ->
-//        detailId == recipe.recipeId
-//    }
     val recipe = recipeViewModel.recipeListResponse.find { recipe ->
         detailId == recipe.recipeId
     }
 
-    val recipeIdOnce = recipe?.recipeId.toString()
 
-    val recipeID = remember { mutableStateOf("") }
-    val patientID = remember { mutableStateOf("") }
-    recipeID.value = recipeIdOnce
-
-    Log.d("recipedetail-recipeID", "$recipeID")
-    Log.d("recipedetail-patientID", "$patientID")
 
     //val recipe = recipeViewModel.getRecipeById(detailId)
     val isRecipeInFavorites: Boolean = patientViewModel.likedRecipeListResponse.contains(recipe)
@@ -106,16 +97,15 @@ fun RecipeDetailView(
                 Text(text = recipe?.name.toString(), fontSize = 44.sp)
                 Spacer(modifier = Modifier.height(30.dp))
 
-                var isFavorite by remember { mutableStateOf(false) }
                 if (!isRecipeInFavorites) {
                     FavoritesButton(patientId = patientId, recipeId = recipe?.recipeId!!, patientViewModel = patientViewModel, context = context)
                 }
                 else if (isRecipeInFavorites) {
-                    Text(text = "This recipe is in favorites!", fontSize = 29.sp)
+                    Text(text = stringResource(id = R.string.recipe_in_favorites), fontSize = 29.sp)
                 }
 
                 Spacer(modifier = Modifier.height(30.dp))
-                Text(text = "Ingredients:", fontSize = 34.sp)
+                Text(text = stringResource(id = R.string.ingredients_text), fontSize = 34.sp)
                 Spacer(modifier = Modifier.height(30.dp))
 
 
@@ -124,7 +114,7 @@ fun RecipeDetailView(
                 }
 
                 Spacer(modifier = Modifier.height(30.dp))
-                Text(text = "Steps", fontSize = 34.sp)
+                Text(text = stringResource(id = R.string.steps_text), fontSize = 34.sp)
                 Spacer(modifier = Modifier.height(30.dp))
                 Text(text = "${recipe?.instructions}", fontSize = 24.sp)
             }

@@ -233,7 +233,7 @@ fun LogoutButton(
                 .width(220.dp),
             colors = ButtonDefaults.buttonColors(backgroundColor = Color(0xFF1B7D71))
         ) {
-            Text(text = "Logout", fontSize = 35.sp, color = Color.White)
+            Text(text = stringResource(id = R.string.logout_text), fontSize = 35.sp, color = Color.White)
         }
     }
 }

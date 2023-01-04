@@ -61,4 +61,21 @@
     <string name="no_favorites_text">You do not have any favorites yet!</string>
     <string name="instructions_button_text">Instructions</string>
 
+    <!--Profile Screen Strings-->
+    <string name="profile_title">Profile:</string>
+    <string name="first_name_text">FirstName:</string>
+    <string name="last_name_text">Lastname:</string>
+    <string name="daily_limit_label">DailyLimit:</string>
+    <string name="daily_goal_label">DailyGoal:</string>
+
+    <!--Recipe Screen Strings-->
+    <string name="recipe_title">Recipes</string>
+    <string name="empty_recipe_text">There are no recipes in the database.</string>
+    <string name="recipe_in_favorites">This recipe is in favorites!</string>
+    <string name="ingredients_text">ingredients</string>
+    <string name="steps_text">steps</string>
+
+    <!--Drink Records Strings-->
+    <string name="drink_records_title">Drink Records</string>
+
 </resources>

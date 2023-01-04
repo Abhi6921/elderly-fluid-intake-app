@@ -20,6 +20,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -43,7 +44,7 @@ fun RecipeFavorited(navController: NavController, recipes: List<Recipe>, patient
     val patientId = AppSession.getPatientId()
     Scaffold(
         topBar = {
-              FluidTopAppBar(topBarTitle = "Favorites")
+              FluidTopAppBar(topBarTitle = stringResource(id = R.string.favorite_title))
         },
         content = { innnerPadding ->
             if (recipes.isEmpty()) {
@@ -54,7 +55,7 @@ fun RecipeFavorited(navController: NavController, recipes: List<Recipe>, patient
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    Text(text = "You do not have any favorites yet!", fontSize = 35.sp)
+                    Text(text = stringResource(id = R.string.no_favorites_text), fontSize = 35.sp)
                 }
             }
             else {
@@ -119,7 +120,7 @@ fun FavoriteRecipeItem(
                 contentScale = ContentScale.Fit,
                 error = painterResource(R.drawable.placeholder),
             )
-            Log.d("recipeimage", "${recipe.imageLink}")
+
             Column(Modifier.padding(8.dp)) {
                 Text(
                     text = recipe.name.toString(),
@@ -144,7 +145,7 @@ fun FavoriteRecipeItem(
                             .width(200.dp)
                             .height(70.dp)
                     ) {
-                        Text(text = "Instructions", color = Color.White, fontSize = 25.sp)
+                        Text(text = stringResource(id = R.string.instructions_button_text), color = Color.White, fontSize = 25.sp)
                     }
                     Spacer(modifier = Modifier.width(200.dp))
                     IconButton(

@@ -1,6 +1,6 @@
 package nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.dashboard.components
 
-import android.content.SharedPreferences
+import nl.narvekar.abhishek.omring_fluid_intake_app.R
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -16,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -41,7 +42,7 @@ fun SelectDrinkDialog(
     navController: NavController,
     setShowDialog: (Boolean) -> Unit,
 ) {
-    val phoneNumber = AppSession.getPhoneNumber()
+
     val context = LocalContext.current
     Dialog(
         onDismissRequest = { setShowDialog(false) },
@@ -59,7 +60,7 @@ fun SelectDrinkDialog(
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Text(text = "Please select a amount",
+                    Text(text =  stringResource(id = R.string.select_amount_text),
                         style = TextStyle(
                             fontSize = 35.sp,
                             fontWeight = FontWeight.Bold,
@@ -93,7 +94,7 @@ fun SelectDrinkDialog(
                                 .height(70.dp)
                                 .width(500.dp)
                         ) {
-                            Text(text = "100ml", fontSize = 24.sp)
+                            Text(text = stringResource(id = R.string.button_100ml_text), fontSize = 24.sp)
                         }
                     }
                     Spacer(modifier = Modifier.height(30.dp))
@@ -111,7 +112,7 @@ fun SelectDrinkDialog(
                                 .height(70.dp)
                                 .width(500.dp)
                         ) {
-                            Text(text = "150ml", fontSize = 24.sp)
+                            Text(text = stringResource(id = R.string.button_150ml_text), fontSize = 24.sp)
                         }
                     }
                     Spacer(modifier = Modifier.height(30.dp))
@@ -130,7 +131,7 @@ fun SelectDrinkDialog(
                                 .height(70.dp)
                                 .width(500.dp)
                         ) {
-                            Text(text = "200ml", fontSize = 24.sp)
+                            Text(text = stringResource(id = R.string.button_200ml_text), fontSize = 24.sp)
                         }
                     }
 

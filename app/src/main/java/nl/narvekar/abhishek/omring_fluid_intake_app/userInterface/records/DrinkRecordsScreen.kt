@@ -248,9 +248,6 @@ fun ExpandableContainerView(
                 DrinkRecord(drinklogResponse.dateTime.toString(), drinklogResponse.amount)
             )
             val drinkDate = DrinkDate(drinklogResponse.dateTime, records)
-//            Log.d("drinkDateTime", drinkDateTime)
-//            Log.d("time", time)
-
 
             HeaderView(questionText = drinkDateTime, drinklogResponse.amount.toString(),onClickItem = onClickItem)
             drinkDate.drinkRecord?.forEach { logs ->

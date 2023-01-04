@@ -88,7 +88,7 @@ fun AppNavigation(
            ShareScreen(navController)
         }
         composable(Routes.Profile.route) {
-            UserProfilePage(navController, patientViewModel)
+            UserProfilePage(navController)
         }
     }
 }
