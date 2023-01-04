@@ -15,6 +15,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -44,8 +45,8 @@ fun RegisterFailureDialog(showMessage: MutableState<Boolean>) {
                         contentDescription = "failure image icon"
                     )
                     Spacer(modifier = Modifier.height(20.dp))
-                    Text(text = "Failure!", fontSize = 34.sp)
-                    Text(text = "Something went wrong while registering your account, please try again", fontWeight = FontWeight.Bold, fontSize = 25.sp)
+                    Text(text = stringResource(id = R.string.register_failure_string), fontSize = 34.sp)
+                    Text(text = stringResource(id = R.string.register_failure_description), fontWeight = FontWeight.Bold, fontSize = 25.sp)
                     Spacer(modifier = Modifier.height(20.dp))
 
                     Button(
@@ -57,7 +58,7 @@ fun RegisterFailureDialog(showMessage: MutableState<Boolean>) {
                             .height(49.dp)
                             .width(322.dp)
                     ) {
-                        Text(text = "OK", color = Color.White, fontSize = 25.sp)
+                        Text(text = stringResource(id = R.string.ok_text), color = Color.White, fontSize = 25.sp)
                     }
                 }
             }

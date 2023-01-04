@@ -22,6 +22,41 @@
     <string name="login_failure_title">Inloggen mislukt!</string>
     <string name="incorrect_fields_message">Foutieve gebruikersnaam of wachtwoord!</string>
 
+    <!--Register Screen Strings-->
+    <string name="welcome_text_string">Welkom aan boord!</string>
+    <string name="create_account_text">Laten we een account aanmaken</string>
+    <string name="firstname_text">Voornaam invoeren</string>
+    <string name="lastname_text">Achternaam invoeren</string>
+    <string name="email_text">Email invoeren</string>
+    <string name="phonenumber_label">Telefoonnummer invoeren</string>
+    <string name="password_label">Voer Wachtwoord in</string>
+    <string name="dailylimit_text">Voer uw dagelijkse limiet in (L)</string>
+    <string name="dailygoal_text">Voer uw dagelijkse doel in (L)</string>
+    <string name="dateofbirth_text">Vul geboortedatum in (yyyy-MM-dd)</string>
+
+    <!--Register Failure Dailog Strings-->
+    <string name="register_failure_string">Registratie mislukt</string>
+    <string name="register_failure_description">Er is iets misgegaan bij het registreren van uw account, probeer het opnieuw</string>
+    <string name="register_success_string">Succes!</string>
+    <string name="register_success_description">Uw account is geregistreerd!</string>
+    <string name="login_text_string">Ga verder met inloggen</string>
+
+    <!--Dashboard Strings-->
+    <string name="dashboard_title">Dashboard</string>
+    <string name="welcome_text">Welkom</string>
+    <string name="today_goal">Het doel van vandaag:</string>
+    <string name="goal_achieved">Doel bereikt:</string>
+    <string name="fluid_intake_text">Vloeistofinname</string>
+    <string name="recipes_text">Recepten</string>
+    <string name="logout_text">Uitloggen</string>
+
+    <!--FluidIntakeDialog-->
+    <string name="select_amount_text">Selecteer een bedrag</string>
+
+    <!--Recipe Favorite Strings-->
+    <string name="favorite_title">Favorieten</string>
+    <string name="no_favorites_text">Je hebt nog geen favorieten!</string>
+    <string name="instructions_button_text">Instructies</string>
 
 
 </resources>

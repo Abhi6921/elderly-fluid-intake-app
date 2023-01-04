@@ -32,7 +32,7 @@ import kotlin.math.roundToInt
 fun CircularProgressBar(
     percentage: Float,
     number: Int,
-    fontSize: TextUnit = 68.sp,
+    fontSize: TextUnit = 65.sp,
     radius: Dp = 100.dp,
     shadowcolor: Color = Color.LightGray,
     strokeWidth: Dp = 20.dp,

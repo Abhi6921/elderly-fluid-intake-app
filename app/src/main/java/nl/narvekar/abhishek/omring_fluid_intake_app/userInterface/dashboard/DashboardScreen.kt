@@ -13,6 +13,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -33,7 +34,7 @@ import kotlin.math.log
 import kotlin.random.Random
 
 
-@SuppressLint("SuspiciousIndentation")
+
 @Composable
 fun DashBoardScreen(
     navController: NavController,
@@ -42,10 +43,12 @@ fun DashBoardScreen(
     patientViewModel: PatientViewModel
 ) {
     val fluidIntakeDialog = remember { mutableStateOf(false) }
+    val patientId = AppSession.getPatientId()
     val firstName = AppSession.getFirstName()
     val lastName = AppSession.getLastName()
     val dailyLimit = AppSession.getDailyLimit()
 
+    val currentFluidintake = patientViewModel.getCurrentFluidIntakeStatus(patientId)
 
     if (fluidIntakeDialog.value) {
         SelectDrinkDialog(
@@ -56,12 +59,12 @@ fun DashBoardScreen(
         })
     }
     else {
-        SetCircularProgress(patientViewModel = patientViewModel)
+        SetCircularProgress(currentFluidintake.Achieved?.toFloat(), dailyLimit)
     }
 
     Scaffold(
         topBar = {
-            FluidTopAppBar("Dashboard")
+            FluidTopAppBar(stringResource(id = R.string.dashboard_title))
         },
         bottomBar = {
             AppBottomNav(navController)
@@ -80,7 +83,9 @@ fun DashBoardScreen(
                 Box(modifier = Modifier
                     .fillMaxWidth()
                     .fillMaxHeight()) {
-                        SetCircularProgress(patientViewModel)
+
+                    SetCircularProgress(currentFluidintake.Achieved?.toFloat(), dailyLimit)
+
                     Row(
                         horizontalArrangement = Arrangement.Center,
                         verticalAlignment = Alignment.CenterVertically,
@@ -110,7 +115,7 @@ fun DashBoardScreen(
                                     .height(230.dp)
                             )
                             Spacer(modifier = Modifier.height(1.dp))
-                            Text(text = "Fluid Intake", fontSize = 35.sp)
+                            Text(text = stringResource(id = R.string.fluid_intake_text), fontSize = 35.sp)
                         }
                         Spacer(modifier = Modifier.width(34.dp))
                         // Recipe button
@@ -132,10 +137,10 @@ fun DashBoardScreen(
                             Spacer(modifier = Modifier.height(10.dp))
                             Image(
                                 painter = painterResource(R.drawable.recipe),
-                                contentDescription = " recipe image"
+                                contentDescription = "recipe image"
                             )
                             Spacer(modifier = Modifier.height(20.dp))
-                            Text(text = "Recipes", fontSize = 35.sp)
+                            Text(text = stringResource(id = R.string.recipes_text), fontSize = 35.sp)
                         }
                     }
                 }
@@ -146,26 +151,20 @@ fun DashBoardScreen(
 }
 
 @Composable
-fun SetCircularProgress(patientViewModel: PatientViewModel) {
+fun SetCircularProgress(achievedIntake: Float?, dailyLimit: Int) {
 
-    val dailyLimit = AppSession.getDailyLimit()
-    val patientId = AppSession.getPatientId()
-    val logDrinkResponse = patientViewModel.getCurrentFluidIntakeStatus(patientId)
-
-    if (logDrinkResponse.Achieved?.toFloat() == null || logDrinkResponse.DailyLimit?.toInt() == null) {
+    if (achievedIntake == null) {
         DashBoardSpinnerAndQuote(drinkAmount = 0.0f, dailyLimit = 100)
     }
     else {
-        logDrinkResponse.Achieved.toFloat()
-            .let { achieved -> DashBoardSpinnerAndQuote(drinkAmount = achieved, dailyLimit = logDrinkResponse.DailyLimit) }
+        DashBoardSpinnerAndQuote(drinkAmount = achievedIntake, dailyLimit = dailyLimit)
     }
+
 
 }
 
 @Composable
 fun DashBoardSpinnerAndQuote(drinkAmount: Float, dailyLimit: Int) {
-    Log.d("dashbord-drinkAmount ", drinkAmount.toString())
-    Log.d("dashbord-dailyLimit ", dailyLimit.toString())
 
     Row(
         modifier = Modifier

@@ -16,6 +16,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -71,14 +72,14 @@ fun RegisterScreen(registerViewModel: RegisterViewModel, navController: NavContr
         )
         Spacer(modifier = Modifier.height(20.dp))
         Text(
-            text = "Welcome Onboard!",
+            text = stringResource(id = R.string.welcome_text_string),
             fontSize = 35.sp,
             fontFamily = FontFamily.Default,
             fontWeight = FontWeight.Bold
         )
         Spacer(modifier = Modifier.height(5.dp))
         Text(
-            text = "Let's create an account",
+            text = stringResource(id = R.string.create_account_text),
             fontSize = 25.sp,
             fontFamily = FontFamily.Default,
             fontWeight = FontWeight.Bold,
@@ -124,7 +125,7 @@ fun RegisterScreen(registerViewModel: RegisterViewModel, navController: NavContr
             onValueChange = {
                firstname.value = it
             },
-            label = { Text(text = "firstName", fontSize = 20.sp) }
+            label = { Text(text = stringResource(id = R.string.firstname_text), fontSize = 20.sp) }
         )
         Spacer(modifier = Modifier.height(10.dp))
         OutlinedTextField(
@@ -145,7 +146,7 @@ fun RegisterScreen(registerViewModel: RegisterViewModel, navController: NavContr
             onValueChange = {
                 lastname.value = it
             },
-            label = { Text(text = "lastname", fontSize = 20.sp) }
+            label = { Text(text = stringResource(id = R.string.lastname_text), fontSize = 20.sp) }
         )
         Spacer(modifier = Modifier.height(10.dp))
         // email textfield
@@ -167,7 +168,7 @@ fun RegisterScreen(registerViewModel: RegisterViewModel, navController: NavContr
             onValueChange = {
                 email.value= it
             },
-            label = { Text(text = "email", fontSize = 20.sp) }
+            label = { Text(text = stringResource(id = R.string.email_text), fontSize = 20.sp) }
         )
         Spacer(modifier = Modifier.height(10.dp))
         // phone-number text-field
@@ -191,7 +192,7 @@ fun RegisterScreen(registerViewModel: RegisterViewModel, navController: NavContr
             onValueChange = {
                 phonenumber.value = it
             },
-            label = { Text(text = "Phonenumber", fontSize = 20.sp) }
+            label = { Text(text = stringResource(id = R.string.phonenumber_label), fontSize = 20.sp) }
         )
         Spacer(modifier = Modifier.height(10.dp))
 
@@ -224,7 +225,7 @@ fun RegisterScreen(registerViewModel: RegisterViewModel, navController: NavContr
             onValueChange = {
                 password.value = it
             },
-            label = { Text(text = "Password", fontSize = 20.sp, textAlign = TextAlign.Center) },
+            label = { Text(text = stringResource(id = R.string.password_label), fontSize = 20.sp, textAlign = TextAlign.Center) },
         )
         Spacer(modifier = Modifier.height(10.dp))
         // daily intake
@@ -245,7 +246,7 @@ fun RegisterScreen(registerViewModel: RegisterViewModel, navController: NavContr
                 dailylimit.value = it
             },
             keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
-            label = { Text(text = "Enter your daily limit in (L)", fontSize = 20.sp) }
+            label = { Text(text = stringResource(id = R.string.dailylimit_text), fontSize = 20.sp) }
         )
         Spacer(modifier = Modifier.height(10.dp))
         OutlinedTextField(
@@ -257,7 +258,6 @@ fun RegisterScreen(registerViewModel: RegisterViewModel, navController: NavContr
 
             textStyle = TextStyle.Default.copy(fontSize = 28.sp),
             leadingIcon = {
-                /*ImageVector.vectorResource(id = R.drawable.target_icon)*/
                 Image(painterResource(id = R.drawable.target_icon),
                     contentDescription = "targetIcon")
             },
@@ -265,7 +265,7 @@ fun RegisterScreen(registerViewModel: RegisterViewModel, navController: NavContr
                 dailygoal.value = it
             },
             keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
-            label = { Text(text = "Enter your daily goal in (L)", fontSize = 20.sp) }
+            label = { Text(text = stringResource(id = R.string.dailygoal_text), fontSize = 20.sp) }
         )
         Spacer(modifier = Modifier.height(10.dp))
         OutlinedTextField(
@@ -283,10 +283,10 @@ fun RegisterScreen(registerViewModel: RegisterViewModel, navController: NavContr
                 dateofbirth.value = it
             },
             keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Text),
-            label = { Text(text = "Enter your date of birth", fontSize = 20.sp) }
+            label = { Text(text = stringResource(id = R.string.dateofbirth_text), fontSize = 20.sp) }
         )
         Spacer(modifier = Modifier.height(40.dp))
-        Log.d("firstNameOutput", "$firstname")
+        
         // RegisterButton
         Button(
             onClick = {

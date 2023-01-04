@@ -12,6 +12,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -19,6 +20,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.navigation.NavController
 import nl.narvekar.abhishek.omring_fluid_intake_app.navigation.Routes
+import nl.narvekar.abhishek.omring_fluid_intake_app.R
 
 
 @Composable
@@ -36,12 +38,12 @@ fun RegisterConfirmDialog(navController: NavController) {
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Image(painter =
-                        painterResource(nl.narvekar.abhishek.omring_fluid_intake_app.R.drawable.success),
+                        painterResource(R.drawable.success),
                         contentDescription = "successful image icon"
                     )
                     Spacer(modifier = Modifier.height(20.dp))
-                    Text(text = "Success!", fontSize = 34.sp)
-                    Text(text = "Your Account is Registered!", fontWeight = FontWeight.Bold, fontSize = 27.sp)
+                    Text(text = stringResource(id = R.string.register_success_string), fontSize = 34.sp)
+                    Text(text = stringResource(id = R.string.register_success_description), fontWeight = FontWeight.Bold, fontSize = 27.sp)
                     Spacer(modifier = Modifier.height(20.dp))
 
                     Button(
@@ -53,7 +55,7 @@ fun RegisterConfirmDialog(navController: NavController) {
                             .height(49.dp)
                             .width(322.dp)
                     ) {
-                        Text(text = "Continue to Login", color = Color.White, fontSize = 25.sp)
+                        Text(text = stringResource(id = R.string.login_text_string), color = Color.White, fontSize = 25.sp)
                     }
                 }
             }
