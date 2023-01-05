@@ -25,6 +25,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import nl.narvekar.abhishek.omring_fluid_intake_app.R
+import nl.narvekar.abhishek.omring_fluid_intake_app.data.Recipe
 import nl.narvekar.abhishek.omring_fluid_intake_app.data.tips
 import nl.narvekar.abhishek.omring_fluid_intake_app.navigation.recipeId
 import nl.narvekar.abhishek.omring_fluid_intake_app.utils.AppSession
@@ -45,15 +46,16 @@ fun RecipeDetailView(
     val phoneNumber = AppSession.getPhoneNumber()
     val patientId = AppSession.getPatientId()
 
-    val context = LocalContext.current
-    val recipe = recipeViewModel.recipeListResponse.find { recipe ->
-        detailId == recipe.recipeId
-    }
 
+//    val recipe = recipeViewModel.recipeListResponse.find { recipe ->
+//        detailId == recipe.recipeId
+//    }
 
+    recipeViewModel.getRecipeById(detailId)
 
-    //val recipe = recipeViewModel.getRecipeById(detailId)
-    val isRecipeInFavorites: Boolean = patientViewModel.likedRecipeListResponse.contains(recipe)
+    val recipe by recipeViewModel.mutableRecipeState.collectAsState()
+
+//    val isRecipeInFavorites: Boolean = patientViewModel.likedRecipeListResponse.contains(recipe)
     Scaffold(
         topBar = {
             TopAppBar(
@@ -66,7 +68,7 @@ fun RecipeDetailView(
                         modifier = Modifier.fillMaxWidth(),
                         textAlign = TextAlign.Center,
                         maxLines = 1,
-                        text = recipe?.name ?: "",
+                        text = "Recipe Detail Screen",
                         color = Color.White,
                         fontSize = 34.sp
                     )
@@ -84,19 +86,33 @@ fun RecipeDetailView(
             Column(
                 Modifier
                     .verticalScroll(scrollState)
-                    .padding(15.dp)) {
-                AsyncImage(
-                    model =  recipe?.imageLink,
-                    contentDescription = "recipe image",
-                    modifier = Modifier
-                        .width(900.dp)
-                        .height(800.dp),
-                    contentScale = ContentScale.Crop,
-                    placeholder = painterResource(R.drawable.placeholder)
-                )
-                Text(text = recipe?.name.toString(), fontSize = 44.sp)
-                Spacer(modifier = Modifier.height(30.dp))
+                    .padding(15.dp)
+            ) {
+                recipe?.let { recipe ->
+                    RecipeDetailScreen(recipe = recipe, patientViewModel.likedRecipeListResponse, patientId, patientViewModel)
+                }
+            }
+        }
+    )
+}
 
+@Composable
+fun RecipeDetailScreen(recipe: Recipe?, favoritedRecipeList: List<Recipe>, patientId: String, patientViewModel: PatientViewModel) {
+
+    val isRecipeInFavorites: Boolean = favoritedRecipeList.contains(recipe)
+    val context = LocalContext.current
+
+    AsyncImage(
+        model =  recipe?.imageLink ?: "",
+        contentDescription = "recipe image",
+        modifier = Modifier
+            .width(900.dp)
+            .height(800.dp),
+        contentScale = ContentScale.Crop,
+        placeholder = painterResource(R.drawable.placeholder)
+    )
+    Text(text = recipe?.name ?: "recipe name", fontSize = 44.sp)
+    Spacer(modifier = Modifier.height(30.dp))
                 if (!isRecipeInFavorites) {
                     FavoritesButton(patientId = patientId, recipeId = recipe?.recipeId!!, patientViewModel = patientViewModel, context = context)
                 }
@@ -104,21 +120,17 @@ fun RecipeDetailView(
                     Text(text = stringResource(id = R.string.recipe_in_favorites), fontSize = 29.sp)
                 }
 
-                Spacer(modifier = Modifier.height(30.dp))
-                Text(text = stringResource(id = R.string.ingredients_text), fontSize = 34.sp)
-                Spacer(modifier = Modifier.height(30.dp))
+    Spacer(modifier = Modifier.height(30.dp))
+    Text(text = stringResource(id = R.string.ingredients_text), fontSize = 34.sp)
+    Spacer(modifier = Modifier.height(30.dp))
 
 
-                for((key, value) in recipe?.ingredients ?: tips) {
-                    Text(text = "$key: $value", fontSize = 24.sp)
-                }
+    for((key, value) in recipe?.ingredients ?: tips) {
+        Text(text = "$key: $value", fontSize = 24.sp)
+    }
 
-                Spacer(modifier = Modifier.height(30.dp))
-                Text(text = stringResource(id = R.string.steps_text), fontSize = 34.sp)
-                Spacer(modifier = Modifier.height(30.dp))
-                Text(text = "${recipe?.instructions}", fontSize = 24.sp)
-            }
-
-        }
-    )
+    Spacer(modifier = Modifier.height(30.dp))
+    Text(text = stringResource(id = R.string.steps_text), fontSize = 34.sp)
+    Spacer(modifier = Modifier.height(30.dp))
+    Text(text = "${recipe?.instructions}", fontSize = 24.sp)
 }

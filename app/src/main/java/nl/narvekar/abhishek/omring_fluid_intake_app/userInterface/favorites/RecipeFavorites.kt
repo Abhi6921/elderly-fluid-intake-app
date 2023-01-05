@@ -74,8 +74,6 @@ fun RecipeFavorited(navController: NavController, recipes: List<Recipe>, patient
                               }
                           }
                       )
-
-
                 }
             }
 

@@ -6,6 +6,8 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -24,10 +26,14 @@ import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.PatientViewModel
 import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.RecipeViewModel
 
 @Composable
-fun RecipeList(recipes: List<Recipe>, navController: NavController, patientViewModel: PatientViewModel, recipeViewModel: RecipeViewModel) {
+fun RecipeList(navController: NavController, recipeViewModel: RecipeViewModel, patientViewModel: PatientViewModel) {
 
     val context = LocalContext.current
+    // fetch all the recipe favorites
+    // check if the recipe is inside the user's favorites
 
+    val recipes by recipeViewModel.recipeListState.collectAsState()
+    patientViewModel.getAllLikedRecipes()
     Scaffold(
         topBar = {
             TopAppBar(
@@ -59,7 +65,7 @@ fun RecipeList(recipes: List<Recipe>, navController: NavController, patientViewM
             }
         },
         content = { innerPadding ->
-            if (recipes.isEmpty()) {
+            if (recipes.isNullOrEmpty()) {
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
@@ -72,11 +78,13 @@ fun RecipeList(recipes: List<Recipe>, navController: NavController, patientViewM
             }
             else {
                 LazyColumn(Modifier.padding(innerPadding)) {
-                    items(recipes) { item ->
-                        RecipeItem(item) {
-                            navController.navigate(Routes.RecipeDetail.route + "/${it.recipeId}")
+                     recipes?.let { allRecipes ->
+                        items(allRecipes) { item ->
+                            RecipeItem(item) {
+                                navController.navigate(Routes.RecipeDetail.route + "/${it.recipeId}")
+                            }
                         }
-                    }
+                     }
                 }
             }
 

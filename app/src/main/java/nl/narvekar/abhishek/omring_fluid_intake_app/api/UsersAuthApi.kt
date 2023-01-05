@@ -34,8 +34,6 @@ interface UsersAuthApi {
     suspend fun getPatientDrinkLogs(
         @Header("Authorization") authToken: String,
         @Path("patientId") patientId: String,
-        @Query("from") fromDate: String,
-        @Query("to") toDate: String,
         @Query("offset") offset: Int,
         @Query("limit") limit: Int
     ) : Response<List<DrinkLogResponse>>

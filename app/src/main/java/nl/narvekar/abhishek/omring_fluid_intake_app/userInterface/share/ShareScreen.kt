@@ -19,7 +19,7 @@ fun ShareScreen(navController: NavController) {
             val context = LocalContext.current
             val shareApp = Intent.createChooser(Intent().apply {
                 action = Intent.ACTION_SEND
-                putExtra(Intent.EXTRA_TEXT, "Hey, Download this drink app and stay hydrated!")
+                putExtra(Intent.EXTRA_TEXT, "Hey, Download this drink app of Omring and stay hydrated!")
                 putExtra(Intent.EXTRA_SUBJECT, "Drink App")
                 putExtra(Intent.EXTRA_TITLE, "Share this app with friends and family!")
                 type = "message/rfc822"

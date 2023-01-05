@@ -21,11 +21,6 @@ class CardListViewModel : ViewModel() {
     private val itemIdsList = MutableStateFlow(listOf<Int>())
     val itemIds: StateFlow<List<Int>> get() = itemIdsList
 
-    private val dateItemList = MutableStateFlow(listOf<DrinkDate>())
-    val items1: StateFlow<List<DrinkDate>> get() = dateItemList
-
-
-
     var drinkDateResponse: List<DrinkLogResponse> by mutableStateOf(listOf())
     var errorMessage: String by mutableStateOf("")
 
@@ -37,7 +32,7 @@ class CardListViewModel : ViewModel() {
             try {
                 val fromDate: String = "06/12/2022"
                 val toDate: String = "09/12/2023"
-                val drinkLogs = usersAuthApi.getPatientDrinkLogs("Bearer ${adminToken}", patientId, fromDate, toDate, 0, 20)
+                val drinkLogs = usersAuthApi.getPatientDrinkLogs("Bearer ${adminToken}", patientId, 0, 20)
 
                 if (drinkLogs.isSuccessful) {
                     drinkDateResponse = drinkLogs.body()!!
