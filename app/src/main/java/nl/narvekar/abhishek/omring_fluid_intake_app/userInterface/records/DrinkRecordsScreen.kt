@@ -46,7 +46,9 @@ fun DrinkRecords(navController: NavController, cardListViewModel: CardListViewMo
 
     val patientId = AppSession.getPatientId()
 
-    cardListViewModel.getAllDrinkDates(patientId)
+    //cardListViewModel.getAllDrinkDates(patientId)
+    val drinksLogs by cardListViewModel.drinkLogsListState.collectAsState()
+
     val itemIds by cardListViewModel.itemIds.collectAsState()
     Scaffold(
         topBar = {
@@ -93,14 +95,17 @@ fun DrinkRecords(navController: NavController, cardListViewModel: CardListViewMo
 //                else {
 //                    Text(text = "list is not empty")
 //                }
-                LazyColumn {
-                    itemsIndexed(cardListViewModel.drinkDateResponse) { index, item ->
-                        ExpandableContainerView(
-                            drinklogResponse = item,
-                            onClickItem = { cardListViewModel.onItemClicked(index) },
-                            expanded = itemIds.contains(index)
-                        )
+                LazyColumn(Modifier.padding(padding)) {
+                    drinksLogs?.let { allDrinkLogs ->
+                        itemsIndexed(allDrinkLogs) { index, item ->
+                            ExpandableContainerView(
+                                drinklogResponse = item,
+                                onClickItem = { cardListViewModel.onItemClicked(index) },
+                                expanded = itemIds.contains(index)
+                            )
+                        }
                     }
+
                 }
             //}
 
@@ -113,13 +118,13 @@ fun DrinkRecords(navController: NavController, cardListViewModel: CardListViewMo
 
 
 @Composable
-fun HeaderView(questionText: String, drinkAmount: String, onClickItem: () -> Unit) {
+fun HeaderView(datetime: String, drinkAmount: String, onClickItem: () -> Unit) {
     Box(
         modifier = Modifier
             .background(recordsTitleColor)
-            .height(80.dp)
+            .height(100.dp)
             .fillMaxWidth()
-            .border(BorderStroke(5.dp, Color.Blue))
+            .border(BorderStroke(2.dp, Color.Blue))
             .clickable(
                 indication = null,
                 interactionSource = remember { MutableInteractionSource() },
@@ -134,19 +139,19 @@ fun HeaderView(questionText: String, drinkAmount: String, onClickItem: () -> Uni
             horizontalArrangement = Arrangement.Center,
         ) {
             Box(modifier = Modifier
-                .size(200.dp)
+                .size(390.dp)
 
             ) {
                 Text(
-                    text = questionText,
-                    fontSize = 20.sp,
+                    text = "Datetime: $datetime",
+                    fontSize = 28.sp,
                     color = Color.White
                 )
             }
-            Spacer(modifier = Modifier.width(20.dp))
+            Spacer(modifier = Modifier.width(65.dp))
             Text(
-                text = drinkAmount,
-                fontSize = 23.sp,
+                text = "Intake: $drinkAmount",
+                fontSize = 28.sp,
                 color = Color.White,
                 modifier = Modifier.fillMaxWidth()
             )
@@ -242,20 +247,16 @@ fun ExpandableContainerView(
     Box(modifier = Modifier.background(Color.Green)) {
         Column {
             val drinkDateTime = formatDateTimeForDrinkLogs(drinklogResponse.dateTime.toString())
-            //val time = formatTimeForDrinkLogs(drinklogResponse.dateTime.toString())
 
             val records: List<DrinkRecord> = listOf(
                 DrinkRecord(drinklogResponse.dateTime.toString(), drinklogResponse.amount)
             )
             val drinkDate = DrinkDate(drinklogResponse.dateTime, records)
 
-            HeaderView(questionText = drinkDateTime, drinklogResponse.amount.toString(),onClickItem = onClickItem)
+            HeaderView(datetime = drinkDateTime, drinklogResponse.amount.toString(),onClickItem = onClickItem)
             drinkDate.drinkRecord?.forEach { logs ->
-                ExpandableView(time = logs.dateTime.toString(), drinkAmount = logs.amount.toString(), isExpanded = expanded)
+                ExpandableView(time = drinkDateTime, drinkAmount = logs.amount.toString(), isExpanded = expanded)
             }
-//            expandableLists.forEach { logs ->
-//            ExpandableView(time = time, drinkAmount = drinkDate.amount.toString(), isExpanded = expanded)
-//            }
         }
     }
 }
@@ -264,7 +265,7 @@ fun ExpandableContainerView(
 fun formatDateTimeForDrinkLogs(dateTime: String): String {
     val strippedDate = dateTime.dropLast(13)
     val date = LocalDateTime.parse(strippedDate)
-    val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm", Locale.GERMANY)
+    val formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm", Locale.GERMANY)
     val zonedDateTime = formatter.format(date)
     return zonedDateTime
 }
