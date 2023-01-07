@@ -48,6 +48,8 @@ fun DashBoardScreen(
     val lastName = AppSession.getLastName()
     val dailyLimit = AppSession.getDailyLimit()
 
+    Log.d("PatientId", patientId)
+
     val currentFluidintake = patientViewModel.getCurrentFluidIntakeStatus(patientId)
 
     if (fluidIntakeDialog.value) {

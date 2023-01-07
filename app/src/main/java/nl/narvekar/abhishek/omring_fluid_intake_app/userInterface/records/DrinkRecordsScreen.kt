@@ -24,6 +24,9 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import androidx.paging.LoadState
+import androidx.paging.compose.collectAsLazyPagingItems
+import androidx.paging.compose.itemsIndexed
 import nl.narvekar.abhishek.omring_fluid_intake_app.R
 import nl.narvekar.abhishek.omring_fluid_intake_app.data.DrinkDate
 import nl.narvekar.abhishek.omring_fluid_intake_app.data.DrinkLogResponse
@@ -44,9 +47,7 @@ import java.util.*
 @Composable
 fun DrinkRecords(navController: NavController, cardListViewModel: CardListViewModel, patientViewModel: PatientViewModel) {
 
-    val patientId = AppSession.getPatientId()
-
-    //cardListViewModel.getAllDrinkDates(patientId)
+    val drinkrecords = cardListViewModel.drinkRecords.collectAsLazyPagingItems()
     val drinksLogs by cardListViewModel.drinkLogsListState.collectAsState()
 
     val itemIds by cardListViewModel.itemIds.collectAsState()
@@ -68,11 +69,12 @@ fun DrinkRecords(navController: NavController, cardListViewModel: CardListViewMo
                         CompositionLocalProvider(
                             LocalContentAlpha provides ContentAlpha.high
                         ) {
+
                             Text(
                                 modifier = Modifier.fillMaxWidth(),
                                 textAlign = TextAlign.Center,
                                 maxLines = 1,
-                                text = "Drink Records",
+                                text = "Your Drink Records",
                                 color = Color.White,
                                 fontSize = 34.sp
                             )
@@ -82,33 +84,20 @@ fun DrinkRecords(navController: NavController, cardListViewModel: CardListViewMo
             }
         },
         content = { padding ->
-//            Column(
-//                modifier = Modifier
-//                    .fillMaxSize()
-//                    .padding(padding),
-//                verticalArrangement = Arrangement.Center,
-//                horizontalAlignment = Alignment.CenterHorizontally
-//            ) {
-//                if (cardListViewModel.drinkDateResponse.isEmpty()) {
-//                    Text(text = "list is empty")
-//                }
-//                else {
-//                    Text(text = "list is not empty")
-//                }
-                LazyColumn(Modifier.padding(padding)) {
-                    drinksLogs?.let { allDrinkLogs ->
-                        itemsIndexed(allDrinkLogs) { index, item ->
-                            ExpandableContainerView(
-                                drinklogResponse = item,
-                                onClickItem = { cardListViewModel.onItemClicked(index) },
-                                expanded = itemIds.contains(index)
-                            )
-                        }
+            LazyColumn(Modifier.padding(padding)) {
+                //drinksLogs?.let { allDrinkLogs ->
+                    itemsIndexed(drinkrecords) { index, drinkRecord ->
+                           if (drinkRecord != null) {
+                               ExpandableContainerView(
+                                   drinklogResponse = drinkRecord,
+                                   onClickItem = { cardListViewModel.onItemClicked(index) },
+                                   expanded = itemIds.contains(index)
+                               )
+                           }
+
                     }
-
-                }
-            //}
-
+                //}
+            }
         },
         bottomBar = {
             AppBottomNav(navController = navController)
@@ -150,7 +139,7 @@ fun HeaderView(datetime: String, drinkAmount: String, onClickItem: () -> Unit) {
             }
             Spacer(modifier = Modifier.width(65.dp))
             Text(
-                text = "Intake: $drinkAmount",
+                text = "Intake: ${drinkAmount} ml",
                 fontSize = 28.sp,
                 color = Color.White,
                 modifier = Modifier.fillMaxWidth()
@@ -247,6 +236,7 @@ fun ExpandableContainerView(
     Box(modifier = Modifier.background(Color.Green)) {
         Column {
             val drinkDateTime = formatDateTimeForDrinkLogs(drinklogResponse.dateTime.toString())
+            val time = formatTimeForDrinkLogs(drinklogResponse.dateTime.toString())
 
             val records: List<DrinkRecord> = listOf(
                 DrinkRecord(drinklogResponse.dateTime.toString(), drinklogResponse.amount)
@@ -254,9 +244,7 @@ fun ExpandableContainerView(
             val drinkDate = DrinkDate(drinklogResponse.dateTime, records)
 
             HeaderView(datetime = drinkDateTime, drinklogResponse.amount.toString(),onClickItem = onClickItem)
-            drinkDate.drinkRecord?.forEach { logs ->
-                ExpandableView(time = drinkDateTime, drinkAmount = logs.amount.toString(), isExpanded = expanded)
-            }
+            ExpandableView(time = time, drinkAmount = drinklogResponse.amount.toString(), isExpanded = expanded)
         }
     }
 }
@@ -270,12 +258,12 @@ fun formatDateTimeForDrinkLogs(dateTime: String): String {
     return zonedDateTime
 }
 
-//@RequiresApi(Build.VERSION_CODES.O)
-//fun formatTimeForDrinkLogs(dateTime: String) : String {
-//
-//    val strippedDate = dateTime.dropLast(13)
-//    val datetime = LocalDateTime.parse(strippedDate)
-//    val formatter = DateTimeFormatter.ofPattern("HH:mm:ss a", Locale.GERMANY)
-//    val zonedDateTime = formatter.format(datetime)
-//    return zonedDateTime
-//}
+@RequiresApi(Build.VERSION_CODES.O)
+fun formatTimeForDrinkLogs(dateTime: String) : String {
+    val strippedDate = dateTime.dropLast(13)
+    val date = LocalDateTime.parse(strippedDate)
+    val formatter = DateTimeFormatter.ofPattern("HH:mm", Locale.GERMANY)
+    val zonedTime = formatter.format(date)
+    return zonedTime
+
+}
