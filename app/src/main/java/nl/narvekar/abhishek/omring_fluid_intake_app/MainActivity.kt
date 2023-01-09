@@ -31,6 +31,7 @@ class MainActivity : ComponentActivity() {
     // todo design drink dialog page
     // todo fix the favorites delete and datetime on drink records page
     // todo display dashboard spinner and quote on the drink records page and fix pagination
+    // this commit is from fix-user-interface branch
     private val loginViewModel by viewModels<LoginViewModel>()
     private val registerViewModel by viewModels<RegisterViewModel>()
     private val recipeViewModel by viewModels<RecipeViewModel>()
