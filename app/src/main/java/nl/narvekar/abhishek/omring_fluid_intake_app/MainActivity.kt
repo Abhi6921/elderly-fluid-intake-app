@@ -27,8 +27,8 @@ import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.*
 
 class MainActivity : ComponentActivity() {
 
-    // todo create an app icon from figma
-    // todo design drink dialog page
+    // todo create an app icon from figma -> DONE
+    // todo design drink dialog page -> DONE
     // todo fix the favorites delete and datetime on drink records page -> DONE
     // todo display dashboard spinner and quote on the drink records page and fix pagination
     // this commit is from fix-user-interface branch

@@ -51,8 +51,8 @@
     <string name="logout_text">Uitloggen</string>
 
     <!--FluidIntakeDialog-->
+    <string name="dialog_title">Voer de vloeistofinname in</string>
     <string name="select_amount_text">Selecteer een bedrag</string>
-
     <!--Recipe Favorite Strings-->
     <string name="favorite_title">Favorieten</string>
     <string name="no_favorites_text">Je hebt nog geen favorieten!</string>
@@ -74,6 +74,7 @@
 
     <!--Drink Records Strings-->
     <string name="drink_records_title">Drink Records</string>
+
 
 
 </resources>
