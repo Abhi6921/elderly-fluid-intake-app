@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -24,7 +25,9 @@ import okhttp3.Route
 @Composable
 fun StartScreen(navController: NavController) {
     Column(
-        modifier = Modifier.fillMaxSize().background(Color(0xFF39CCFF)),
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color(0xFF39CCFF)),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Spacer(modifier = Modifier.height(60.dp))
@@ -45,7 +48,8 @@ fun StartScreen(navController: NavController) {
         )
 
         Spacer(modifier = Modifier.height(60.dp))
-        Text(text = "Already have an account",
+        Text(
+            text = stringResource(id = R.string.account_text_string),
             fontSize = 35.sp,
             fontFamily = FontFamily.Default,
             fontWeight = FontWeight.Bold
@@ -64,11 +68,11 @@ fun StartScreen(navController: NavController) {
                 .height(90.dp)
                 .width(395.dp)
         ) {
-            Text("Log In", color = Color.White, fontSize = 30.sp)
+            Text(text = stringResource(id = R.string.login_button_text), color = Color.White, fontSize = 30.sp)
         }
         Spacer(modifier = Modifier.height(90.dp))
         Text(
-            text = "New Member",
+            text = stringResource(id = R.string.new_member_text_string),
             fontSize = 35.sp,
             fontFamily = FontFamily.Default,
             fontWeight = FontWeight.Bold
@@ -86,7 +90,7 @@ fun StartScreen(navController: NavController) {
                 .height(80.dp)
                 .width(395.dp)
         ) {
-            Text(text = "Register Here", color = Color.White, fontSize = 30.sp)
+            Text(text = stringResource(id = R.string.register_text_string), color = Color.White, fontSize = 30.sp)
         }
     }
 }

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">elderly-fluid-intake-app</string>
+
+    <!--Start Screen Strings-->
+    <string name="account_text_string">Heb je al een Account?</string>
+    <string name="login_button_text">InLoggen</string>
+    <string name="new_member_text_string">Nieuw lidmaatschap?</string>
+    <string name="register_text_string">Registreer hier</string>
+
+    <!--Login Strings-->
+    <string name="login_title_text">Welkom terug!</string>
+    <string name="phonenumber_text">TelefoonNummer</string>
+    <string name="password_text">Wachtwoord</string>
+
+    <!--Empty Field Dialog Strings-->
+    <string name="empty_fields_title">Leeg veld!</string>
+    <string name="empty_fields_text">Een van de velden is leeg!</string>
+    <string name="ok_text">Oke</string>
+
+    <!--Login Failure Strings-->
+    <string name="login_failure_title">Inloggen mislukt!</string>
+    <string name="incorrect_fields_message">Foutieve gebruikersnaam of wachtwoord!</string>
+
+    <!--Register Screen Strings-->
+    <string name="welcome_text_string">Welkom aan boord!</string>
+    <string name="create_account_text">Laten we een account aanmaken</string>
+    <string name="firstname_text">Voornaam invoeren</string>
+    <string name="lastname_text">Achternaam invoeren</string>
+    <string name="email_text">Email invoeren</string>
+    <string name="phonenumber_label">Telefoonnummer invoeren</string>
+    <string name="password_label">Voer Wachtwoord in</string>
+    <string name="dailylimit_text">Voer uw dagelijkse limiet in (L)</string>
+    <string name="dailygoal_text">Voer uw dagelijkse doel in (L)</string>
+    <string name="dateofbirth_text">Vul geboortedatum in (yyyy-MM-dd)</string>
+
+    <!--Register Failure Dailog Strings-->
+    <string name="register_failure_string">Registratie mislukt</string>
+    <string name="register_failure_description">Er is iets misgegaan bij het registreren van uw account, probeer het opnieuw</string>
+    <string name="register_success_string">Succes!</string>
+    <string name="register_success_description">Uw account is geregistreerd!</string>
+    <string name="login_text_string">Ga verder met inloggen</string>
+
+    <!--Dashboard Strings-->
+    <string name="dashboard_title">Dashboard</string>
+    <string name="welcome_text">Welkom</string>
+    <string name="today_goal">Het doel van vandaag:</string>
+    <string name="goal_achieved">Doel bereikt:</string>
+    <string name="fluid_intake_text">Vloeistofinname</string>
+    <string name="recipes_text">Recepten</string>
+    <string name="logout_text">Uitloggen</string>
+
+    <!--FluidIntakeDialog-->
+    <string name="select_amount_text">Selecteer een bedrag</string>
+
+    <!--Recipe Favorite Strings-->
+    <string name="favorite_title">Favorieten</string>
+    <string name="no_favorites_text">Je hebt nog geen favorieten!</string>
+    <string name="instructions_button_text">Instructies</string>
+    
+    <!--Profile Screen Strings-->
+    <string name="profile_title">Profiel:</string>
+    <string name="first_name_text">Voornaam:</string>
+    <string name="last_name_text">Achternaam:</string>
+    <string name="daily_limit_label">Dagelijkse limiet:</string>
+    <string name="daily_goal_label">Dagelijks doel:</string>
+
+    <!--Recipe Screen Strings-->
+    <string name="recipe_title">Recepten</string>
+    <string name="empty_recipe_text">Er zijn geen recepten in de database.</string>
+    <string name="recipe_in_favorites">Dit recept staat bij favorieten!</string>
+    <string name="ingredients_text">Ingrediënten</string>
+    <string name="steps_text">Recept stappen</string>
+
+    <!--Drink Records Strings-->
+    <string name="drink_records_title">Drink Records</string>
+
+
+</resources>

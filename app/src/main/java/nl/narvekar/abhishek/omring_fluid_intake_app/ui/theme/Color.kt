@@ -11,7 +11,7 @@ val LoginScreenColor = Color(0xFF39CCFF)
 
 
 val backgroundColorForCircle = Color(0xFF3E8EE7)
-val recordsTitleColor = Color(0xFF1BAEEE)
+val recordsTitleColor = Color(0xFF87C3DD)
 val recordsExpandListColor = Color(0xFFD9D9D9)
 val omringButtonColor = Color(0xFF007B85)
 

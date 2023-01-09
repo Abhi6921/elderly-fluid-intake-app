@@ -22,6 +22,13 @@ class RecipeViewModel : ViewModel() {
     var recipeListResponse: List<Recipe> by mutableStateOf(listOf())
     var errorMessage: String by mutableStateOf("")
 
+    private val mutableListRecipe = MutableStateFlow<List<Recipe>?>(null)
+    var recipeListState: StateFlow<List<Recipe>?> = mutableListRecipe
+
+    init {
+        getRecipeList()
+    }
+
     fun getRecipeList() {
         viewModelScope.launch(Dispatchers.IO) {
 
@@ -30,20 +37,24 @@ class RecipeViewModel : ViewModel() {
                 val recipeList = recipeAuthApi.getAllRecipes()
                 Log.d(TAG, "getRecipeList api: ${recipeList.count()}")
                 recipeListResponse = recipeList
+                mutableListRecipe.emit(recipeList)
             }catch (e: Exception) {
                 errorMessage = e.message.toString()
             }
         }
     }
 
-    var recipeResponse: Recipe by mutableStateOf(Recipe())
+    //var recipeResponse: Recipe by mutableStateOf(Recipe())
 
-     fun getRecipeById(recipeId: String) : Recipe {
+    private val mutableRecipe = MutableStateFlow<Recipe?>(null)
+    var mutableRecipeState: StateFlow<Recipe?> = mutableRecipe
+
+     fun getRecipeById(recipeId: String) : StateFlow<Recipe?> {
         viewModelScope.launch(Dispatchers.IO) {
             val recipeAuthApi = RecipeAuthApi.getInstance()
             val recipe = recipeAuthApi.getRecipeById(recipeId)
-            recipeResponse = recipe
+            mutableRecipe.emit(recipe)
         }
-       return recipeResponse
+        return mutableRecipeState
     }
 }

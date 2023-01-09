@@ -6,14 +6,18 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import nl.narvekar.abhishek.omring_fluid_intake_app.R
 import nl.narvekar.abhishek.omring_fluid_intake_app.data.Recipe
 import nl.narvekar.abhishek.omring_fluid_intake_app.navigation.AppBottomNav
 import nl.narvekar.abhishek.omring_fluid_intake_app.navigation.Routes
@@ -22,13 +26,20 @@ import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.PatientViewModel
 import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.RecipeViewModel
 
 @Composable
-fun RecipeList(recipes: List<Recipe>, navController: NavController, patientViewModel: PatientViewModel, recipeViewModel: RecipeViewModel) {
+fun RecipeList(navController: NavController, recipeViewModel: RecipeViewModel, patientViewModel: PatientViewModel) {
 
     val context = LocalContext.current
+    // fetch all the recipe favorites
+    // check if the recipe is inside the user's favorites
+
+    val recipes by recipeViewModel.recipeListState.collectAsState()
+    patientViewModel.getAllLikedRecipes()
     Scaffold(
         topBar = {
             TopAppBar(
-                modifier = Modifier.fillMaxWidth().height(60.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(60.dp),
                 backgroundColor = Color(0xFF1BAEEE),
                 elevation = 0.dp
             ) {
@@ -44,7 +55,7 @@ fun RecipeList(recipes: List<Recipe>, navController: NavController, patientViewM
                                 modifier = Modifier.fillMaxWidth(),
                                 textAlign = TextAlign.Center,
                                 maxLines = 1,
-                                text = "Recipes",
+                                text = stringResource(id = R.string.recipe_title),
                                 color = Color.White,
                                 fontSize = 34.sp
                             )
@@ -54,16 +65,26 @@ fun RecipeList(recipes: List<Recipe>, navController: NavController, patientViewM
             }
         },
         content = { innerPadding ->
-            if (recipes.isEmpty()) {
-                Text(text = "Recipes is empty")
+            if (recipes.isNullOrEmpty()) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(innerPadding),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Text(text = stringResource(id = R.string.empty_recipe_text))
+                }
             }
             else {
                 LazyColumn(Modifier.padding(innerPadding)) {
-                    items(recipes) { item ->
-                        RecipeItem(item, patientViewModel) {
-                            navController.navigate(Routes.RecipeDetail.route + "/${it.recipeId}")
+                     recipes?.let { allRecipes ->
+                        items(allRecipes) { item ->
+                            RecipeItem(item) {
+                                navController.navigate(Routes.RecipeDetail.route + "/${it.recipeId}")
+                            }
                         }
-                    }
+                     }
                 }
             }
 

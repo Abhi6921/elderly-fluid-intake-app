@@ -4,6 +4,7 @@ import android.content.SharedPreferences
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
+import androidx.navigation.NavController
 import androidx.navigation.NavType
 import androidx.navigation.compose.ComposeNavigator
 import androidx.navigation.compose.NavHost
@@ -13,10 +14,12 @@ import androidx.navigation.navArgument
 import nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.dashboard.DashBoardScreen
 import nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.favorites.RecipeFavorited
 import nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.login.LoginUI
+import nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.profile.UserProfilePage
 import nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.recipes.RecipeList
 import nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.recipes.components.RecipeDetailView
 import nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.records.DrinkRecords
 import nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.register.RegisterScreen
+import nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.register.components.RegisterConfirmDialog
 import nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.share.ShareScreen
 import nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.start.StartScreen
 import nl.narvekar.abhishek.omring_fluid_intake_app.utils.AppSession
@@ -57,7 +60,7 @@ fun AppNavigation(
         }
 
         composable(Routes.Recipes.route) {
-            RecipeList(recipes = recipeViewModel.recipeListResponse, navController, patientViewModel, recipeViewModel)
+            RecipeList( navController, recipeViewModel, patientViewModel)
         }
 
         composable(
@@ -74,7 +77,6 @@ fun AppNavigation(
                 navController = navController
             )
         }
-
         composable(Routes.Favorite.route) {
             RecipeFavorited(navController, patientViewModel.likedRecipeListResponse, patientViewModel)
         }
@@ -84,7 +86,9 @@ fun AppNavigation(
 
         composable(Routes.Share.route) {
            ShareScreen(navController)
-            //FluidIntakeCircularProgressBar()
+        }
+        composable(Routes.Profile.route) {
+            UserProfilePage(navController)
         }
     }
 }

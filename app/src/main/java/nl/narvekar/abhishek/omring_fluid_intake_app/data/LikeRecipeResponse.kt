@@ -1,21 +1,18 @@
 package nl.narvekar.abhishek.omring_fluid_intake_app.data
 
+import com.google.gson.annotations.SerializedName
+
 data class LikeRecipeResponse (
-    val id: String,
-    val firstName: String,
-    val lastName: String,
-    val email: String,
-    val phoneNumber: String,
-    val active: Boolean,
-    val nurse: Nurse1,
-    val dailyLimit: String,
-    val userRole: UserRole,
-    val recipes: List<Recipe>,
-    val dailyGoal: String,
-    val dateOfBirth: String
-)
-
-
-data class Nurse1 (
-    val id: String
+    @SerializedName("id"          ) var id          : String?            = "",
+    @SerializedName("firstName"   ) var firstName   : String?            = "",
+    @SerializedName("lastName"    ) var lastName    : String?            = "",
+    @SerializedName("email"       ) var email       : String?            = "",
+    @SerializedName("phoneNumber" ) var phoneNumber : String?            = "",
+    @SerializedName("active"      ) var active      : Boolean?           = false,
+    @SerializedName("nurse"       ) var nurse       : Nurse?             = Nurse(),
+    @SerializedName("dailyLimit"  ) var dailyLimit  : Int?               = 0,
+    @SerializedName("userRole"    ) var userRole    : UserRole?          = UserRole(),
+    @SerializedName("recipes"     ) var recipes     : ArrayList<Recipe> = arrayListOf(),
+    @SerializedName("dailyGoal"   ) var dailyGoal   : Int?               = 0,
+    @SerializedName("dateOfBirth" ) var dateOfBirth : String?            = ""
 )

@@ -23,22 +23,30 @@ interface UsersAuthApi {
     @POST("api/v1/patients/logdrink")
     fun postNewDrink(@Header("Authorization") authToken: String, @Query("amount")  drinkAmount: Int) : Call<LogDrinkResponse>
 
-    @GET("api/v1/patients")
-    suspend fun getAllPatients(@Header("Authorization") authToken: String, @Query("limit") listLimit: Int) : List<PatientResponse>
 
-    // admin token: eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOlsiQURNSU4iLCJDQVJFX0dJVkVSIl0sImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWUiOiIrMzE2NDU4MjYwMDAiLCJuYmYiOjE2NzE4ODIwNTEsImV4cCI6MTcwMzQxODA1MSwiaWF0IjoxNjcxODgyMDUxLCJpc3MiOiJEcmlua0FwcFJlY2lwZXMuYXp1cmV3ZWJzaXRlcy5uZXQiLCJhdWQiOiJEcmlua0FwcFVzZXJzIC8gUGF0aWVudHMgLyBDYXJlZ2l2ZXJzIC8gQWRtaW5zIn0.X-lYgIhpqPXLf9lnxp3IiF1XLPCiN0Dtms2E7Ymc8-I"
     @GET("api/v1/patients/drinks/today/{id}")
     suspend fun getCurrentFluidStatus(@Header("Authorization") authToken: String, @Path("id") patientId: String) : LogDrinkResponse
+    // is string expected in body of this endpoint
+
+    @GET("api/v1/patients/drinks/{patientId}")
+    suspend fun getPatientDrinkLogs(
+        @Header("Authorization") authToken: String,
+        @Path("patientId") patientId: String,
+        @Query("from") dateFrom: String,
+        @Query("to") dateTo : String,
+        @Query("offset") offset: Int,
+        @Query("limit") limit: Int
+    ) : Response<List<DrinkLogResponse>>
+
+    @GET("api/v1/patients/recipes/{id}")
+    suspend fun fetchAllLikedRecipes(@Header("Authorization") authToken: String, @Path("id") patientId: String) : List<Recipe>
 
     @Headers("Content-Type:application/json")
     @POST("api/v1/patients/{patientId}/likeRecipe")
     fun likeRecipeByPatient(@Header("Authorization") authToken: String, @Path("patientId") patientId: String, @Body recipeId: String) : Call<LikeRecipeResponse>
 
-    @GET("api/v1/patients/drinks/{patientId}")
-    suspend fun getPatientDrinkLogs(@Header("Authorization") authToken: String, @Path("patientId") patientId: String) : Response<List<DrinkLogResponse>>
-
-    @GET("api/v1/patients/recipes/{id}")
-    suspend fun fetchAllLikedRecipes(@Header("Authorization") authToken: String, @Path("id") patientId: String) : List<Recipe>
+    @POST("api/v1/patients/{patientId}/unlikeRecipe")
+    fun removeRecipeFromFavorites(@Header("Authorization") authToken: String, @Path("patientId") patientId: String, @Body recipeId: String) : Call<LikeRecipeResponse>
 
     companion object {
         var apiUserService: UsersAuthApi? = null

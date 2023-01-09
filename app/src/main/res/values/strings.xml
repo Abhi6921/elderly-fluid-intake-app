@@ -1,3 +1,81 @@
 <resources>
     <string name="app_name">elderly-fluid-intake-app</string>
+
+    <!--Start Screen Strings-->
+    <string name="account_text_string">Already have an Account?</string>
+    <string name="login_button_text">Log In</string>
+    <string name="new_member_text_string">New Member?</string>
+    <string name="register_text_string">Register Here</string>
+
+    <!--Login Screen Strings-->
+    <string name="login_title_text">Welcome Back!</string>
+    <string name="phonenumber_text">PhoneNumber</string>
+    <string name="password_text">Password</string>
+
+    <!--Empty Field Dialog Strings-->
+    <string name="empty_fields_title">Empty Field!</string>
+    <string name="empty_fields_text">One of the fields is empty!</string>
+    <string name="ok_text">OK</string>
+
+    <!--Login Failure Strings-->
+    <string name="login_failure_title">Login Failure!</string>
+    <string name="incorrect_fields_message">Incorrect username or password!</string>
+
+    <!--Register Screen Strings-->
+    <string name="welcome_text_string">Welcome Onboard!</string>
+    <string name="create_account_text">Let\'s Create an Account</string>
+    <string name="firstname_text">Enter FirstName</string>
+    <string name="lastname_text">Enter Lastname</string>
+    <string name="email_text">Enter Email</string>
+    <string name="phonenumber_label">Enter Phonenumber</string>
+    <string name="password_label">Enter Password</string>
+    <string name="dailylimit_text">Enter your daily limit in (L)</string>
+    <string name="dailygoal_text">Enter your daily goal in (L)</string>
+    <string name="dateofbirth_text">Enter date of birth(yyyy-MM-dd)</string>
+
+
+    <!--Register Failure Dailog Strings-->
+    <string name="register_failure_string">Registration Failure</string>
+    <string name="register_failure_description">Something went wrong while registering your account, please try again</string>
+    <string name="register_success_string">Success!</string>
+    <string name="register_success_description">Your Account is Registered!</string>
+    <string name="login_text_string">Continue to Login</string>
+    
+    <!--Dashbord Screen Strings-->
+    <string name="dashboard_title">Dashboard</string>
+    <string name="welcome_text">Welcome</string>
+    <string name="today_goal">Today\'s Goal:</string>
+    <string name="goal_achieved">Goal Achieved</string>
+    <string name="fluid_intake_text">Fluid Intake</string>
+    <string name="recipes_text">Recipes</string>
+    <string name="logout_text">Logout</string>
+
+    <!--FluidIntakeDialog-->
+    <string name="select_amount_text">Please select an amount</string>
+    <string name="button_100ml_text" translatable="false">100ml</string>
+    <string name="button_150ml_text" translatable="false">150ml</string>
+    <string name="button_200ml_text" translatable="false">200ml</string>
+
+    <!--Recipe Favorite Strings-->
+    <string name="favorite_title">Favorites</string>
+    <string name="no_favorites_text">You do not have any favorites yet!</string>
+    <string name="instructions_button_text">Instructions</string>
+
+    <!--Profile Screen Strings-->
+    <string name="profile_title">Profile:</string>
+    <string name="first_name_text">FirstName:</string>
+    <string name="last_name_text">Lastname:</string>
+    <string name="daily_limit_label">DailyLimit:</string>
+    <string name="daily_goal_label">DailyGoal:</string>
+
+    <!--Recipe Screen Strings-->
+    <string name="recipe_title">Recipes</string>
+    <string name="empty_recipe_text">There are no recipes in the database.</string>
+    <string name="recipe_in_favorites">This recipe is in favorites!</string>
+    <string name="ingredients_text">ingredients</string>
+    <string name="steps_text">steps</string>
+
+    <!--Drink Records Strings-->
+    <string name="drink_records_title">Drink Records</string>
+
 </resources>

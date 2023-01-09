@@ -1,6 +1,6 @@
 package nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.dashboard.components
 
-import android.content.SharedPreferences
+import nl.narvekar.abhishek.omring_fluid_intake_app.R
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -16,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -23,28 +24,24 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
+import androidx.navigation.NavController
 import nl.narvekar.abhishek.omring_fluid_intake_app.utils.Constants.AUTH_TOKEN_KEY
 import nl.narvekar.abhishek.omring_fluid_intake_app.data.LogDrink
 import nl.narvekar.abhishek.omring_fluid_intake_app.data.LogDrinkResponse
+import nl.narvekar.abhishek.omring_fluid_intake_app.navigation.Routes
+import nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.dashboard.SetCircularProgress
 import nl.narvekar.abhishek.omring_fluid_intake_app.utils.AppSession
 import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.LogDrinkViewModel
 import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.PatientViewModel
 
 
-// on button click show dialog
-//
 
 @Composable
 fun SelectDrinkDialog(
     logDrinkViewModel: LogDrinkViewModel,
-    patientViewModel: PatientViewModel,
+    navController: NavController,
     setShowDialog: (Boolean) -> Unit,
-    setValue: (Float) -> Unit
 ) {
-    val phoneNumber = AppSession.getPhoneNumber()
-    val patient = patientViewModel.patientListResponse.find { patient ->
-        patient.phoneNumber == phoneNumber
-    }
 
     val context = LocalContext.current
     Dialog(
@@ -63,7 +60,7 @@ fun SelectDrinkDialog(
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Text(text = "Please select a amount",
+                    Text(text =  stringResource(id = R.string.select_amount_text),
                         style = TextStyle(
                             fontSize = 35.sp,
                             fontWeight = FontWeight.Bold,
@@ -87,10 +84,9 @@ fun SelectDrinkDialog(
                         Button(
                             onClick = {
                                 val drinkAmount = 100
-                                val floatAmount = (drinkAmount.toFloat() / patient?.dailyLimit?.toFloat()!!) / 100f
                                 logDrinkViewModel.postANewDrink(context, drinkAmount)
-                                setValue(floatAmount)
                                 setShowDialog(false)
+                                navController.navigate(Routes.Home.route)
                             },
                             shape = RoundedCornerShape(50.dp),
                             modifier = Modifier
@@ -98,7 +94,7 @@ fun SelectDrinkDialog(
                                 .height(70.dp)
                                 .width(500.dp)
                         ) {
-                            Text(text = "100ml", fontSize = 24.sp)
+                            Text(text = stringResource(id = R.string.button_100ml_text), fontSize = 24.sp)
                         }
                     }
                     Spacer(modifier = Modifier.height(30.dp))
@@ -107,18 +103,16 @@ fun SelectDrinkDialog(
                         Button(
                             onClick = {
                                   val drinkAmount = 150
-                                  val dailyLimit = 3000
-                                  val floatAmount = drinkAmount.toFloat() / patient?.dailyLimit?.toFloat()!!
                                   logDrinkViewModel.postANewDrink(context, drinkAmount)
-                                  setValue(floatAmount)
                                   setShowDialog(false)
+                                  navController.navigate(Routes.Home.route)
                             },
                             shape = RoundedCornerShape(50.dp),
                             modifier = Modifier
                                 .height(70.dp)
                                 .width(500.dp)
                         ) {
-                            Text(text = "150ml", fontSize = 24.sp)
+                            Text(text = stringResource(id = R.string.button_150ml_text), fontSize = 24.sp)
                         }
                     }
                     Spacer(modifier = Modifier.height(30.dp))
@@ -126,12 +120,10 @@ fun SelectDrinkDialog(
                     Box(modifier = Modifier.padding(40.dp, 15.dp, 40.dp, 0.dp)) {
                         Button(
                             onClick = {
-                                val drinkAmount = 20
-                                val floatAmount = drinkAmount.toFloat() / patient?.dailyLimit?.toFloat()!!
+                                val drinkAmount = 200
                                 logDrinkViewModel.postANewDrink(context, drinkAmount)
-
-                                setValue(floatAmount)
                                 setShowDialog(false)
+                                navController.navigate(Routes.Home.route)
                             },
                             shape = RoundedCornerShape(50.dp),
                             modifier = Modifier
@@ -139,7 +131,7 @@ fun SelectDrinkDialog(
                                 .height(70.dp)
                                 .width(500.dp)
                         ) {
-                            Text(text = "200ml", fontSize = 24.sp)
+                            Text(text = stringResource(id = R.string.button_200ml_text), fontSize = 24.sp)
                         }
                     }
 

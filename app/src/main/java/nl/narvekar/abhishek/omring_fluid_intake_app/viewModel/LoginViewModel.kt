@@ -3,6 +3,7 @@ package nl.narvekar.abhishek.omring_fluid_intake_app.viewModel
 import android.content.Context
 import android.content.SharedPreferences
 import android.widget.Toast
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavController
 import nl.narvekar.abhishek.omring_fluid_intake_app.utils.Constants.AUTH_TOKEN_KEY
@@ -16,6 +17,8 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class LoginViewModel : ViewModel() {
+
+    val showLoginFailureDialog = mutableStateOf(false)
 
     fun loginUser(
         context: Context,
@@ -35,11 +38,22 @@ class LoginViewModel : ViewModel() {
                 ) {
                     if (response.isSuccessful) {
                         val authToken = response.body()?.accessToken
+                        val patientId = response.body()?.id
+                        val firstname = response.body()?.firstName
+                        val lastname = response.body()?.lastName
+                        val dailyLimit = response.body()?.dailyLimit
+                        val dailyGoal = response.body()?.dailyGoal
                         if (authToken != null) {
-                            saveUserData(login.phoneNumber, login.password, authToken)
+                            saveUserData(
+                                login.phoneNumber,
+                                login.password,
+                                authToken,
+                                patientId.toString(), firstname.toString(),
+                                lastname.toString(), dailyLimit!!, dailyGoal!!
+                            )
                         }
 
-                        Toast.makeText(context, authToken.toString(), Toast.LENGTH_LONG).show()
+                        Toast.makeText(context, "Login Successful", Toast.LENGTH_LONG).show()
 
                         navController.navigate(Routes.Home.route) {
                             popUpTo(Routes.Login.route) {
@@ -48,7 +62,8 @@ class LoginViewModel : ViewModel() {
                         }
                     }
                     else {
-                        Toast.makeText(context, "Login failure: ${response.code()}", Toast.LENGTH_SHORT).show()
+                        //Toast.makeText(context, "Login failure: ${response.code()}", Toast.LENGTH_SHORT).show()
+                        showLoginFailureDialog.value = true
                     }
                 }
             }
@@ -64,7 +79,7 @@ class LoginViewModel : ViewModel() {
         }
     }
 
-    private fun saveUserData(username: String, password: String, authToken: String) {
-        AppSession.saveUserData(username, password, authToken)
+    private fun saveUserData(username: String, password: String, authToken: String, patientId: String, firstName: String, lastName: String, dailyLimit: Int, dailyGoal: Int) {
+        AppSession.saveUserData(username, password, authToken, patientId, firstName, lastName, dailyLimit, dailyGoal)
     }
 }

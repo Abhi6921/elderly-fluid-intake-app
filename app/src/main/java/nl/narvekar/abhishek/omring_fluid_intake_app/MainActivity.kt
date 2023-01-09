@@ -18,15 +18,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import nl.narvekar.abhishek.omring_fluid_intake_app.data.PatientResponse
 import nl.narvekar.abhishek.omring_fluid_intake_app.utils.Constants.AUTH_TOKEN_KEY
-import nl.narvekar.abhishek.omring_fluid_intake_app.utils.Constants.PrefKey
+
 import nl.narvekar.abhishek.omring_fluid_intake_app.navigation.AppNavigation
 import nl.narvekar.abhishek.omring_fluid_intake_app.ui.theme.ElderlyfluidintakeappTheme
+import nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.dashboard.SetCircularProgress
 import nl.narvekar.abhishek.omring_fluid_intake_app.utils.AppSession
 import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.*
 
 class MainActivity : ComponentActivity() {
-    // this commit is from the fetch-drink-records-branch
 
+    // todo create an app icon from figma
+    // todo design drink dialog page
+    // todo fix the favorites delete and datetime on drink records page
+    // todo display dashboard spinner and quote on the drink records page and fix pagination
     private val loginViewModel by viewModels<LoginViewModel>()
     private val registerViewModel by viewModels<RegisterViewModel>()
     private val recipeViewModel by viewModels<RecipeViewModel>()
@@ -50,9 +54,6 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                   //RecipeList(recipes = recipeViewModel.recipeListResponse)
-
-
                    AppNavigation(
                        loginViewModel = loginViewModel,
                        registerViewModel,
@@ -61,16 +62,6 @@ class MainActivity : ComponentActivity() {
                        logDrinkViewModel,
                        patientViewModel
                    )
-                    recipeViewModel.getRecipeList()
-                    patientViewModel.getAllPatients()
-                    //patientViewModel.getAllLikedRecipes(patientViewModel)
-                    expandableListViewModel.getAllDrinkDates(patientViewModel)
-
-                   Log.d("Recipes", "${patientViewModel.likedRecipeListResponse.count()}")
-
-                   // todo fetch all liked recipes of current user -> DONE
-                    // todo add recipe to favorites on favorite click ->
-                    // todo remove recipe from favorites view on unfavorite click
                 }
             }
         }

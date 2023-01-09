@@ -18,6 +18,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
@@ -33,12 +34,27 @@ import androidx.navigation.NavController
 import androidx.navigation.navArgument
 import nl.narvekar.abhishek.omring_fluid_intake_app.R
 import nl.narvekar.abhishek.omring_fluid_intake_app.data.Login
+import nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.login.components.EmptyFieldMessageDialog
+import nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.login.components.LoginFailureDialog
 import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.LoginViewModel
+
 
 @Composable
 fun LoginUI(loginViewModel: LoginViewModel, navController: NavController) {
 
     val context = LocalContext.current
+
+    val showEmptyFieldDialog = remember { mutableStateOf(false) }
+    val showLoginFailureDialog = loginViewModel.showLoginFailureDialog.value
+
+    if (showEmptyFieldDialog.value) {
+        EmptyFieldMessageDialog(showEmptyFieldDialog)
+    }
+
+    if (showLoginFailureDialog) {
+        LoginFailureDialog(showLoginFailureDialog = loginViewModel.showLoginFailureDialog)
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -62,7 +78,7 @@ fun LoginUI(loginViewModel: LoginViewModel, navController: NavController) {
         )
         Spacer(modifier = Modifier.height(30.dp))
         Text(
-            text = "Welcome Back!",
+            text = stringResource(id = R.string.login_title_text),
             fontSize = 35.sp,
             fontFamily = FontFamily.Default,
             fontWeight = FontWeight.Bold
@@ -73,7 +89,7 @@ fun LoginUI(loginViewModel: LoginViewModel, navController: NavController) {
         var password by remember { mutableStateOf("") }
         var passwordVisible by remember { mutableStateOf(false) }
 
-        // Username field
+        // PhoneNumber field
         OutlinedTextField(
             modifier = Modifier
                 .height(81.dp)
@@ -81,50 +97,22 @@ fun LoginUI(loginViewModel: LoginViewModel, navController: NavController) {
             value = phonenumber,
             colors = TextFieldDefaults.textFieldColors(backgroundColor = MaterialTheme.colors.surface.copy(Color.White.alpha)),
             textStyle = TextStyle.Default.copy(fontSize = 28.sp),
-            leadingIcon = { Icon(
-                imageVector = Icons.Default.Person,
-                contentDescription = "personIcon",
-                Modifier
-                    .width(60.dp)
-                    .height(40.dp)
-            ) },
+            leadingIcon = {
+                Text(
+                    text = "+31",
+                    color = Color.Black,
+                    fontSize = 25.sp,
+                    modifier = Modifier.padding(start = 14.dp, bottom = 10.dp),
+                    textAlign = TextAlign.Center
+                )
+            },
             keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
             onValueChange = {
                 phonenumber = it
             },
-            label = { Text(text = "PhoneNumber", fontSize = 20.sp) }
+            label = { Text(text = stringResource(id = R.string.phonenumber_text), fontSize = 20.sp) }
         )
         Spacer(modifier = Modifier.height(29.dp))
-//        OutlinedTextField(
-//            modifier = Modifier
-//                .height(81.dp)
-//                .width(400.dp),
-//            value = password.value,
-//            colors = TextFieldDefaults.textFieldColors(backgroundColor = MaterialTheme.colors.surface.copy(Color.White.alpha)),
-//            textStyle = TextStyle.Default.copy(fontSize = 28.sp),
-//            visualTransformation = if (passwordVisible.value) { VisualTransformation.None } else { PasswordVisualTransformation() },
-//            leadingIcon = { Icon(imageVector = Icons.Default.Lock, contentDescription = "lockIcon",
-//                Modifier
-//                    .width(60.dp)
-//                    .height(40.dp))
-//            },
-//            trailingIcon = {
-//                val image = if (passwordVisible.value) {
-//                    Icons.Default.Visibility
-//                }
-//                else {
-//                    Icons.Filled.VisibilityOff
-//                }
-//                val description = if(passwordVisible.value) "Hide Password" else "Show Password"
-//                IconButton(onClick = { passwordVisible.value =! passwordVisible.value }) {
-//                    Icon(imageVector = image, contentDescription = null)
-//                }
-//            },
-//            onValueChange = {
-//                password.value = it
-//            },
-//            label = { Text(text = "Password", fontSize = 20.sp, textAlign = TextAlign.Center) },
-//        )
         // Password field
         OutlinedTextField(
             modifier = Modifier
@@ -152,20 +140,24 @@ fun LoginUI(loginViewModel: LoginViewModel, navController: NavController) {
             onValueChange = {
                 password = it
             },
-            label = { Text(text = "Password", fontSize = 20.sp, textAlign = TextAlign.Center) },
+            label = { Text(text = stringResource(id = R.string.password_text), fontSize = 20.sp, textAlign = TextAlign.Center) },
         )
         Spacer(modifier = Modifier.height(35.dp))
         Button(
             onClick = {
-                // todo 0. create new key in shared preferences by the name of drink amount
-                loginViewModel.loginUser(context, Login(phonenumber, password), navController)
+                if(phonenumber.isEmpty() || password.isEmpty()) {
+                    showEmptyFieldDialog.value = true
+                }
+                else {
+                    loginViewModel.loginUser(context, Login("+31${phonenumber}", password), navController)
+                }
             },
             colors = ButtonDefaults.buttonColors(backgroundColor = Color(0xFF1B7D71)),
             modifier = Modifier
                 .height(60.dp)
                 .width(300.dp)
         ) {
-            Text(text = "Login here", color = Color.White, fontSize = 30.sp)
+            Text(text = stringResource(id = R.string.login_button_text), color = Color.White, fontSize = 30.sp)
         }
     }
 }

@@ -17,6 +17,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
@@ -29,15 +30,8 @@ import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.PatientViewModel
 @Composable
 fun RecipeItem(
     recipe: Recipe,
-    patientViewModel: PatientViewModel,
     onClickAction: (Recipe) -> Unit
 ) {
-    val phoneNumber = AppSession.getPhoneNumber()
-    val patient = patientViewModel.getPatientByPhoneNumber(phoneNumber)
-    val context = LocalContext.current
-    Log.d("patientidrecipeitem", patient?.id.toString())
-    Log.d("recipeId", recipe.recipeId.toString())
-
     Card(
         modifier = Modifier
             // The space between each card and the other
@@ -63,7 +57,7 @@ fun RecipeItem(
                 contentScale = ContentScale.Fit,
                 error = painterResource(R.drawable.placeholder),
             )
-            Log.d("recipeimage", "${recipe.imageLink}")
+
             Column(Modifier.padding(8.dp)) {
                 Text(
                     text = recipe.name.toString(),
@@ -77,9 +71,6 @@ fun RecipeItem(
 
                 Spacer(modifier = Modifier.height(12.dp))
                 Row {
-//                    if (patient!= null) {
-//                        FavoritesButton(patient.id, recipe.recipeId.toString(), patientViewModel, context)
-//                    }
                     Spacer(modifier = Modifier.width(38.dp))
                     Button(
                         onClick = {
@@ -91,7 +82,7 @@ fun RecipeItem(
                             .width(200.dp)
                             .height(70.dp)
                     ) {
-                        Text(text = "Instructions", color = Color.White, fontSize = 25.sp)
+                        Text(text = stringResource(id = R.string.instructions_button_text), color = Color.White, fontSize = 25.sp)
                     }
                 }
             }
@@ -109,9 +100,6 @@ fun FavoritesButton(patientId: String, recipeId: String, patientViewModel: Patie
             isFavorite = !isFavorite
             if (isFavorite) {
                 patientViewModel.likeRecipeByPatient(patientId, strippedrecipeId, context)
-            }
-            else {
-                // call the remove likeRecipe call from api from liked list
             }
         },
         Modifier

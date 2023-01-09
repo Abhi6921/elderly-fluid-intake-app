@@ -16,6 +16,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -31,35 +32,36 @@ import nl.narvekar.abhishek.omring_fluid_intake_app.R
 import nl.narvekar.abhishek.omring_fluid_intake_app.data.Role
 import nl.narvekar.abhishek.omring_fluid_intake_app.data.UserRequest
 import nl.narvekar.abhishek.omring_fluid_intake_app.data.UserRole
+import nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.login.components.EmptyFieldMessageDialog
 import nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.register.components.RegisterConfirmDialog
+import nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.register.components.RegisterFailureDialog
 import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.RegisterViewModel
 import kotlin.math.log
 
 
 @Composable
 fun RegisterScreen(registerViewModel: RegisterViewModel, navController: NavController) {
-    var showDialog = registerViewModel.showSuccessMessage
-
-    if (showDialog) {
-        RegisterConfirmDialog(setShowDialog = {
-            showDialog = it
-        }, navController)
-    }
     val context = LocalContext.current
+    val showSuccessDialog = registerViewModel.showSuccessMessage.value
+    val showFailureDialog = registerViewModel.showFailureMessage.value
+    val showEmptyFieldsDialog = remember { mutableStateOf(false) }
+
+    if (showSuccessDialog) {
+        RegisterConfirmDialog(navController)
+    }
+    if (showFailureDialog) {
+        RegisterFailureDialog(registerViewModel.showFailureMessage)
+    }
+
+    if (showEmptyFieldsDialog.value) {
+        EmptyFieldMessageDialog(showEmptyFieldsDialog)
+    }
     Column(
         Modifier
             .fillMaxSize()
             .background(Color(0xFF39CCFF)),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        val showDialog = remember { mutableStateOf(false) }
-
-        if (showDialog.value) {
-            RegisterConfirmDialog(setShowDialog = {
-                showDialog.value = it
-            }, navController)
-        }
-
         Spacer(modifier = Modifier.height(40.dp))
         Image(
             painter = painterResource(R.drawable.omring_logo),
@@ -70,14 +72,14 @@ fun RegisterScreen(registerViewModel: RegisterViewModel, navController: NavContr
         )
         Spacer(modifier = Modifier.height(20.dp))
         Text(
-            text = "Welcome Onboard!",
+            text = stringResource(id = R.string.welcome_text_string),
             fontSize = 35.sp,
             fontFamily = FontFamily.Default,
             fontWeight = FontWeight.Bold
         )
         Spacer(modifier = Modifier.height(5.dp))
         Text(
-            text = "Let's create an account",
+            text = stringResource(id = R.string.create_account_text),
             fontSize = 25.sp,
             fontFamily = FontFamily.Default,
             fontWeight = FontWeight.Bold,
@@ -104,12 +106,6 @@ fun RegisterScreen(registerViewModel: RegisterViewModel, navController: NavContr
         val dailygoal = remember { mutableStateOf("") }
         val dateofbirth = remember { mutableStateOf("") }
 
-
-
-
-        // firstname textfield
-        // 31542698753
-        // aram123!!
         OutlinedTextField(
             modifier = Modifier
                 .height(81.dp)
@@ -122,20 +118,16 @@ fun RegisterScreen(registerViewModel: RegisterViewModel, navController: NavContr
                 Icon(
                 imageVector = Icons.Default.Person,
                 contentDescription = "personIcon",
-                Modifier
-                    .width(60.dp)
-                    .height(40.dp)
+                    Modifier
+                        .width(60.dp)
+                        .height(40.dp)
             ) },
             onValueChange = {
                firstname.value = it
             },
-            label = { Text(text = "firstName", fontSize = 20.sp) }
+            label = { Text(text = stringResource(id = R.string.firstname_text), fontSize = 20.sp) }
         )
         Spacer(modifier = Modifier.height(10.dp))
-        // 3125634121521
-        // aram123!!
-        // lastname field
-        // 1965-04-04T00:00:00
         OutlinedTextField(
             modifier = Modifier
                 .height(81.dp)
@@ -154,7 +146,7 @@ fun RegisterScreen(registerViewModel: RegisterViewModel, navController: NavContr
             onValueChange = {
                 lastname.value = it
             },
-            label = { Text(text = "lastname", fontSize = 20.sp) }
+            label = { Text(text = stringResource(id = R.string.lastname_text), fontSize = 20.sp) }
         )
         Spacer(modifier = Modifier.height(10.dp))
         // email textfield
@@ -176,7 +168,7 @@ fun RegisterScreen(registerViewModel: RegisterViewModel, navController: NavContr
             onValueChange = {
                 email.value= it
             },
-            label = { Text(text = "email", fontSize = 20.sp) }
+            label = { Text(text = stringResource(id = R.string.email_text), fontSize = 20.sp) }
         )
         Spacer(modifier = Modifier.height(10.dp))
         // phone-number text-field
@@ -188,17 +180,19 @@ fun RegisterScreen(registerViewModel: RegisterViewModel, navController: NavContr
             colors = TextFieldDefaults.textFieldColors(backgroundColor = MaterialTheme.colors.surface.copy(Color.White.alpha)),
             keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
             textStyle = TextStyle.Default.copy(fontSize = 28.sp),
-            leadingIcon = { Icon(
-                imageVector = Icons.Default.Phone,
-                contentDescription = "phoneIcon",
-                Modifier
-                    .width(60.dp)
-                    .height(40.dp)
-            ) },
+            leadingIcon = {
+                Text(
+                    text = "+31",
+                    color = Color.Black,
+                    fontSize = 27.sp,
+                    modifier = Modifier.padding(start = 14.dp, bottom = 10.dp),
+                    textAlign = TextAlign.Center
+                )
+            },
             onValueChange = {
                 phonenumber.value = it
             },
-            label = { Text(text = "Phonenumber", fontSize = 20.sp) }
+            label = { Text(text = stringResource(id = R.string.phonenumber_label), fontSize = 20.sp) }
         )
         Spacer(modifier = Modifier.height(10.dp))
 
@@ -231,7 +225,7 @@ fun RegisterScreen(registerViewModel: RegisterViewModel, navController: NavContr
             onValueChange = {
                 password.value = it
             },
-            label = { Text(text = "Password", fontSize = 20.sp, textAlign = TextAlign.Center) },
+            label = { Text(text = stringResource(id = R.string.password_label), fontSize = 20.sp, textAlign = TextAlign.Center) },
         )
         Spacer(modifier = Modifier.height(10.dp))
         // daily intake
@@ -252,7 +246,7 @@ fun RegisterScreen(registerViewModel: RegisterViewModel, navController: NavContr
                 dailylimit.value = it
             },
             keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
-            label = { Text(text = "Enter your daily limit in (L)", fontSize = 20.sp) }
+            label = { Text(text = stringResource(id = R.string.dailylimit_text), fontSize = 20.sp) }
         )
         Spacer(modifier = Modifier.height(10.dp))
         OutlinedTextField(
@@ -264,7 +258,6 @@ fun RegisterScreen(registerViewModel: RegisterViewModel, navController: NavContr
 
             textStyle = TextStyle.Default.copy(fontSize = 28.sp),
             leadingIcon = {
-                /*ImageVector.vectorResource(id = R.drawable.target_icon)*/
                 Image(painterResource(id = R.drawable.target_icon),
                     contentDescription = "targetIcon")
             },
@@ -272,7 +265,7 @@ fun RegisterScreen(registerViewModel: RegisterViewModel, navController: NavContr
                 dailygoal.value = it
             },
             keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
-            label = { Text(text = "Enter your daily goal in (L)", fontSize = 20.sp) }
+            label = { Text(text = stringResource(id = R.string.dailygoal_text), fontSize = 20.sp) }
         )
         Spacer(modifier = Modifier.height(10.dp))
         OutlinedTextField(
@@ -290,10 +283,10 @@ fun RegisterScreen(registerViewModel: RegisterViewModel, navController: NavContr
                 dateofbirth.value = it
             },
             keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Text),
-            label = { Text(text = "Enter your date of birth", fontSize = 20.sp) }
+            label = { Text(text = stringResource(id = R.string.dateofbirth_text), fontSize = 20.sp) }
         )
         Spacer(modifier = Modifier.height(40.dp))
-        Log.d("firstNameOutput", "$firstname")
+        
         // RegisterButton
         Button(
             onClick = {
@@ -305,7 +298,7 @@ fun RegisterScreen(registerViewModel: RegisterViewModel, navController: NavContr
                     || dailygoal.value.isEmpty()
                     || dailylimit.value.isEmpty()
                 ) {
-                    Toast.makeText(context, "Please fill all the credentials!", Toast.LENGTH_LONG).show()
+                    showEmptyFieldsDialog.value = true
                 }
                 else {
                     val firstName: String = firstname.value.toString()
@@ -323,7 +316,7 @@ fun RegisterScreen(registerViewModel: RegisterViewModel, navController: NavContr
                             firstName,
                             lastName,
                             emailId,
-                            phoneNumber,
+                            "+31${phoneNumber}",
                             Password,
                             true,
                             Dailylimit,

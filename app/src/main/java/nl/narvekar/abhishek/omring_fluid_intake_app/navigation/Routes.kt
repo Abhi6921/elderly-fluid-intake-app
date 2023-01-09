@@ -12,6 +12,7 @@ sealed class Routes(val route: String) {
     object Favorite: Routes("Favorite")
     object Drink: Routes("Drink Record")
     object Share: Routes("Share")
+    object Profile: Routes("Profile")
 
     companion object {
         fun getDestination() = Start.route

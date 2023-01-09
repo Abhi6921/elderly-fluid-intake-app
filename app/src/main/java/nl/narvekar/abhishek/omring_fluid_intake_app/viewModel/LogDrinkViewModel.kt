@@ -42,18 +42,14 @@ class LogDrinkViewModel : ViewModel() {
                         call: Call<LogDrinkResponse>,
                         response: Response<LogDrinkResponse>
                     ) {
-                        val intakeNow = response.body()?.DrankNow
-                        if (intakeNow != null) {
-                            saveTodaysIntake(intakeNow.toFloat())
+                        if(response.isSuccessful || response.code() == 201) {
+                            Toast.makeText(context, "Drink logged in succesfully!", Toast.LENGTH_LONG).show()
                         }
-                        Toast.makeText(context, "Drink logged in succesfully!", Toast.LENGTH_LONG).show()
                     }
                 }
             )
         }
     }
 
-    fun saveTodaysIntake(drinkAmount: Float) {
-        AppSession.saveTodaysIntake(drinkAmount)
-    }
+
 }
