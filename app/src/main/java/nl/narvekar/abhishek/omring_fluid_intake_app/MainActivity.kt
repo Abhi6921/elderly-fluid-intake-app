@@ -27,6 +27,10 @@ import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.*
 
 class MainActivity : ComponentActivity() {
 
+    // todo create an app icon from figma
+    // todo design drink dialog page
+    // todo fix the favorites delete and datetime on drink records page
+    // todo display dashboard spinner and quote on the drink records page and fix pagination
     private val loginViewModel by viewModels<LoginViewModel>()
     private val registerViewModel by viewModels<RegisterViewModel>()
     private val recipeViewModel by viewModels<RecipeViewModel>()
