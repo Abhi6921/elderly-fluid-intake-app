@@ -23,8 +23,6 @@ interface UsersAuthApi {
     @POST("api/v1/patients/logdrink")
     fun postNewDrink(@Header("Authorization") authToken: String, @Query("amount")  drinkAmount: Int) : Call<LogDrinkResponse>
 
-    @GET("api/v1/patients")
-    suspend fun getAllPatients(@Header("Authorization") authToken: String, @Query("limit") listLimit: Int) : List<PatientResponse>
 
     @GET("api/v1/patients/drinks/today/{id}")
     suspend fun getCurrentFluidStatus(@Header("Authorization") authToken: String, @Path("id") patientId: String) : LogDrinkResponse
