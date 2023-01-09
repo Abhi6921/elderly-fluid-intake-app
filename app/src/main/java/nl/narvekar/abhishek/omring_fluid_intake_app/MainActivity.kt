@@ -29,7 +29,7 @@ class MainActivity : ComponentActivity() {
 
     // todo create an app icon from figma
     // todo design drink dialog page
-    // todo fix the favorites delete and datetime on drink records page
+    // todo fix the favorites delete and datetime on drink records page -> DONE
     // todo display dashboard spinner and quote on the drink records page and fix pagination
     // this commit is from fix-user-interface branch
     private val loginViewModel by viewModels<LoginViewModel>()
