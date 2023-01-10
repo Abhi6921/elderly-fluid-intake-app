@@ -28,7 +28,8 @@ import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.*
 class MainActivity : ComponentActivity() {
     // for tomorrow
     // todo todo fix the favorites delete
-    // todo  fix pagination
+    // todo  fix pagination and user-interface
+
     // this commit is from fix-user-interface branch
     private val loginViewModel by viewModels<LoginViewModel>()
     private val registerViewModel by viewModels<RegisterViewModel>()

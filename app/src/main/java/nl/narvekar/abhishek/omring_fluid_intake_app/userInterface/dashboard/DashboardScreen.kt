@@ -79,8 +79,9 @@ fun DashBoardScreen(
                 Text(text = "Welcome ${firstName} ${lastName}", textAlign = TextAlign.Center, fontSize = 35.sp)
                 Spacer(modifier = Modifier.height(20.dp))
                 Text(text = "Today's goal: ${dailyLimit} ml", textAlign = TextAlign.Center, fontSize = 35.sp)
-                val IntakeAchieved = patientViewModel.logDrinkResponse.Achieved.toString()
-                Text(text = "Achieved Intake: ${IntakeAchieved} ml", textAlign = TextAlign.Center, fontSize = 35.sp)
+                val IntakeAchieved: Int = patientViewModel.logDrinkResponse.Achieved ?: 0
+                Text(text = "Achieved Intake: ${IntakeAchieved.toInt()} ml", textAlign = TextAlign.Center, fontSize = 35.sp)
+
                 Spacer(modifier = Modifier.height(60.dp))
                 Box(modifier = Modifier
                     .fillMaxWidth()

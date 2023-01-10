@@ -25,6 +25,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
@@ -33,6 +34,7 @@ import nl.narvekar.abhishek.omring_fluid_intake_app.R
 import nl.narvekar.abhishek.omring_fluid_intake_app.data.DrinkDate
 import nl.narvekar.abhishek.omring_fluid_intake_app.data.DrinkLogResponse
 import nl.narvekar.abhishek.omring_fluid_intake_app.data.DrinkRecord
+import nl.narvekar.abhishek.omring_fluid_intake_app.data.Recipe
 import nl.narvekar.abhishek.omring_fluid_intake_app.navigation.AppBottomNav
 import nl.narvekar.abhishek.omring_fluid_intake_app.ui.theme.omringButtonColor
 import nl.narvekar.abhishek.omring_fluid_intake_app.ui.theme.recordsExpandListColor
@@ -55,10 +57,9 @@ fun DrinkRecords(navController: NavController, cardListViewModel: CardListViewMo
     val patientId = AppSession.getPatientId()
     val dailyLimit = AppSession.getDailyLimit()
 
+    cardListViewModel.getAllDrinkDates()
     val currentFluidIntakeStatus = patientViewModel.getCurrentFluidIntakeStatus(patientId)
-
-    val drinkrecords = cardListViewModel.drinkRecords.collectAsLazyPagingItems()
-//    val drinksLogs by cardListViewModel.drinkLogsListState.collectAsState()
+    val drinksLogs by cardListViewModel.drinkLogsListState.collectAsState()
     val itemIds by cardListViewModel.itemIds.collectAsState()
 
     val currentTargetAchieved = ((currentFluidIntakeStatus.Achieved?.toFloat()?.div(dailyLimit))?.times(100))?.roundToInt()
@@ -95,7 +96,7 @@ fun DrinkRecords(navController: NavController, cardListViewModel: CardListViewMo
                 }
             }
         },
-        content = { padding ->
+        content = {
             Column(modifier = Modifier.fillMaxWidth()) {
                 if (currentFluidIntakeStatus.Achieved?.toFloat() == null) {
                     Text(
@@ -118,17 +119,17 @@ fun DrinkRecords(navController: NavController, cardListViewModel: CardListViewMo
                 }
             }
             LazyColumn(Modifier.padding(start = 0.dp, top = 420.dp, end = 0.dp)) {
-                //drinksLogs?.let { allDrinkLogs ->
-                itemsIndexed(drinkrecords) { index, drinkRecord ->
-                    if (drinkRecord != null) {
-                        ExpandableContainerView(
-                            drinklogResponse = drinkRecord,
-                            onClickItem = { cardListViewModel.onItemClicked(index) },
-                            expanded = itemIds.contains(index)
-                        )
+                drinksLogs?.let { allDrinkLogs ->
+                    itemsIndexed(allDrinkLogs) { index, drinkRecord ->
+                        //if (drinkRecord != null) {
+                            ExpandableContainerView(
+                                drinklogResponse = drinkRecord,
+                                onClickItem = { cardListViewModel.onItemClicked(index) },
+                                expanded = itemIds.contains(index)
+                            )
+                        //}
                     }
                 }
-                //}
             }
 
         },
@@ -270,12 +271,6 @@ fun ExpandableContainerView(
         Column {
             val drinkDateTime = formatDateTimeForDrinkLogs(drinklogResponse.dateTime.toString())
             val time = formatTimeForDrinkLogs(drinklogResponse.dateTime.toString())
-
-            val records: List<DrinkRecord> = listOf(
-                DrinkRecord(drinklogResponse.dateTime.toString(), drinklogResponse.amount)
-            )
-            val drinkDate = DrinkDate(drinklogResponse.dateTime, records)
-
             HeaderView(datetime = drinkDateTime, drinklogResponse.amount.toString(),onClickItem = onClickItem)
             ExpandableView(time = time, drinkAmount = drinklogResponse.amount.toString(), isExpanded = expanded)
         }

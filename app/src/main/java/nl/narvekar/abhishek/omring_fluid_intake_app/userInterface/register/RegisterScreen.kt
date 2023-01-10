@@ -25,6 +25,7 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -38,7 +39,7 @@ import nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.register.compo
 import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.RegisterViewModel
 import kotlin.math.log
 
-
+//@Preview(showBackground = true, widthDp = 900, heightDp = 1280)
 @Composable
 fun RegisterScreen(registerViewModel: RegisterViewModel, navController: NavController) {
     val context = LocalContext.current
@@ -172,6 +173,7 @@ fun RegisterScreen(registerViewModel: RegisterViewModel, navController: NavContr
         )
         Spacer(modifier = Modifier.height(10.dp))
         // phone-number text-field
+        val maxNumbers = 10
         OutlinedTextField(
             modifier = Modifier
                 .height(81.dp)
@@ -190,12 +192,11 @@ fun RegisterScreen(registerViewModel: RegisterViewModel, navController: NavContr
                 )
             },
             onValueChange = {
-                phonenumber.value = it
+                if(it.length <= maxNumbers) phonenumber.value = it
             },
             label = { Text(text = stringResource(id = R.string.phonenumber_label), fontSize = 20.sp) }
         )
         Spacer(modifier = Modifier.height(10.dp))
-
         // Password Field
         OutlinedTextField(
             modifier = Modifier
@@ -285,7 +286,7 @@ fun RegisterScreen(registerViewModel: RegisterViewModel, navController: NavContr
             keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Text),
             label = { Text(text = stringResource(id = R.string.dateofbirth_text), fontSize = 20.sp) }
         )
-        Spacer(modifier = Modifier.height(40.dp))
+        Spacer(modifier = Modifier.height(30.dp))
         
         // RegisterButton
         Button(
@@ -300,6 +301,7 @@ fun RegisterScreen(registerViewModel: RegisterViewModel, navController: NavContr
                 ) {
                     showEmptyFieldsDialog.value = true
                 }
+
                 else {
                     val firstName: String = firstname.value.toString()
                     val lastName: String = lastname.value.toString()

@@ -22,6 +22,7 @@ class DrinkLogsPager : PagingSource<Int, DrinkLogResponse>() {
         val page = params.key ?: 0
         val size = params.loadSize
         val from = page * size
+
         val result = fetch(from, size).getOrElse {
             return LoadResult.Error(it)
         }
