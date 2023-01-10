@@ -18,9 +18,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -35,6 +37,7 @@ import nl.narvekar.abhishek.omring_fluid_intake_app.navigation.AppBottomNav
 import nl.narvekar.abhishek.omring_fluid_intake_app.ui.theme.omringButtonColor
 import nl.narvekar.abhishek.omring_fluid_intake_app.ui.theme.recordsExpandListColor
 import nl.narvekar.abhishek.omring_fluid_intake_app.ui.theme.recordsTitleColor
+import nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.dashboard.DashBoardSpinnerAndQuote
 import nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.dashboard.components.CircularProgressBar
 import nl.narvekar.abhishek.omring_fluid_intake_app.utils.AppSession
 import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.CardListViewModel
@@ -42,15 +45,24 @@ import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.PatientViewModel
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
+import kotlin.math.roundToInt
 
+//@Preview(showBackground = true, widthDp = 900, heightDp = 1280)
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun DrinkRecords(navController: NavController, cardListViewModel: CardListViewModel, patientViewModel: PatientViewModel) {
 
-    val drinkrecords = cardListViewModel.drinkRecords.collectAsLazyPagingItems()
-    val drinksLogs by cardListViewModel.drinkLogsListState.collectAsState()
+    val patientId = AppSession.getPatientId()
+    val dailyLimit = AppSession.getDailyLimit()
 
+    val currentFluidIntakeStatus = patientViewModel.getCurrentFluidIntakeStatus(patientId)
+
+    val drinkrecords = cardListViewModel.drinkRecords.collectAsLazyPagingItems()
+//    val drinksLogs by cardListViewModel.drinkLogsListState.collectAsState()
     val itemIds by cardListViewModel.itemIds.collectAsState()
+
+    val currentTargetAchieved = ((currentFluidIntakeStatus.Achieved?.toFloat()?.div(dailyLimit))?.times(100))?.roundToInt()
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -74,7 +86,7 @@ fun DrinkRecords(navController: NavController, cardListViewModel: CardListViewMo
                                 modifier = Modifier.fillMaxWidth(),
                                 textAlign = TextAlign.Center,
                                 maxLines = 1,
-                                text = "Your Drink Records",
+                                text = stringResource(id = R.string.drink_records_title),
                                 color = Color.White,
                                 fontSize = 34.sp
                             )
@@ -84,20 +96,41 @@ fun DrinkRecords(navController: NavController, cardListViewModel: CardListViewMo
             }
         },
         content = { padding ->
-            LazyColumn(Modifier.padding(padding)) {
-                //drinksLogs?.let { allDrinkLogs ->
-                    itemsIndexed(drinkrecords) { index, drinkRecord ->
-                           if (drinkRecord != null) {
-                               ExpandableContainerView(
-                                   drinklogResponse = drinkRecord,
-                                   onClickItem = { cardListViewModel.onItemClicked(index) },
-                                   expanded = itemIds.contains(index)
-                               )
-                           }
+            Column(modifier = Modifier.fillMaxWidth()) {
+                if (currentFluidIntakeStatus.Achieved?.toFloat() == null) {
+                    Text(
+                        text = stringResource(id = R.string.zero_target_achieved),
+                        fontSize = 34.sp,
+                        fontWeight = FontWeight.Normal,
+                        modifier = Modifier.padding(start = 280.dp, top = 38.dp, bottom = 20.dp, end = 30.dp)
+                    )
+                    DashBoardSpinnerAndQuote(drinkAmount = 0.0f, dailyLimit = 100)
+                }
+                else {
 
+                    Text(
+                        text = "Target achieved: ${currentTargetAchieved?.toInt()}%",
+                        fontSize = 34.sp,
+                        fontWeight = FontWeight.Normal,
+                        modifier = Modifier.padding(start = 280.dp, top = 38.dp, bottom = 20.dp, end = 30.dp)
+                    )
+                    DashBoardSpinnerAndQuote(drinkAmount = currentFluidIntakeStatus.Achieved.toFloat(), dailyLimit = dailyLimit)
+                }
+            }
+            LazyColumn(Modifier.padding(start = 0.dp, top = 420.dp, end = 0.dp)) {
+                //drinksLogs?.let { allDrinkLogs ->
+                itemsIndexed(drinkrecords) { index, drinkRecord ->
+                    if (drinkRecord != null) {
+                        ExpandableContainerView(
+                            drinklogResponse = drinkRecord,
+                            onClickItem = { cardListViewModel.onItemClicked(index) },
+                            expanded = itemIds.contains(index)
+                        )
                     }
+                }
                 //}
             }
+
         },
         bottomBar = {
             AppBottomNav(navController = navController)

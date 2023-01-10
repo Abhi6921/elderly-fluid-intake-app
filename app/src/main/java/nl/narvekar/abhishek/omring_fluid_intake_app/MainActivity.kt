@@ -26,11 +26,9 @@ import nl.narvekar.abhishek.omring_fluid_intake_app.utils.AppSession
 import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.*
 
 class MainActivity : ComponentActivity() {
-
-    // todo create an app icon from figma -> DONE
-    // todo design drink dialog page -> DONE
-    // todo fix the favorites delete and datetime on drink records page -> DONE
-    // todo display dashboard spinner and quote on the drink records page and fix pagination
+    // for tomorrow
+    // todo todo fix the favorites delete
+    // todo  fix pagination
     // this commit is from fix-user-interface branch
     private val loginViewModel by viewModels<LoginViewModel>()
     private val registerViewModel by viewModels<RegisterViewModel>()

@@ -77,7 +77,8 @@
     <string name="steps_text">steps</string>
 
     <!--Drink Records Strings-->
-    <string name="drink_records_title">Drink Records</string>
+    <string name="drink_records_title">Your Drink Records</string>
+    <string name="zero_target_achieved">Target achieved: 0%</string>
 
 
 </resources>
