@@ -31,9 +31,7 @@ import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemsIndexed
 import nl.narvekar.abhishek.omring_fluid_intake_app.R
-import nl.narvekar.abhishek.omring_fluid_intake_app.data.DrinkDate
 import nl.narvekar.abhishek.omring_fluid_intake_app.data.DrinkLogResponse
-import nl.narvekar.abhishek.omring_fluid_intake_app.data.DrinkRecord
 import nl.narvekar.abhishek.omring_fluid_intake_app.data.Recipe
 import nl.narvekar.abhishek.omring_fluid_intake_app.navigation.AppBottomNav
 import nl.narvekar.abhishek.omring_fluid_intake_app.ui.theme.omringButtonColor
@@ -121,13 +119,11 @@ fun DrinkRecords(navController: NavController, cardListViewModel: CardListViewMo
             LazyColumn(Modifier.padding(start = 0.dp, top = 420.dp, end = 0.dp)) {
                 drinksLogs?.let { allDrinkLogs ->
                     itemsIndexed(allDrinkLogs) { index, drinkRecord ->
-                        //if (drinkRecord != null) {
-                            ExpandableContainerView(
-                                drinklogResponse = drinkRecord,
-                                onClickItem = { cardListViewModel.onItemClicked(index) },
-                                expanded = itemIds.contains(index)
-                            )
-                        //}
+                        ExpandableContainerView(
+                            drinklogResponse = drinkRecord,
+                            onClickItem = { cardListViewModel.onItemClicked(index) },
+                            expanded = itemIds.contains(index)
+                        )
                     }
                 }
             }
@@ -281,7 +277,7 @@ fun ExpandableContainerView(
 fun formatDateTimeForDrinkLogs(dateTime: String): String {
     val strippedDate = dateTime.dropLast(13)
     val date = LocalDateTime.parse(strippedDate)
-    val formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm", Locale.GERMANY)
+    val formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss", Locale.GERMANY)
     val zonedDateTime = formatter.format(date)
     return zonedDateTime
 }

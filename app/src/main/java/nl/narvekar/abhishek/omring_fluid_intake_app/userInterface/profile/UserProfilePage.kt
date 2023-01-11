@@ -50,7 +50,6 @@ fun UserProfilePage(navController: NavController) {
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier
-                    .border(1.dp, Color.Red, RectangleShape)
                     .fillMaxWidth()
                     .padding(20.dp)
                     .verticalScroll(scrollState)

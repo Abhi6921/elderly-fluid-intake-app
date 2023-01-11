@@ -8,25 +8,26 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
+import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import nl.narvekar.abhishek.omring_fluid_intake_app.api.UsersAuthApi
 
-import nl.narvekar.abhishek.omring_fluid_intake_app.data.DrinkDate
+
 import nl.narvekar.abhishek.omring_fluid_intake_app.data.DrinkLogResponse
 import nl.narvekar.abhishek.omring_fluid_intake_app.data.Recipe
 import nl.narvekar.abhishek.omring_fluid_intake_app.utils.AppSession
 
-private const val PAGE_SIZE = 80
+
 class CardListViewModel : ViewModel() {
 
     private val itemIdsList = MutableStateFlow(listOf<Int>())
     val itemIds: StateFlow<List<Int>> get() = itemIdsList
 
-    //var drinkDateResponse: List<DrinkLogResponse> by mutableStateOf(listOf())
     var errorMessage: String by mutableStateOf("")
 
 
@@ -43,10 +44,9 @@ class CardListViewModel : ViewModel() {
             val adminToken = "eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOlsiQURNSU4iLCJDQVJFX0dJVkVSIl0sImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWUiOiIrMzE2NDU4MjYwMDAiLCJuYmYiOjE2NzE2NTgyNTEsImV4cCI6MTcwMzE5NDI1MSwiaWF0IjoxNjcxNjU4MjUxLCJpc3MiOiJEcmlua0FwcFJlY2lwZXMuYXp1cmV3ZWJzaXRlcy5uZXQiLCJhdWQiOiJEcmlua0FwcFVzZXJzIC8gUGF0aWVudHMgLyBDYXJlZ2l2ZXJzIC8gQWRtaW5zIn0.sgh_qAXL9GyQ_GLiXjPOBxZBQlaSaC91Cxc8iobF9XM"
             val patientId = AppSession.getPatientId()
             try {
-                val drinkLogs = usersAuthApi.getPatientDrinkLogs("Bearer ${adminToken}", patientId, "01/12/2022", "09/12/2023",0, PAGE_SIZE)
-
+                val drinkLogs = usersAuthApi.getPatientDrinkLogs("Bearer ${adminToken}", patientId, "29/12/2022", "15/12/2023",0, 40)
                 if (drinkLogs.isSuccessful) {
-                    mutableDrinkLogsListResponse.emit(drinkLogs.body()!!)
+                   mutableDrinkLogsListResponse.emit(drinkLogs.body()!!)
                     Log.d("Success!", "Drink logs are NOT empty")
                 }
                 else {

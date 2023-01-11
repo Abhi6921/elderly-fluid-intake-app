@@ -46,16 +46,10 @@ fun RecipeDetailView(
     val phoneNumber = AppSession.getPhoneNumber()
     val patientId = AppSession.getPatientId()
 
-
-//    val recipe = recipeViewModel.recipeListResponse.find { recipe ->
-//        detailId == recipe.recipeId
-//    }
-
     recipeViewModel.getRecipeById(detailId)
 
     val recipe by recipeViewModel.mutableRecipeState.collectAsState()
 
-//    val isRecipeInFavorites: Boolean = patientViewModel.likedRecipeListResponse.contains(recipe)
     Scaffold(
         topBar = {
             TopAppBar(
