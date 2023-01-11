@@ -28,9 +28,6 @@ import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.RecipeViewModel
 @Composable
 fun RecipeList(navController: NavController, recipeViewModel: RecipeViewModel, patientViewModel: PatientViewModel) {
 
-    val context = LocalContext.current
-    // fetch all the recipe favorites
-    // check if the recipe is inside the user's favorites
 
     val recipes by recipeViewModel.recipeListState.collectAsState()
     patientViewModel.getAllLikedRecipes()

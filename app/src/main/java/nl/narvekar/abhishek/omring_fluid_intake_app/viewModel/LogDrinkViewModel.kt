@@ -45,6 +45,9 @@ class LogDrinkViewModel : ViewModel() {
                         if(response.isSuccessful || response.code() == 201) {
                             Toast.makeText(context, "Drink logged in succesfully!", Toast.LENGTH_LONG).show()
                         }
+                        else {
+                            Toast.makeText(context, "Error Logging in the drinks!", Toast.LENGTH_LONG).show()
+                        }
                     }
                 }
             )

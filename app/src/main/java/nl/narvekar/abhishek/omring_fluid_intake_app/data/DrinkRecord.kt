@@ -9,14 +9,5 @@ data class DrinkLogResponse(
     val amount: Int? = null,
     val patientId: String? = null
 )
-data class DrinkDate(
-    val dateTime: String? = null,
-    var drinkRecord: List<DrinkRecord>? = null
-)
-
-data class DrinkRecord(
-    val dateTime: String? = null,
-    val amount: Int? = null
-)
 
 

@@ -11,4 +11,9 @@ object Constants {
     const val DAILYGOAL = "dailygoal"
     const val IS_LOGGED_IN = "isloggedin"
 
+    // Fluid Intake Amounts
+    const val HUNDRED_ML_INTAKE: Int = 100
+    const val ONE_FIFTY_ML_INTAKE : Int = 150
+    const val TWO_HUNDRED_ML_INTAKE : Int = 200
+
 }

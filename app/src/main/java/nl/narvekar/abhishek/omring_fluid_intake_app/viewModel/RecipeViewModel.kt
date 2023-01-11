@@ -13,10 +13,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import nl.narvekar.abhishek.omring_fluid_intake_app.api.RecipeAuthApi
-import nl.narvekar.abhishek.omring_fluid_intake_app.api.UsersAuthApi
-import nl.narvekar.abhishek.omring_fluid_intake_app.data.DrinkDate
 import nl.narvekar.abhishek.omring_fluid_intake_app.data.Recipe
-import nl.narvekar.abhishek.omring_fluid_intake_app.utils.AppSession
 
 class RecipeViewModel : ViewModel() {
     var recipeListResponse: List<Recipe> by mutableStateOf(listOf())

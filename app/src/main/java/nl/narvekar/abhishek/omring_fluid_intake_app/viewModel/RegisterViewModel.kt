@@ -3,6 +3,7 @@ package nl.narvekar.abhishek.omring_fluid_intake_app.viewModel
 import android.content.ContentValues.TAG
 import android.content.Context
 import android.util.Log
+import android.util.Patterns
 import android.widget.Toast
 import androidx.compose.runtime.*
 import androidx.lifecycle.ViewModel
@@ -42,13 +43,12 @@ class RegisterViewModel : ViewModel() {
                     else {
                         //Toast.makeText(context, "Registration failure!, ${response.code().toString()},  ${response.message()} ${response.headers()}", Toast.LENGTH_LONG).show()
                         showFailureMessage.value = true
+                        Log.d("Register Failure!", "${response.code().toString()},  ${response.message()} ${response.headers()}")
                     }
                 }
             }
             )
 
         }
-
     }
-
 }
