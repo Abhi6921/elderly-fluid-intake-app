@@ -27,6 +27,11 @@ import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.*
 
 class MainActivity : ComponentActivity() {
 
+    // TODO: fix the labels on the textfields on login and register page
+    // TODO: add loading indicator to login to show the app is processing the data
+    // TODO: add favorite icon in recipes page to show the number of liked recipes
+    // TODO: refactor the code to avoid data leaks
+    // TODO: paginate the drink records page
     private val loginViewModel by viewModels<LoginViewModel>()
     private val registerViewModel by viewModels<RegisterViewModel>()
     private val recipeViewModel by viewModels<RecipeViewModel>()

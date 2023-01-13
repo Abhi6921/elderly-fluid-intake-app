@@ -38,11 +38,13 @@ import nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.login.componen
 import nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.login.components.LoginFailureDialog
 import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.LoginViewModel
 
-
+//@Preview(showBackground = true, widthDp = 900, heightDp = 1280)
 @Composable
 fun LoginUI(loginViewModel: LoginViewModel, navController: NavController) {
 
     val context = LocalContext.current
+
+
 
     val showEmptyFieldDialog = remember { mutableStateOf(false) }
     val showLoginFailureDialog = loginViewModel.showLoginFailureDialog.value
@@ -102,7 +104,7 @@ fun LoginUI(loginViewModel: LoginViewModel, navController: NavController) {
                     text = "+31",
                     color = Color.Black,
                     fontSize = 25.sp,
-                    modifier = Modifier.padding(start = 14.dp, bottom = 10.dp),
+                    modifier = Modifier.padding(start = 14.dp, top = 10.dp, bottom = 10.dp),
                     textAlign = TextAlign.Center
                 )
             },
@@ -110,7 +112,7 @@ fun LoginUI(loginViewModel: LoginViewModel, navController: NavController) {
             onValueChange = {
                 phonenumber = it
             },
-            label = { Text(text = stringResource(id = R.string.phonenumber_text), fontSize = 20.sp) }
+            placeholder = { Text(text = stringResource(id = R.string.phonenumber_text), fontSize = 20.sp, modifier = Modifier.padding(top = 10.dp, bottom = 10.dp)) }
         )
         Spacer(modifier = Modifier.height(29.dp))
         // Password field
@@ -123,9 +125,7 @@ fun LoginUI(loginViewModel: LoginViewModel, navController: NavController) {
             textStyle = TextStyle.Default.copy(fontSize = 28.sp),
             visualTransformation = if (passwordVisible) { VisualTransformation.None } else { PasswordVisualTransformation() },
             leadingIcon = { Icon(imageVector = Icons.Default.Lock, contentDescription = "lockIcon",
-                Modifier
-                    .width(60.dp)
-                    .height(40.dp))},
+                modifier = Modifier.padding(start = 10.dp, top = 10.dp, bottom = 10.dp).size(35.dp))},
             trailingIcon = {
                 val image = if (passwordVisible) {
                     Icons.Default.Visibility
@@ -134,13 +134,13 @@ fun LoginUI(loginViewModel: LoginViewModel, navController: NavController) {
                 }
                 val description = if (passwordVisible) "Hide password" else "show password"
                 IconButton(onClick = { passwordVisible =! passwordVisible }) {
-                    Icon(imageVector = image, contentDescription = description)
+                    Icon(imageVector = image, contentDescription = description, modifier = Modifier.size(60.dp).padding(top = 10.dp, bottom = 10.dp))
                 }
             },
             onValueChange = {
                 password = it
             },
-            label = { Text(text = stringResource(id = R.string.password_text), fontSize = 20.sp, textAlign = TextAlign.Center) },
+            placeholder = { Text(text = stringResource(id = R.string.password_text), fontSize = 20.sp, textAlign = TextAlign.Center, modifier = Modifier.padding(start = 10.dp, top = 10.dp, bottom = 10.dp)) },
         )
         Spacer(modifier = Modifier.height(35.dp))
         Button(

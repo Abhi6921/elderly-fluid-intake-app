@@ -14,6 +14,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -43,6 +44,7 @@ import kotlin.math.log
 @Composable
 fun RegisterScreen(registerViewModel: RegisterViewModel, navController: NavController) {
     val context = LocalContext.current
+
     val showSuccessDialog = registerViewModel.showSuccessMessage.value
     val showFailureDialog = registerViewModel.showFailureMessage.value
     val showEmptyFieldsDialog = remember { mutableStateOf(false) }
@@ -87,20 +89,11 @@ fun RegisterScreen(registerViewModel: RegisterViewModel, navController: NavContr
             textAlign = TextAlign.Center
         )
         Spacer(modifier = Modifier.height(20.dp))
-//        val firstName by remember { mutableStateOf("") }
-//        val lastName by remember { mutableStateOf("") }
-//        val email  by remember { mutableStateOf("") }
-//        val phoneNumber by remember { mutableStateOf("") }
-//        val password by remember { mutableStateOf("") }
-//        val passwordVisible by remember { mutableStateOf(false) }
-//        val dailyLimit by remember { mutableStateOf("") }
-//        val dailygoal by remember { mutableStateOf("") }
-//        val dateOfBirth by remember { mutableStateOf("") }
 
-          val firstname = remember { mutableStateOf("") }
-          val lastname = remember { mutableStateOf("") }
-          val email = remember { mutableStateOf("") }
-          val phonenumber = remember { mutableStateOf("") }
+        val firstname = remember { mutableStateOf("") }
+        val lastname = remember { mutableStateOf("") }
+        val email = remember { mutableStateOf("") }
+        val phonenumber = remember { mutableStateOf("") }
         val password = remember { mutableStateOf("") }
         val passwordVisible = remember { mutableStateOf(false) }
         val dailylimit = remember { mutableStateOf("") }
@@ -119,14 +112,12 @@ fun RegisterScreen(registerViewModel: RegisterViewModel, navController: NavContr
                 Icon(
                 imageVector = Icons.Default.Person,
                 contentDescription = "personIcon",
-                    Modifier
-                        .width(60.dp)
-                        .height(40.dp)
+                modifier = Modifier.padding(start = 10.dp, top = 10.dp, bottom = 10.dp).size(45.dp)
             ) },
             onValueChange = {
                firstname.value = it
             },
-            label = { Text(text = stringResource(id = R.string.firstname_text), fontSize = 20.sp) }
+            placeholder = { Text(text = stringResource(id = R.string.firstname_text), fontSize = 20.sp, modifier = Modifier.padding(top = 10.dp, bottom = 10.dp)) }
         )
         Spacer(modifier = Modifier.height(10.dp))
         OutlinedTextField(
@@ -140,14 +131,12 @@ fun RegisterScreen(registerViewModel: RegisterViewModel, navController: NavContr
             leadingIcon = { Icon(
                 imageVector = Icons.Default.Person,
                 contentDescription = "personIcon",
-                Modifier
-                    .width(60.dp)
-                    .height(40.dp)
+                modifier = Modifier.padding(start = 10.dp, top = 10.dp, bottom = 10.dp).size(45.dp)
             ) },
             onValueChange = {
                 lastname.value = it
             },
-            label = { Text(text = stringResource(id = R.string.lastname_text), fontSize = 20.sp) }
+            placeholder = { Text(text = stringResource(id = R.string.lastname_text), fontSize = 20.sp, modifier = Modifier.padding(top = 10.dp, bottom = 10.dp)) }
         )
         Spacer(modifier = Modifier.height(10.dp))
         // email textfield
@@ -162,14 +151,12 @@ fun RegisterScreen(registerViewModel: RegisterViewModel, navController: NavContr
             leadingIcon = { Icon(
                 imageVector = Icons.Default.Email,
                 contentDescription = "emailIcon",
-                Modifier
-                    .width(60.dp)
-                    .height(40.dp)
+                modifier = Modifier.padding(start = 10.dp, top = 10.dp, bottom = 10.dp).size(40.dp)
             ) },
             onValueChange = {
                 email.value= it
             },
-            label = { Text(text = stringResource(id = R.string.email_text), fontSize = 20.sp) }
+            placeholder = { Text(text = stringResource(id = R.string.email_text), fontSize = 20.sp, modifier = Modifier.padding(start = 8.dp, top = 10.dp, bottom = 10.dp)) }
         )
         Spacer(modifier = Modifier.height(10.dp))
         // phone-number text-field
@@ -186,15 +173,15 @@ fun RegisterScreen(registerViewModel: RegisterViewModel, navController: NavContr
                 Text(
                     text = "+31",
                     color = Color.Black,
-                    fontSize = 27.sp,
-                    modifier = Modifier.padding(start = 14.dp, bottom = 10.dp),
+                    fontSize = 25.sp,
+                    modifier = Modifier.padding(start = 14.dp, top = 10.dp, bottom = 10.dp),
                     textAlign = TextAlign.Center
                 )
             },
             onValueChange = {
                 if(it.length <= maxNumbers) phonenumber.value = it
             },
-            label = { Text(text = stringResource(id = R.string.phonenumber_label), fontSize = 20.sp) }
+            placeholder = { Text(text = stringResource(id = R.string.phonenumber_label), fontSize = 20.sp, modifier = Modifier.padding(start = 10.dp, top = 10.dp, bottom = 10.dp)) }
         )
         Spacer(modifier = Modifier.height(10.dp))
         // Password Field
@@ -207,10 +194,8 @@ fun RegisterScreen(registerViewModel: RegisterViewModel, navController: NavContr
             textStyle = TextStyle.Default.copy(fontSize = 28.sp),
             visualTransformation = if (passwordVisible.value) { VisualTransformation.None } else { PasswordVisualTransformation() },
             leadingIcon = { Icon(imageVector = Icons.Default.Lock, contentDescription = "lockIcon",
-                Modifier
-                    .width(60.dp)
-                    .height(40.dp))
-                          },
+                modifier = Modifier.padding(start = 14.dp, top = 10.dp, bottom = 10.dp).size(40.dp))
+            },
             trailingIcon = {
                   val image = if (passwordVisible.value) {
                       Icons.Default.Visibility
@@ -220,13 +205,13 @@ fun RegisterScreen(registerViewModel: RegisterViewModel, navController: NavContr
                   }
                 val description = if(passwordVisible.value) "Hide Password" else "Show Password"
                 IconButton(onClick = { passwordVisible.value =! passwordVisible.value }) {
-                    Icon(imageVector = image, contentDescription = null)
+                    Icon(imageVector = image, contentDescription = "password", modifier = Modifier.padding(top = 10.dp, bottom = 10.dp, end = 10.dp).size(35.dp))
                 }
             },
             onValueChange = {
                 password.value = it
             },
-            label = { Text(text = stringResource(id = R.string.password_label), fontSize = 20.sp, textAlign = TextAlign.Center) },
+            placeholder = { Text(text = stringResource(id = R.string.password_label), fontSize = 20.sp, textAlign = TextAlign.Center, modifier = Modifier.padding(start = 10.dp, top = 10.dp, bottom = 10.dp)) },
         )
         Spacer(modifier = Modifier.height(10.dp))
         // daily intake
@@ -241,13 +226,15 @@ fun RegisterScreen(registerViewModel: RegisterViewModel, navController: NavContr
             leadingIcon = {
                 /*ImageVector.vectorResource(id = R.drawable.target_icon)*/
                 Image(painterResource(id = R.drawable.target_icon),
-                    contentDescription = "targetIcon")
+                    contentDescription = "targetIcon",
+                    modifier = Modifier.padding(start = 14.dp, top = 10.dp, bottom = 10.dp).size(40.dp)
+                )
             },
             onValueChange = {
                 dailylimit.value = it
             },
             keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
-            label = { Text(text = stringResource(id = R.string.dailylimit_text), fontSize = 20.sp) }
+            placeholder = { Text(text = stringResource(id = R.string.dailylimit_text), fontSize = 20.sp, modifier = Modifier.padding(start = 10.dp, top = 10.dp, bottom = 10.dp)) }
         )
         Spacer(modifier = Modifier.height(10.dp))
         OutlinedTextField(
@@ -260,13 +247,15 @@ fun RegisterScreen(registerViewModel: RegisterViewModel, navController: NavContr
             textStyle = TextStyle.Default.copy(fontSize = 28.sp),
             leadingIcon = {
                 Image(painterResource(id = R.drawable.target_icon),
-                    contentDescription = "targetIcon")
+                    contentDescription = "targetIcon",
+                    modifier = Modifier.padding(start = 14.dp, top = 10.dp, bottom = 10.dp).size(40.dp)
+                )
             },
             onValueChange = {
                 dailygoal.value = it
             },
             keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
-            label = { Text(text = stringResource(id = R.string.dailygoal_text), fontSize = 20.sp) }
+            placeholder = { Text(text = stringResource(id = R.string.dailygoal_text), fontSize = 20.sp,  modifier = Modifier.padding(start = 10.dp, top = 10.dp, bottom = 10.dp)) }
         )
         Spacer(modifier = Modifier.height(10.dp))
         OutlinedTextField(
@@ -278,13 +267,13 @@ fun RegisterScreen(registerViewModel: RegisterViewModel, navController: NavContr
 
             textStyle = TextStyle.Default.copy(fontSize = 28.sp),
             leadingIcon = {
-                  Image(imageVector = Icons.Default.CalendarToday, contentDescription = null)
+                  Image(imageVector = Icons.Default.CalendarToday, contentDescription = "calendar", modifier = Modifier.padding(start = 14.dp, top = 10.dp, bottom = 10.dp).size(40.dp))
             },
             onValueChange = {
                 dateofbirth.value = it
             },
             keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Text),
-            label = { Text(text = stringResource(id = R.string.dateofbirth_text), fontSize = 20.sp) }
+            placeholder = { Text(text = stringResource(id = R.string.dateofbirth_text), fontSize = 20.sp, modifier = Modifier.padding(start = 10.dp, top = 10.dp, bottom = 10.dp)) }
         )
         Spacer(modifier = Modifier.height(30.dp))
         
