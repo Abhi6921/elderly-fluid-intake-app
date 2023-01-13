@@ -26,17 +26,15 @@ import nl.narvekar.abhishek.omring_fluid_intake_app.utils.AppSession
 import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.*
 
 class MainActivity : ComponentActivity() {
-    // for tomorrow
-    // todo todo fix the favorites delete
-    // todo  fix pagination and user-interface
 
-    // this commit is from fix-user-interface branch
     private val loginViewModel by viewModels<LoginViewModel>()
     private val registerViewModel by viewModels<RegisterViewModel>()
     private val recipeViewModel by viewModels<RecipeViewModel>()
     private val expandableListViewModel by viewModels<CardListViewModel>()
     private val logDrinkViewModel by viewModels<LogDrinkViewModel>()
     private val patientViewModel by viewModels<PatientViewModel>()
+
+    // this commit if from the modify branch
 
     // username: +31612345678 password: Mona12345! ROLE: CAREGIVER, ADMIN
     // username: +31246846878 password: Mona12345! ROLE: CAREGIVER
