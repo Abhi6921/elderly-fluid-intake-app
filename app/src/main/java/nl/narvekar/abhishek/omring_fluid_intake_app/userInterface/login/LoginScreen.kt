@@ -44,10 +44,10 @@ fun LoginUI(loginViewModel: LoginViewModel, navController: NavController) {
 
     val context = LocalContext.current
 
-
-
     val showEmptyFieldDialog = remember { mutableStateOf(false) }
     val showLoginFailureDialog = loginViewModel.showLoginFailureDialog.value
+
+    val isProcessing = loginViewModel.isLoading.value
 
     if (showEmptyFieldDialog.value) {
         EmptyFieldMessageDialog(showEmptyFieldDialog)
@@ -125,7 +125,9 @@ fun LoginUI(loginViewModel: LoginViewModel, navController: NavController) {
             textStyle = TextStyle.Default.copy(fontSize = 28.sp),
             visualTransformation = if (passwordVisible) { VisualTransformation.None } else { PasswordVisualTransformation() },
             leadingIcon = { Icon(imageVector = Icons.Default.Lock, contentDescription = "lockIcon",
-                modifier = Modifier.padding(start = 10.dp, top = 10.dp, bottom = 10.dp).size(35.dp))},
+                modifier = Modifier
+                    .padding(start = 10.dp, top = 10.dp, bottom = 10.dp)
+                    .size(35.dp))},
             trailingIcon = {
                 val image = if (passwordVisible) {
                     Icons.Default.Visibility
@@ -134,7 +136,9 @@ fun LoginUI(loginViewModel: LoginViewModel, navController: NavController) {
                 }
                 val description = if (passwordVisible) "Hide password" else "show password"
                 IconButton(onClick = { passwordVisible =! passwordVisible }) {
-                    Icon(imageVector = image, contentDescription = description, modifier = Modifier.size(60.dp).padding(top = 10.dp, bottom = 10.dp))
+                    Icon(imageVector = image, contentDescription = description, modifier = Modifier
+                        .size(60.dp)
+                        .padding(top = 10.dp, bottom = 10.dp))
                 }
             },
             onValueChange = {
@@ -142,7 +146,7 @@ fun LoginUI(loginViewModel: LoginViewModel, navController: NavController) {
             },
             placeholder = { Text(text = stringResource(id = R.string.password_text), fontSize = 20.sp, textAlign = TextAlign.Center, modifier = Modifier.padding(start = 10.dp, top = 10.dp, bottom = 10.dp)) },
         )
-        Spacer(modifier = Modifier.height(35.dp))
+        Spacer(modifier = Modifier.height(33.dp))
         Button(
             onClick = {
                 if(phonenumber.isEmpty() || password.isEmpty()) {
@@ -158,6 +162,11 @@ fun LoginUI(loginViewModel: LoginViewModel, navController: NavController) {
                 .width(300.dp)
         ) {
             Text(text = stringResource(id = R.string.login_button_text), color = Color.White, fontSize = 30.sp)
+        }
+        Spacer(modifier = Modifier.height(33.dp))
+
+        if (isProcessing) {
+            CircularProgressIndicator(modifier = Modifier.then(Modifier.size(62.dp)), color = Color.White)
         }
     }
 }

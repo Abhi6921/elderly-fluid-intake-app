@@ -28,7 +28,6 @@ import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.RecipeViewModel
 @Composable
 fun RecipeList(navController: NavController, recipeViewModel: RecipeViewModel, patientViewModel: PatientViewModel) {
 
-
     val recipes by recipeViewModel.recipeListState.collectAsState()
     patientViewModel.getAllLikedRecipes()
     Scaffold(
