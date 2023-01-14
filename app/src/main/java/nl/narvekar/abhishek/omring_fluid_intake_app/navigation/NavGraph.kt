@@ -29,8 +29,6 @@ const val recipeId = "recipeId"
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun AppNavigation(
-    loginViewModel: LoginViewModel,
-    registerViewModel: RegisterViewModel,
     recipeViewModel: RecipeViewModel,
     viewModel: CardListViewModel,
     logDrinkViewModel: LogDrinkViewModel,
@@ -47,19 +45,19 @@ fun AppNavigation(
         }
 
         composable(Routes.Login.route) {
-            LoginUI(loginViewModel, navController)
+            LoginUI(navController)
         }
 
         composable(Routes.Register.route) {
-            RegisterScreen(registerViewModel = registerViewModel, navController)
+            RegisterScreen(navController)
         }
 
         composable(Routes.Home.route) {
-            DashBoardScreen(navController, logDrinkViewModel, loginViewModel)
+            DashBoardScreen(navController, logDrinkViewModel)
         }
 
         composable(Routes.Recipes.route) {
-            RecipeList( navController, recipeViewModel)
+            RecipeList(navController, recipeViewModel)
         }
 
         composable(
@@ -70,7 +68,7 @@ fun AppNavigation(
         ) { navBackStackEntry ->
 
             RecipeDetailView(
-                recipeViewModel = recipeViewModel,
+                recipeViewModel,
                 detailId = navBackStackEntry.arguments!!.getString(recipeId.toString())!!,
                 navController = navController
             )

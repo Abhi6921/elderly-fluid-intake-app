@@ -30,6 +30,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.navArgument
 import nl.narvekar.abhishek.omring_fluid_intake_app.R
@@ -40,7 +41,10 @@ import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.LoginViewModel
 
 //@Preview(showBackground = true, widthDp = 900, heightDp = 1280)
 @Composable
-fun LoginUI(loginViewModel: LoginViewModel, navController: NavController) {
+fun LoginUI(
+    navController: NavController,
+    loginViewModel: LoginViewModel = viewModel()
+) {
 
     val context = LocalContext.current
 

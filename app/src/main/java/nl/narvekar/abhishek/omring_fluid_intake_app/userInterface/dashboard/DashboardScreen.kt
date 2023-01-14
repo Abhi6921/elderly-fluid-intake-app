@@ -1,17 +1,20 @@
 package nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.dashboard
 
-import android.annotation.SuppressLint
-import android.content.SharedPreferences
 import android.util.Log
-import androidx.compose.foundation.*
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -21,8 +24,6 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import nl.narvekar.abhishek.omring_fluid_intake_app.R
 import nl.narvekar.abhishek.omring_fluid_intake_app.data.MotivationalQuotes
-import nl.narvekar.abhishek.omring_fluid_intake_app.data.PatientResponse
-import nl.narvekar.abhishek.omring_fluid_intake_app.data.UserResponse
 import nl.narvekar.abhishek.omring_fluid_intake_app.navigation.AppBottomNav
 import nl.narvekar.abhishek.omring_fluid_intake_app.navigation.Routes
 import nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.dashboard.components.CircularProgressBar
@@ -31,16 +32,13 @@ import nl.narvekar.abhishek.omring_fluid_intake_app.utils.AppSession
 import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.LogDrinkViewModel
 import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.LoginViewModel
 import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.PatientViewModel
-import kotlin.math.log
 import kotlin.random.Random
-
 
 
 @Composable
 fun DashBoardScreen(
     navController: NavController,
     logDrinkViewModel: LogDrinkViewModel,
-    loginViewModel: LoginViewModel,
     patientViewModel: PatientViewModel = viewModel()
 ) {
     val fluidIntakeDialog = remember { mutableStateOf(false) }
@@ -149,7 +147,7 @@ fun DashBoardScreen(
             }
         }
     )
-    LogoutButton(navController, loginViewModel)
+    LogoutButton(navController)
 }
 
 @Composable
@@ -216,7 +214,7 @@ fun DashBoardSpinnerAndQuote(drinkAmount: Float, dailyLimit: Int) {
 @Composable
 fun LogoutButton(
     navController: NavController,
-    loginViewModel: LoginViewModel
+    loginViewModel: LoginViewModel = viewModel()
 ) {
     Column(
         modifier = Modifier

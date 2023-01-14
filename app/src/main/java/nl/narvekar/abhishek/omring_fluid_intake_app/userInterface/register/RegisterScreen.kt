@@ -29,6 +29,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import nl.narvekar.abhishek.omring_fluid_intake_app.R
 import nl.narvekar.abhishek.omring_fluid_intake_app.data.Role
@@ -42,7 +43,10 @@ import kotlin.math.log
 
 //@Preview(showBackground = true, widthDp = 900, heightDp = 1280)
 @Composable
-fun RegisterScreen(registerViewModel: RegisterViewModel, navController: NavController) {
+fun RegisterScreen(
+    navController: NavController,
+    registerViewModel: RegisterViewModel = viewModel()
+) {
     val context = LocalContext.current
 
     val showSuccessDialog = registerViewModel.showSuccessMessage.value
@@ -112,7 +116,9 @@ fun RegisterScreen(registerViewModel: RegisterViewModel, navController: NavContr
                 Icon(
                 imageVector = Icons.Default.Person,
                 contentDescription = "personIcon",
-                modifier = Modifier.padding(start = 10.dp, top = 10.dp, bottom = 10.dp).size(45.dp)
+                modifier = Modifier
+                    .padding(start = 10.dp, top = 10.dp, bottom = 10.dp)
+                    .size(45.dp)
             ) },
             onValueChange = {
                firstname.value = it
@@ -131,7 +137,9 @@ fun RegisterScreen(registerViewModel: RegisterViewModel, navController: NavContr
             leadingIcon = { Icon(
                 imageVector = Icons.Default.Person,
                 contentDescription = "personIcon",
-                modifier = Modifier.padding(start = 10.dp, top = 10.dp, bottom = 10.dp).size(45.dp)
+                modifier = Modifier
+                    .padding(start = 10.dp, top = 10.dp, bottom = 10.dp)
+                    .size(45.dp)
             ) },
             onValueChange = {
                 lastname.value = it
@@ -151,7 +159,9 @@ fun RegisterScreen(registerViewModel: RegisterViewModel, navController: NavContr
             leadingIcon = { Icon(
                 imageVector = Icons.Default.Email,
                 contentDescription = "emailIcon",
-                modifier = Modifier.padding(start = 10.dp, top = 10.dp, bottom = 10.dp).size(40.dp)
+                modifier = Modifier
+                    .padding(start = 10.dp, top = 10.dp, bottom = 10.dp)
+                    .size(40.dp)
             ) },
             onValueChange = {
                 email.value= it
@@ -194,7 +204,9 @@ fun RegisterScreen(registerViewModel: RegisterViewModel, navController: NavContr
             textStyle = TextStyle.Default.copy(fontSize = 28.sp),
             visualTransformation = if (passwordVisible.value) { VisualTransformation.None } else { PasswordVisualTransformation() },
             leadingIcon = { Icon(imageVector = Icons.Default.Lock, contentDescription = "lockIcon",
-                modifier = Modifier.padding(start = 14.dp, top = 10.dp, bottom = 10.dp).size(40.dp))
+                modifier = Modifier
+                    .padding(start = 14.dp, top = 10.dp, bottom = 10.dp)
+                    .size(40.dp))
             },
             trailingIcon = {
                   val image = if (passwordVisible.value) {
@@ -205,7 +217,9 @@ fun RegisterScreen(registerViewModel: RegisterViewModel, navController: NavContr
                   }
                 val description = if(passwordVisible.value) "Hide Password" else "Show Password"
                 IconButton(onClick = { passwordVisible.value =! passwordVisible.value }) {
-                    Icon(imageVector = image, contentDescription = "password", modifier = Modifier.padding(top = 10.dp, bottom = 10.dp, end = 10.dp).size(35.dp))
+                    Icon(imageVector = image, contentDescription = "password", modifier = Modifier
+                        .padding(top = 10.dp, bottom = 10.dp, end = 10.dp)
+                        .size(35.dp))
                 }
             },
             onValueChange = {
@@ -227,7 +241,9 @@ fun RegisterScreen(registerViewModel: RegisterViewModel, navController: NavContr
                 /*ImageVector.vectorResource(id = R.drawable.target_icon)*/
                 Image(painterResource(id = R.drawable.target_icon),
                     contentDescription = "targetIcon",
-                    modifier = Modifier.padding(start = 14.dp, top = 10.dp, bottom = 10.dp).size(40.dp)
+                    modifier = Modifier
+                        .padding(start = 14.dp, top = 10.dp, bottom = 10.dp)
+                        .size(40.dp)
                 )
             },
             onValueChange = {
@@ -248,7 +264,9 @@ fun RegisterScreen(registerViewModel: RegisterViewModel, navController: NavContr
             leadingIcon = {
                 Image(painterResource(id = R.drawable.target_icon),
                     contentDescription = "targetIcon",
-                    modifier = Modifier.padding(start = 14.dp, top = 10.dp, bottom = 10.dp).size(40.dp)
+                    modifier = Modifier
+                        .padding(start = 14.dp, top = 10.dp, bottom = 10.dp)
+                        .size(40.dp)
                 )
             },
             onValueChange = {
@@ -267,7 +285,9 @@ fun RegisterScreen(registerViewModel: RegisterViewModel, navController: NavContr
 
             textStyle = TextStyle.Default.copy(fontSize = 28.sp),
             leadingIcon = {
-                  Image(imageVector = Icons.Default.CalendarToday, contentDescription = "calendar", modifier = Modifier.padding(start = 14.dp, top = 10.dp, bottom = 10.dp).size(40.dp))
+                  Image(imageVector = Icons.Default.CalendarToday, contentDescription = "calendar", modifier = Modifier
+                      .padding(start = 14.dp, top = 10.dp, bottom = 10.dp)
+                      .size(40.dp))
             },
             onValueChange = {
                 dateofbirth.value = it
