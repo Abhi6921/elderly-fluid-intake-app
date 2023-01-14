@@ -17,6 +17,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import nl.narvekar.abhishek.omring_fluid_intake_app.R
 import nl.narvekar.abhishek.omring_fluid_intake_app.data.MotivationalQuotes
@@ -40,7 +41,7 @@ fun DashBoardScreen(
     navController: NavController,
     logDrinkViewModel: LogDrinkViewModel,
     loginViewModel: LoginViewModel,
-    patientViewModel: PatientViewModel
+    patientViewModel: PatientViewModel = viewModel()
 ) {
     val fluidIntakeDialog = remember { mutableStateOf(false) }
     val patientId = AppSession.getPatientId()

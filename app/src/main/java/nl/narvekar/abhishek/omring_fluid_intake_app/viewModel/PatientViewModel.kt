@@ -51,6 +51,9 @@ class PatientViewModel : ViewModel() {
     var likedRecipeListResponse: List<Recipe> by mutableStateOf(listOf())
     var likedRecipeErrorMessage by mutableStateOf("")
 
+    private val mutablefavoriteRecipe = MutableStateFlow<List<Recipe>?>(null)
+    var favoriteRecipeState: StateFlow<List<Recipe>?> = mutablefavoriteRecipe
+
     fun getAllLikedRecipes() {
         viewModelScope.launch(Dispatchers.IO) {
             val usersAuthApi = UsersAuthApi.getUsersAuthApiInstance()
@@ -60,6 +63,7 @@ class PatientViewModel : ViewModel() {
 
                 val likedRecipes = usersAuthApi.fetchAllLikedRecipes("Bearer ${authToken}", patientId)
                 likedRecipeListResponse = likedRecipes
+                mutablefavoriteRecipe.emit(likedRecipes)
 
             } catch (ex: Exception) {
                 likedRecipeErrorMessage = ex.message.toString()
@@ -67,7 +71,9 @@ class PatientViewModel : ViewModel() {
         }
     }
 
-
+    private val mutableListRecipe = MutableStateFlow<List<Recipe>?>(null)
+    var recipeListState: StateFlow<List<Recipe>?> = mutableListRecipe
+    
     fun likeRecipeByPatient(
         patientId: String,
         recipeId: String,

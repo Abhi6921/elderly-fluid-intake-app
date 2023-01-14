@@ -23,6 +23,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import nl.narvekar.abhishek.omring_fluid_intake_app.R
@@ -36,18 +37,20 @@ import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.PatientViewModel
 
 
 @Composable
-fun RecipeFavorited(navController: NavController, recipes: List<Recipe>, patientViewModel: PatientViewModel) {
-    val context = LocalContext.current
-
-    patientViewModel.getAllLikedRecipes()
+fun RecipeFavorited(
+    navController: NavController,
+    patientViewModel: PatientViewModel = viewModel()
+) {
     val deletedItems = remember { mutableStateListOf<Recipe>() }
-    val patientId = AppSession.getPatientId()
+    patientViewModel.getAllLikedRecipes()
+    val recipes1 by patientViewModel.favoriteRecipeState.collectAsState()
+
     Scaffold(
         topBar = {
               FluidTopAppBar(topBarTitle = stringResource(id = R.string.favorite_title))
         },
         content = { innnerPadding ->
-            if (recipes.isEmpty()) {
+            if (recipes1.isNullOrEmpty()) {
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
@@ -60,20 +63,22 @@ fun RecipeFavorited(navController: NavController, recipes: List<Recipe>, patient
             }
             else {
                 LazyColumn(Modifier.padding(innnerPadding)) {
-                      itemsIndexed(
-                          items =recipes,
-                          itemContent = {index, item ->
-                              AnimatedVisibility(
-                                  visible = !deletedItems.contains(item),
-                                  enter = expandVertically(),
-                                  exit = shrinkVertically(animationSpec = tween(durationMillis = 2000))
-                              ) {
-                                  FavoriteRecipeItem(recipe = item, patientViewModel = patientViewModel, deletedItems = deletedItems) {
-                                      navController.navigate(Routes.RecipeDetail.route + "/${it.recipeId}")
-                                  }
-                              }
-                          }
-                      )
+                     recipes1?.let { allFavoriteRecipes ->
+                         itemsIndexed(
+                             items = allFavoriteRecipes,
+                             itemContent = {index, item ->
+                                 AnimatedVisibility(
+                                     visible = !deletedItems.contains(item),
+                                     enter = expandVertically(),
+                                     exit = shrinkVertically(animationSpec = tween(durationMillis = 2000))
+                                 ) {
+                                     FavoriteRecipeItem(recipe = item, patientViewModel = patientViewModel, deletedItems = deletedItems) {
+                                         navController.navigate(Routes.RecipeDetail.route + "/${it.recipeId}")
+                                     }
+                                 }
+                             }
+                         )
+                     }
                 }
             }
 
@@ -87,7 +92,7 @@ fun RecipeFavorited(navController: NavController, recipes: List<Recipe>, patient
 @Composable
 fun FavoriteRecipeItem(
     recipe: Recipe,
-    patientViewModel: PatientViewModel,
+    patientViewModel: PatientViewModel = viewModel(),
     deletedItems: MutableList<Recipe>,
     onClickAction: (Recipe) -> Unit
 ) {

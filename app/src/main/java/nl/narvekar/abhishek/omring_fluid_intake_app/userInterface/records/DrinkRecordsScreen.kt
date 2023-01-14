@@ -50,7 +50,11 @@ import kotlin.math.roundToInt
 //@Preview(showBackground = true, widthDp = 900, heightDp = 1280)
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun DrinkRecords(navController: NavController, cardListViewModel: CardListViewModel, patientViewModel: PatientViewModel) {
+fun DrinkRecords(
+    navController: NavController,
+    cardListViewModel: CardListViewModel,
+    patientViewModel: PatientViewModel = viewModel()
+) {
 
     val patientId = AppSession.getPatientId()
     val dailyLimit = AppSession.getDailyLimit()

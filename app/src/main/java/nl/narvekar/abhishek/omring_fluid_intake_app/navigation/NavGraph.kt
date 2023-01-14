@@ -34,7 +34,6 @@ fun AppNavigation(
     recipeViewModel: RecipeViewModel,
     viewModel: CardListViewModel,
     logDrinkViewModel: LogDrinkViewModel,
-    patientViewModel: PatientViewModel
 ) {
     val navController = rememberNavController()
     val authToken = AppSession.getAuthToken()
@@ -56,11 +55,11 @@ fun AppNavigation(
         }
 
         composable(Routes.Home.route) {
-            DashBoardScreen(navController, logDrinkViewModel, loginViewModel, patientViewModel)
+            DashBoardScreen(navController, logDrinkViewModel, loginViewModel)
         }
 
         composable(Routes.Recipes.route) {
-            RecipeList( navController, recipeViewModel, patientViewModel)
+            RecipeList( navController, recipeViewModel)
         }
 
         composable(
@@ -73,15 +72,14 @@ fun AppNavigation(
             RecipeDetailView(
                 recipeViewModel = recipeViewModel,
                 detailId = navBackStackEntry.arguments!!.getString(recipeId.toString())!!,
-                patientViewModel = patientViewModel,
                 navController = navController
             )
         }
         composable(Routes.Favorite.route) {
-            RecipeFavorited(navController, patientViewModel.likedRecipeListResponse, patientViewModel)
+            RecipeFavorited(navController)
         }
         composable(Routes.Drink.route) {
-            DrinkRecords(navController = navController, viewModel, patientViewModel)
+            DrinkRecords(navController = navController, viewModel)
         }
 
         composable(Routes.Share.route) {

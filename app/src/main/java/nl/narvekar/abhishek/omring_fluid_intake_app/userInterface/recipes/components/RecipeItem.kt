@@ -20,6 +20,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import nl.narvekar.abhishek.omring_fluid_intake_app.R
 import nl.narvekar.abhishek.omring_fluid_intake_app.data.Recipe
@@ -30,8 +31,15 @@ import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.PatientViewModel
 @Composable
 fun RecipeItem(
     recipe: Recipe,
+    patientViewModel: PatientViewModel = viewModel(),
     onClickAction: (Recipe) -> Unit
 ) {
+    // get all the list of liked recipes
+    // check if the recipes is indeed inside the liked recipe list
+    // if yes then show then show the heart filled with the red color on the list view
+    // else show nothing
+    val favoritedRecipes = patientViewModel.favoriteRecipeState.collectAsState()
+    val isRecipeInFavorites: Boolean = favoritedRecipes.value?.contains(recipe) ?: false
     Card(
         modifier = Modifier
             // The space between each card and the other
@@ -68,9 +76,18 @@ fun RecipeItem(
                     color = MaterialTheme.colors.onSurface,
                     fontSize = 35.sp
                 )
-
-                Spacer(modifier = Modifier.height(12.dp))
+                Spacer(modifier = Modifier.height(22.dp))
                 Row {
+
+                    if (isRecipeInFavorites) {
+                        Spacer(modifier = Modifier.height(28.dp).padding(top = 35.dp))
+                        Icon(
+                            imageVector = Icons.Filled.Favorite,
+                            contentDescription = "favorite icon",
+                            tint = Color.Red,
+                            modifier = Modifier.size(54.dp)
+                        )
+                    }
                     Spacer(modifier = Modifier.width(38.dp))
                     Button(
                         onClick = {

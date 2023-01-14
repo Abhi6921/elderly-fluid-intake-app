@@ -22,6 +22,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import nl.narvekar.abhishek.omring_fluid_intake_app.R
@@ -38,7 +39,7 @@ import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.RecipeViewModel
 fun RecipeDetailView(
     recipeViewModel: RecipeViewModel,
     detailId: String,
-    patientViewModel: PatientViewModel,
+    patientViewModel: PatientViewModel = viewModel(),
     navController: NavController
 ) {
     Log.d(TAG, "RecipeDetailView passed from recipe list: $detailId")
@@ -83,7 +84,7 @@ fun RecipeDetailView(
                     .padding(15.dp)
             ) {
                 recipe?.let { recipe ->
-                    RecipeDetailScreen(recipe = recipe, patientViewModel.likedRecipeListResponse, patientId, patientViewModel)
+                    RecipeDetailScreen(recipe = recipe, patientId, patientViewModel)
                 }
             }
         }
@@ -91,9 +92,12 @@ fun RecipeDetailView(
 }
 
 @Composable
-fun RecipeDetailScreen(recipe: Recipe?, favoritedRecipeList: List<Recipe>, patientId: String, patientViewModel: PatientViewModel) {
-
-    val isRecipeInFavorites: Boolean = favoritedRecipeList.contains(recipe)
+fun RecipeDetailScreen(
+    recipe: Recipe?,
+    patientId: String,
+    patientViewModel: PatientViewModel = viewModel()
+) {
+    val isRecipeInFavorites: Boolean = patientViewModel.likedRecipeListResponse.contains(recipe)
     val context = LocalContext.current
 
     AsyncImage(
