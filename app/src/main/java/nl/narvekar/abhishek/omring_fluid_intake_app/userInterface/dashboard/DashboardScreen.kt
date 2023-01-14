@@ -38,7 +38,6 @@ import kotlin.random.Random
 @Composable
 fun DashBoardScreen(
     navController: NavController,
-    logDrinkViewModel: LogDrinkViewModel,
     patientViewModel: PatientViewModel = viewModel()
 ) {
     val fluidIntakeDialog = remember { mutableStateOf(false) }
@@ -53,7 +52,6 @@ fun DashBoardScreen(
 
     if (fluidIntakeDialog.value) {
         SelectDrinkDialog(
-            logDrinkViewModel,
             navController,
             setShowDialog = {
                 fluidIntakeDialog.value = it

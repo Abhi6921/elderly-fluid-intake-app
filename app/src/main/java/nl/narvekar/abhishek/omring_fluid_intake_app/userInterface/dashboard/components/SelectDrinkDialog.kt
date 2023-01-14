@@ -22,6 +22,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import nl.narvekar.abhishek.omring_fluid_intake_app.utils.Constants.AUTH_TOKEN_KEY
 import nl.narvekar.abhishek.omring_fluid_intake_app.data.LogDrink
@@ -38,12 +39,11 @@ import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.PatientViewModel
 
 
 
-//@Preview(showBackground = true, widthDp = 900, heightDp = 1280)
 @Composable
 fun SelectDrinkDialog(
-        logDrinkViewModel: LogDrinkViewModel,
-        navController: NavController,
-        setShowDialog: (Boolean) -> Unit,
+    navController: NavController,
+    logDrinkViewModel: LogDrinkViewModel = viewModel(),
+    setShowDialog: (Boolean) -> Unit,
 ) {
 
     val context = LocalContext.current
@@ -124,7 +124,6 @@ fun SelectDrinkDialog(
                     Box(modifier = Modifier.padding(start = 20.dp, top = 15.dp, bottom = 0.dp)) {
                         Button(
                             onClick = {
-                                  //val drinkAmount = 150
                                   logDrinkViewModel.postANewDrink(context, ONE_FIFTY_ML_INTAKE)
                                   setShowDialog(false)
                                   navController.navigate(Routes.Home.route)
@@ -150,7 +149,6 @@ fun SelectDrinkDialog(
                     Box(modifier = Modifier.padding(start = 20.dp,top = 15.dp, end = 5.dp,bottom = 0.dp)) {
                         Button(
                             onClick = {
-                                //val drinkAmount = 200
                                 logDrinkViewModel.postANewDrink(context, TWO_HUNDRED_ML_INTAKE)
                                 setShowDialog(false)
                                 navController.navigate(Routes.Home.route)

@@ -53,6 +53,8 @@ fun RegisterScreen(
     val showFailureDialog = registerViewModel.showFailureMessage.value
     val showEmptyFieldsDialog = remember { mutableStateOf(false) }
 
+    val isProcessing = registerViewModel.isProcessing.value
+
     if (showSuccessDialog) {
         RegisterConfirmDialog(navController)
     }
@@ -296,10 +298,13 @@ fun RegisterScreen(
             placeholder = { Text(text = stringResource(id = R.string.dateofbirth_text), fontSize = 20.sp, modifier = Modifier.padding(start = 10.dp, top = 10.dp, bottom = 10.dp)) }
         )
         Spacer(modifier = Modifier.height(30.dp))
-        
-        // RegisterButton
-        Button(
-            onClick = {
+
+        Row(modifier = Modifier
+            .fillMaxWidth()
+            .padding(start = 300.dp)) {
+            // RegisterButton
+            Button(
+                onClick = {
                 if(firstname.value.isEmpty()
                     || lastname.value.isEmpty()
                     || email.value.isEmpty()
@@ -340,13 +345,18 @@ fun RegisterScreen(
                         )
                     )
                 }
-            },
-            colors = ButtonDefaults.buttonColors(backgroundColor = Color(0xFF1B7D71)),
-            modifier = Modifier
-                .height(60.dp)
-                .width(300.dp),
-        ) {
-            Text(text = "Register", color = Color.White, fontSize = 30.sp)
+                },
+                colors = ButtonDefaults.buttonColors(backgroundColor = Color(0xFF1B7D71)),
+                modifier = Modifier
+                    .height(60.dp)
+                    .width(300.dp),
+            ) {
+                Text(text = "Register", color = Color.White, fontSize = 30.sp)
+            }
+            Spacer(modifier = Modifier.width(60.dp))
+            if (isProcessing) {
+                CircularProgressIndicator(modifier = Modifier.then(Modifier.size(62.dp)), color = Color.White)
+            }
         }
     }
 }

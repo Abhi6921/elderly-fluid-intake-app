@@ -29,9 +29,7 @@ const val recipeId = "recipeId"
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun AppNavigation(
-    recipeViewModel: RecipeViewModel,
-    viewModel: CardListViewModel,
-    logDrinkViewModel: LogDrinkViewModel,
+    recipeViewModel: RecipeViewModel
 ) {
     val navController = rememberNavController()
     val authToken = AppSession.getAuthToken()
@@ -53,7 +51,7 @@ fun AppNavigation(
         }
 
         composable(Routes.Home.route) {
-            DashBoardScreen(navController, logDrinkViewModel)
+            DashBoardScreen(navController)
         }
 
         composable(Routes.Recipes.route) {
@@ -77,7 +75,7 @@ fun AppNavigation(
             RecipeFavorited(navController)
         }
         composable(Routes.Drink.route) {
-            DrinkRecords(navController = navController, viewModel)
+            DrinkRecords(navController = navController)
         }
 
         composable(Routes.Share.route) {

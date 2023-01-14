@@ -30,7 +30,7 @@ class LoginViewModel : ViewModel() {
         login: Login,
         navController: NavController
     ) {
-         isLoading.value = true
+        isLoading.value = true
         viewModelScope.launch(Dispatchers.IO) {
             val retrofitInstance = DrinkAuthApi.getInstance()
             retrofitInstance.loginUser(login).enqueue(

@@ -27,13 +27,11 @@ import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.*
 
 class MainActivity : ComponentActivity() {
 
-    // TODO: refactor the code to avoid data leaks
+    // TODO: refactor the code to avoid data leaks -> DONE
     // TODO: paginate the drink records page
     // TODO: fix annotations requiring a certain api level
 
     private val recipeViewModel by viewModels<RecipeViewModel>()
-    private val expandableListViewModel by viewModels<CardListViewModel>()
-    private val logDrinkViewModel by viewModels<LogDrinkViewModel>()
 
     // username: +31612345678 password: Mona12345! ROLE: CAREGIVER, ADMIN
     // username: +31246846878 password: Mona12345! ROLE: CAREGIVER
@@ -51,11 +49,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                   AppNavigation(
-                       recipeViewModel,
-                       expandableListViewModel,
-                       logDrinkViewModel
-                   )
+                   AppNavigation(recipeViewModel)
                 }
             }
         }
