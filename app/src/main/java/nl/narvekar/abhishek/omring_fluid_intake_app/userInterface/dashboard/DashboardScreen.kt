@@ -1,20 +1,23 @@
 package nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.dashboard
 
+import android.R.attr.fontWeight
+import android.R.attr.text
+import android.text.SpannableStringBuilder
+import android.text.style.RelativeSizeSpan
 import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -22,6 +25,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import nl.narvekar.abhishek.omring_fluid_intake_app.R
 import nl.narvekar.abhishek.omring_fluid_intake_app.data.MotivationalQuotes
 import nl.narvekar.abhishek.omring_fluid_intake_app.navigation.AppBottomNav
@@ -29,26 +34,32 @@ import nl.narvekar.abhishek.omring_fluid_intake_app.navigation.Routes
 import nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.dashboard.components.CircularProgressBar
 import nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.dashboard.components.SelectDrinkDialog
 import nl.narvekar.abhishek.omring_fluid_intake_app.utils.AppSession
-import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.LogDrinkViewModel
 import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.LoginViewModel
 import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.PatientViewModel
+import kotlin.math.roundToInt
 import kotlin.random.Random
 
 
 @Composable
 fun DashBoardScreen(
     navController: NavController,
-    patientViewModel: PatientViewModel = viewModel()
+    patientViewModel: PatientViewModel
 ) {
     val fluidIntakeDialog = remember { mutableStateOf(false) }
+    val scaffoldState = rememberScaffoldState()
+    val dashboardScope = rememberCoroutineScope()
+
     val patientId = AppSession.getPatientId()
     val firstName = AppSession.getFirstName()
     val lastName = AppSession.getLastName()
     val dailyLimit = AppSession.getDailyLimit()
 
+    val context = LocalContext.current
+
     Log.d("PatientId", patientId)
 
     val currentFluidintake = patientViewModel.getCurrentFluidIntakeStatus(patientId)
+    val currentTargetAchieved: Int? = ((currentFluidintake.Achieved?.toFloat()?.div(dailyLimit))?.times(100))?.roundToInt()
 
     if (fluidIntakeDialog.value) {
         SelectDrinkDialog(
@@ -62,6 +73,7 @@ fun DashBoardScreen(
     }
 
     Scaffold(
+        scaffoldState = scaffoldState,
         topBar = {
             FluidTopAppBar(stringResource(id = R.string.dashboard_title))
         },
@@ -146,6 +158,16 @@ fun DashBoardScreen(
         }
     )
     LogoutButton(navController)
+
+    if (currentTargetAchieved != null) {
+        when(currentTargetAchieved) {
+            in (50..74) -> {
+                LaunchedEffect(key1 = Unit) {
+                    scaffoldState.snackbarHostState.showSnackbar("Great job you are half way there!")
+                }
+            }
+        }
+    }
 }
 
 @Composable
@@ -157,8 +179,6 @@ fun SetCircularProgress(achievedIntake: Float?, dailyLimit: Int) {
     else {
         DashBoardSpinnerAndQuote(drinkAmount = achievedIntake, dailyLimit = dailyLimit)
     }
-
-
 }
 
 @Composable
@@ -221,7 +241,7 @@ fun LogoutButton(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Spacer(modifier = Modifier.height(850.dp))
+        Spacer(modifier = Modifier.height(780.dp))
         Button(
             onClick = {
                 loginViewModel.logout(navController)

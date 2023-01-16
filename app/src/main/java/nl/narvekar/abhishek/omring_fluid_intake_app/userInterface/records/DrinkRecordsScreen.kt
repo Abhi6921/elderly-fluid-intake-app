@@ -43,8 +43,8 @@ import kotlin.math.roundToInt
 @Composable
 fun DrinkRecords(
     navController: NavController,
-    cardListViewModel: CardListViewModel = viewModel(),
-    patientViewModel: PatientViewModel = viewModel()
+    patientViewModel: PatientViewModel,
+    cardListViewModel: CardListViewModel,
 ) {
 
     val patientId = AppSession.getPatientId()
@@ -260,10 +260,10 @@ fun ExpandableContainerView(
 ) {
     Box(modifier = Modifier.background(Color.Green)) {
         Column {
-            val drinkDateTime = formatDateTimeForDrinkLogs(drinklogResponse.dateTime.toString())
-            val time = formatTimeForDrinkLogs(drinklogResponse.dateTime.toString())
-            HeaderView(datetime = drinkDateTime, drinklogResponse.amount.toString(),onClickItem = onClickItem)
-            ExpandableView(time = time, drinkAmount = drinklogResponse.amount.toString(), isExpanded = expanded)
+            //val drinkDateTime = formatDateTimeForDrinkLogs(drinklogResponse.dateTime.toString())
+            //val time = formatTimeForDrinkLogs(drinklogResponse.dateTime.toString())
+            HeaderView(datetime = drinklogResponse.dateTime.toString(), drinklogResponse.amount.toString(),onClickItem = onClickItem)
+            //ExpandableView(time = time, drinkAmount = drinklogResponse.amount.toString(), isExpanded = expanded)
         }
     }
 }
@@ -284,5 +284,4 @@ fun formatTimeForDrinkLogs(dateTime: String) : String {
     val formatter = DateTimeFormatter.ofPattern("HH:mm", Locale.GERMANY)
     val zonedTime = formatter.format(date)
     return zonedTime
-
 }

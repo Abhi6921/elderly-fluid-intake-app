@@ -39,7 +39,7 @@ import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.RecipeViewModel
 fun RecipeDetailView(
     recipeViewModel: RecipeViewModel,
     detailId: String,
-    patientViewModel: PatientViewModel = viewModel(),
+    patientViewModel: PatientViewModel,
     navController: NavController
 ) {
     Log.d(TAG, "RecipeDetailView passed from recipe list: $detailId")
@@ -95,7 +95,7 @@ fun RecipeDetailView(
 fun RecipeDetailScreen(
     recipe: Recipe?,
     patientId: String,
-    patientViewModel: PatientViewModel = viewModel()
+    patientViewModel: PatientViewModel
 ) {
     val isRecipeInFavorites: Boolean = patientViewModel.likedRecipeListResponse.contains(recipe)
     val context = LocalContext.current

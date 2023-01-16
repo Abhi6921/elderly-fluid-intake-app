@@ -4,6 +4,7 @@ import android.content.SharedPreferences
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavType
 import androidx.navigation.compose.ComposeNavigator
@@ -29,7 +30,9 @@ const val recipeId = "recipeId"
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun AppNavigation(
-    recipeViewModel: RecipeViewModel
+    recipeViewModel: RecipeViewModel,
+    cardListViewModel: CardListViewModel,
+    patientViewModel: PatientViewModel = viewModel()
 ) {
     val navController = rememberNavController()
     val authToken = AppSession.getAuthToken()
@@ -51,11 +54,11 @@ fun AppNavigation(
         }
 
         composable(Routes.Home.route) {
-            DashBoardScreen(navController)
+            DashBoardScreen(navController, patientViewModel)
         }
 
         composable(Routes.Recipes.route) {
-            RecipeList(navController, recipeViewModel)
+            RecipeList(navController, recipeViewModel, patientViewModel)
         }
 
         composable(
@@ -68,6 +71,7 @@ fun AppNavigation(
             RecipeDetailView(
                 recipeViewModel,
                 detailId = navBackStackEntry.arguments!!.getString(recipeId.toString())!!,
+                patientViewModel = patientViewModel,
                 navController = navController
             )
         }
@@ -75,7 +79,7 @@ fun AppNavigation(
             RecipeFavorited(navController)
         }
         composable(Routes.Drink.route) {
-            DrinkRecords(navController = navController)
+            DrinkRecords(navController = navController, patientViewModel, cardListViewModel)
         }
 
         composable(Routes.Share.route) {

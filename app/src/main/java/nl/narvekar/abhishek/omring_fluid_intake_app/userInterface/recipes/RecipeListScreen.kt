@@ -38,7 +38,7 @@ import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.RecipeViewModel
 fun RecipeList(
     navController: NavController,
     recipeViewModel: RecipeViewModel,
-    patientViewModel: PatientViewModel = viewModel()
+    patientViewModel: PatientViewModel
 ) {
 
     val recipes by recipeViewModel.recipeListState.collectAsState()
@@ -100,7 +100,7 @@ fun RecipeList(
                 LazyColumn(Modifier.padding(innerPadding)) {
                      recipes?.let { allRecipes ->
                         items(allRecipes) { item ->
-                            RecipeItem(item) {
+                            RecipeItem(item, patientViewModel) {
                                 navController.navigate(Routes.RecipeDetail.route + "/${it.recipeId}")
                             }
                         }

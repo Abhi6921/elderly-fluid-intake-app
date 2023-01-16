@@ -49,7 +49,7 @@ class PatientViewModel : ViewModel() {
     }
 
     var likedRecipeListResponse: List<Recipe> by mutableStateOf(listOf())
-    var likedRecipeErrorMessage by mutableStateOf("")
+    var likedRecipeErrorMessage: String by mutableStateOf("")
 
     private val mutablefavoriteRecipe = MutableStateFlow<List<Recipe>?>(null)
     var favoriteRecipeState: StateFlow<List<Recipe>?> = mutablefavoriteRecipe
@@ -70,9 +70,6 @@ class PatientViewModel : ViewModel() {
             }
         }
     }
-
-    private val mutableListRecipe = MutableStateFlow<List<Recipe>?>(null)
-    var recipeListState: StateFlow<List<Recipe>?> = mutableListRecipe
     
     fun likeRecipeByPatient(
         patientId: String,

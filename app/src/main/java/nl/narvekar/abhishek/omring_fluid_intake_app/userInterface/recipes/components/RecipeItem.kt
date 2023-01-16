@@ -31,13 +31,9 @@ import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.PatientViewModel
 @Composable
 fun RecipeItem(
     recipe: Recipe,
-    patientViewModel: PatientViewModel = viewModel(),
+    patientViewModel: PatientViewModel,
     onClickAction: (Recipe) -> Unit
 ) {
-    // get all the list of liked recipes
-    // check if the recipes is indeed inside the liked recipe list
-    // if yes then show then show the heart filled with the red color on the list view
-    // else show nothing
     val favoritedRecipes = patientViewModel.favoriteRecipeState.collectAsState()
     val isRecipeInFavorites: Boolean = favoritedRecipes.value?.contains(recipe) ?: false
     Card(
