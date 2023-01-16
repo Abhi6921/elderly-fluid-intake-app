@@ -27,7 +27,6 @@ import nl.narvekar.abhishek.omring_fluid_intake_app.utils.AppSession
 import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.*
 
 const val recipeId = "recipeId"
-@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun AppNavigation(
     recipeViewModel: RecipeViewModel,

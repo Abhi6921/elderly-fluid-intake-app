@@ -58,7 +58,7 @@ class MainActivity : ComponentActivity() {
     // patient in db-> username: +3165874123651 password: Mona12345!
     // patient in db-> username: +3113579123579 password: Mona12345!, max
 
-    @RequiresApi(Build.VERSION_CODES.O)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {

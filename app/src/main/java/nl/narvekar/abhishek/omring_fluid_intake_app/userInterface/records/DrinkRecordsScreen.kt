@@ -1,6 +1,7 @@
 package nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.records
 
 import android.os.Build
+import android.os.Build.VERSION.SDK
 import androidx.annotation.RequiresApi
 import androidx.compose.animation.*
 import androidx.compose.animation.core.tween
@@ -33,13 +34,14 @@ import nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.dashboard.Dash
 import nl.narvekar.abhishek.omring_fluid_intake_app.utils.AppSession
 import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.CardListViewModel
 import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.PatientViewModel
+import java.text.SimpleDateFormat
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
 import kotlin.math.roundToInt
 
 //@Preview(showBackground = true, widthDp = 900, heightDp = 1280)
-@RequiresApi(Build.VERSION_CODES.O)
+
 @Composable
 fun DrinkRecords(
     navController: NavController,
@@ -251,7 +253,7 @@ fun ExpandableView(time: String, drinkAmount: String, isExpanded: Boolean) {
 }
 
 
-@RequiresApi(Build.VERSION_CODES.O)
+
 @Composable
 fun ExpandableContainerView(
     drinklogResponse: DrinkLogResponse,
@@ -260,28 +262,27 @@ fun ExpandableContainerView(
 ) {
     Box(modifier = Modifier.background(Color.Green)) {
         Column {
-            //val drinkDateTime = formatDateTimeForDrinkLogs(drinklogResponse.dateTime.toString())
+            val drinkDateTime = formatDateTimeForDrinkLogs(drinklogResponse.dateTime.toString())
             //val time = formatTimeForDrinkLogs(drinklogResponse.dateTime.toString())
-            HeaderView(datetime = drinklogResponse.dateTime.toString(), drinklogResponse.amount.toString(),onClickItem = onClickItem)
+            HeaderView(datetime = drinkDateTime, drinklogResponse.amount.toString(),onClickItem = onClickItem)
             //ExpandableView(time = time, drinkAmount = drinklogResponse.amount.toString(), isExpanded = expanded)
         }
     }
 }
 
-@RequiresApi(Build.VERSION_CODES.O)
+
 fun formatDateTimeForDrinkLogs(dateTime: String): String {
-    val strippedDate = dateTime.dropLast(13)
-    val date = LocalDateTime.parse(strippedDate)
-    val formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss", Locale.GERMANY)
-    val zonedDateTime = formatter.format(date)
-    return zonedDateTime
+     val strippedDate = dateTime.dropLast(13)
+     val date = LocalDateTime.parse(strippedDate)
+     val formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss", Locale.GERMANY)
+     val zonedDateTime = formatter.format(date)
+     return zonedDateTime
 }
 
-@RequiresApi(Build.VERSION_CODES.O)
-fun formatTimeForDrinkLogs(dateTime: String) : String {
-    val strippedDate = dateTime.dropLast(13)
-    val date = LocalDateTime.parse(strippedDate)
-    val formatter = DateTimeFormatter.ofPattern("HH:mm", Locale.GERMANY)
-    val zonedTime = formatter.format(date)
-    return zonedTime
-}
+//fun formatTimeForDrinkLogs(dateTime: String) : String {
+//    val strippedDate = dateTime.dropLast(13)
+//    val date = LocalDateTime.parse(strippedDate)
+//    val formatter = DateTimeFormatter.ofPattern("HH:mm", Locale.GERMANY)
+//    val zonedTime = formatter.format(date)
+//    return zonedTime
+//}
