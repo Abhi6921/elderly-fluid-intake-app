@@ -51,7 +51,6 @@ class MainActivity : ComponentActivity() {
 //    When half of the daily goal is achieved a complementary message will be given through the application. DONE
 
     private val recipeViewModel by viewModels<RecipeViewModel>()
-    private val cardListViewModel by viewModels<CardListViewModel>()
 
     // username: +31612345678 password: Mona12345! ROLE: CAREGIVER, ADMIN
     // username: +31246846878 password: Mona12345! ROLE: CAREGIVER
@@ -69,7 +68,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                   AppNavigation(recipeViewModel, cardListViewModel)
+                   AppNavigation(recipeViewModel)
                 }
             }
         }

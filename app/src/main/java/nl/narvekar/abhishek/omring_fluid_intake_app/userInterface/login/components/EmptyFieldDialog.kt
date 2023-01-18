@@ -24,7 +24,7 @@ import nl.narvekar.abhishek.omring_fluid_intake_app.navigation.Routes
 @Composable
 fun EmptyFieldMessageDialog(showMessageDialog: MutableState<Boolean>) {
     
-    Dialog(onDismissRequest = { /*TODO*/ }) {
+    Dialog(onDismissRequest = {  }) {
 
         Surface(
             shape = RoundedCornerShape(16.dp),

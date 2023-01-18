@@ -19,21 +19,18 @@ interface UsersAuthApi {
     fun registerUser(@Body user: UserRequest) : Call<UserResponse>
 
     @Headers("Content-Type:application/json")
-    //@Headers("Accept: application/json")
     @POST("api/v1/patients/logdrink")
     fun postNewDrink(@Header("Authorization") authToken: String, @Query("amount")  drinkAmount: Int) : Call<LogDrinkResponse>
 
 
     @GET("api/v1/patients/drinks/today/{id}")
     suspend fun getCurrentFluidStatus(@Header("Authorization") authToken: String, @Path("id") patientId: String) : LogDrinkResponse
-    // is string expected in body of this endpoint
 
     @GET("api/v1/patients/drinks/{patientId}")
     suspend fun getPatientDrinkLogs(
         @Header("Authorization") authToken: String,
         @Path("patientId") patientId: String,
         @Query("from") dateFrom: String,
-        @Query("to") dateTo : String,
         @Query("offset") offset: Int,
         @Query("limit") limit: Int
     ) : Response<List<DrinkLogResponse>>

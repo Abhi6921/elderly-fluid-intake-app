@@ -4,6 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
@@ -12,6 +13,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
@@ -26,6 +28,7 @@ import androidx.navigation.navArgument
 import coil.compose.AsyncImage
 import nl.narvekar.abhishek.omring_fluid_intake_app.R
 import nl.narvekar.abhishek.omring_fluid_intake_app.navigation.AppBottomNav
+import nl.narvekar.abhishek.omring_fluid_intake_app.ui.theme.omringButtonColor
 import nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.dashboard.FluidTopAppBar
 import nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.dashboard.LogoutButton
 import nl.narvekar.abhishek.omring_fluid_intake_app.utils.AppSession
@@ -56,14 +59,15 @@ fun UserProfilePage(navController: NavController) {
             ) {
                 Spacer(modifier = Modifier.height(30.dp))
                 Image(
-                    //model = R.drawable.recipe_img,
-                    painter = painterResource(id =R.drawable.profile),
+                    painter = painterResource(id = R.drawable.placeholder),
                     contentDescription = "recipe image",
                     modifier = Modifier
-                        .width(350.dp)
-                        .height(350.dp),
+                        .size(364.dp)
+                        .clip(CircleShape)
+                        .border(1.dp, omringButtonColor, CircleShape),
                     contentScale = ContentScale.Fit,
                 )
+                Text(text = "Photo", fontSize = 24.sp)
             }
             
             Row(

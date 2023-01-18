@@ -39,12 +39,11 @@ import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.RecipeViewModel
 fun RecipeDetailView(
     recipeViewModel: RecipeViewModel,
     detailId: String,
-    patientViewModel: PatientViewModel,
+    patientViewModel: PatientViewModel = viewModel(),
     navController: NavController
 ) {
     Log.d(TAG, "RecipeDetailView passed from recipe list: $detailId")
     val scrollState = rememberScrollState()
-    val phoneNumber = AppSession.getPhoneNumber()
     val patientId = AppSession.getPatientId()
 
     recipeViewModel.getRecipeById(detailId)
@@ -91,13 +90,14 @@ fun RecipeDetailView(
     )
 }
 
+
 @Composable
 fun RecipeDetailScreen(
     recipe: Recipe?,
     patientId: String,
     patientViewModel: PatientViewModel
 ) {
-    val isRecipeInFavorites: Boolean = patientViewModel.likedRecipeListResponse.contains(recipe)
+    val isRecipeInFavorites: Boolean = patientViewModel.favoriteRecipeState.value?.contains(recipe) ?: false
     val context = LocalContext.current
 
     AsyncImage(
@@ -111,12 +111,13 @@ fun RecipeDetailScreen(
     )
     Text(text = recipe?.name ?: "recipe name", fontSize = 44.sp)
     Spacer(modifier = Modifier.height(30.dp))
-                if (!isRecipeInFavorites) {
-                    FavoritesButton(patientId = patientId, recipeId = recipe?.recipeId!!, patientViewModel = patientViewModel, context = context)
-                }
-                else if (isRecipeInFavorites) {
-                    Text(text = stringResource(id = R.string.recipe_in_favorites), fontSize = 29.sp)
-                }
+
+    if (!isRecipeInFavorites) {
+        FavoritesButton(patientId = patientId, recipeId = recipe?.recipeId!!, patientViewModel = patientViewModel, context = context)
+    }
+    else if (isRecipeInFavorites) {
+        Text(text = stringResource(id = R.string.recipe_in_favorites), fontSize = 29.sp)
+    }
 
     Spacer(modifier = Modifier.height(30.dp))
     Text(text = stringResource(id = R.string.ingredients_text), fontSize = 34.sp)

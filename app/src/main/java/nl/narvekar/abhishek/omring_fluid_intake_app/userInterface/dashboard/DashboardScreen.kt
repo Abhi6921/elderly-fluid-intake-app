@@ -43,11 +43,10 @@ import kotlin.random.Random
 @Composable
 fun DashBoardScreen(
     navController: NavController,
-    patientViewModel: PatientViewModel
+    patientViewModel: PatientViewModel = viewModel()
 ) {
     val fluidIntakeDialog = remember { mutableStateOf(false) }
     val scaffoldState = rememberScaffoldState()
-    val dashboardScope = rememberCoroutineScope()
 
     val patientId = AppSession.getPatientId()
     val firstName = AppSession.getFirstName()
@@ -135,11 +134,7 @@ fun DashBoardScreen(
                                 .width(270.dp)
                                 .height(380.dp)
                                 .clickable {
-                                    navController.navigate(Routes.Recipes.route) {
-                                        popUpTo(Routes.Home.route) {
-                                            inclusive = true
-                                        }
-                                    }
+                                    navController.navigate(Routes.Recipes.route)
                                 },
                             horizontalAlignment = Alignment.CenterHorizontally,
                             verticalArrangement = Arrangement.SpaceBetween

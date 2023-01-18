@@ -22,7 +22,7 @@ import nl.narvekar.abhishek.omring_fluid_intake_app.R
 
 @Composable
 fun LoginFailureDialog(showLoginFailureDialog: MutableState<Boolean>) {
-    Dialog(onDismissRequest = { /*TODO*/ }) {
+    Dialog(onDismissRequest = {  }) {
         Surface(
             shape = RoundedCornerShape(16.dp),
             color = Color.White

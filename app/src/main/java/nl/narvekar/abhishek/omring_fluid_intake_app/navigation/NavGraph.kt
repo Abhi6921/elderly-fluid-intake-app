@@ -29,9 +29,7 @@ import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.*
 const val recipeId = "recipeId"
 @Composable
 fun AppNavigation(
-    recipeViewModel: RecipeViewModel,
-    cardListViewModel: CardListViewModel,
-    patientViewModel: PatientViewModel = viewModel()
+    recipeViewModel: RecipeViewModel
 ) {
     val navController = rememberNavController()
     val authToken = AppSession.getAuthToken()
@@ -53,11 +51,11 @@ fun AppNavigation(
         }
 
         composable(Routes.Home.route) {
-            DashBoardScreen(navController, patientViewModel)
+            DashBoardScreen(navController)
         }
 
         composable(Routes.Recipes.route) {
-            RecipeList(navController, recipeViewModel, patientViewModel)
+            RecipeList(navController, recipeViewModel)
         }
 
         composable(
@@ -70,7 +68,6 @@ fun AppNavigation(
             RecipeDetailView(
                 recipeViewModel,
                 detailId = navBackStackEntry.arguments!!.getString(recipeId.toString())!!,
-                patientViewModel = patientViewModel,
                 navController = navController
             )
         }
@@ -78,7 +75,7 @@ fun AppNavigation(
             RecipeFavorited(navController)
         }
         composable(Routes.Drink.route) {
-            DrinkRecords(navController = navController, patientViewModel, cardListViewModel)
+            DrinkRecords(navController = navController)
         }
 
         composable(Routes.Share.route) {

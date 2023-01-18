@@ -42,9 +42,7 @@ fun RecipeFavorited(
     patientViewModel: PatientViewModel = viewModel()
 ) {
     val deletedItems = remember { mutableStateListOf<Recipe>() }
-    patientViewModel.getAllLikedRecipes()
     val recipes1 by patientViewModel.favoriteRecipeState.collectAsState()
-
     Scaffold(
         topBar = {
               FluidTopAppBar(topBarTitle = stringResource(id = R.string.favorite_title))
@@ -121,7 +119,7 @@ fun FavoriteRecipeItem(
                     .height(350.dp)
                     .padding(8.dp),
                 contentScale = ContentScale.Fit,
-                error = painterResource(R.drawable.placeholder),
+                placeholder = painterResource(R.drawable.placeholder),
             )
 
             Column(Modifier.padding(8.dp)) {

@@ -62,8 +62,8 @@ class PatientViewModel : ViewModel() {
                 val patientId = AppSession.getPatientId()
 
                 val likedRecipes = usersAuthApi.fetchAllLikedRecipes("Bearer ${authToken}", patientId)
-                likedRecipeListResponse = likedRecipes
-                mutablefavoriteRecipe.emit(likedRecipes)
+//                likedRecipeListResponse = likedRecipes
+                mutablefavoriteRecipe.tryEmit(likedRecipes)
 
             } catch (ex: Exception) {
                 likedRecipeErrorMessage = ex.message.toString()

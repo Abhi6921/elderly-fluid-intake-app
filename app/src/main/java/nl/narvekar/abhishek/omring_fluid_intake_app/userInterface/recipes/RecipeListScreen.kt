@@ -38,9 +38,8 @@ import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.RecipeViewModel
 fun RecipeList(
     navController: NavController,
     recipeViewModel: RecipeViewModel,
-    patientViewModel: PatientViewModel
+    patientViewModel: PatientViewModel = viewModel()
 ) {
-
     val recipes by recipeViewModel.recipeListState.collectAsState()
     Scaffold(
         topBar = {
@@ -77,7 +76,9 @@ fun RecipeList(
                         Icon(
                             imageVector = Icons.Filled.Refresh,
                             contentDescription = "refresh icon",
-                            modifier = Modifier.size(54.dp).padding(end = 15.dp),
+                            modifier = Modifier
+                                .size(54.dp)
+                                .padding(end = 15.dp),
                             tint = Color.White
                         )
                     }
@@ -100,7 +101,7 @@ fun RecipeList(
                 LazyColumn(Modifier.padding(innerPadding)) {
                      recipes?.let { allRecipes ->
                         items(allRecipes) { item ->
-                            RecipeItem(item, patientViewModel) {
+                            RecipeItem(item) {
                                 navController.navigate(Routes.RecipeDetail.route + "/${it.recipeId}")
                             }
                         }

@@ -31,11 +31,8 @@ import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.PatientViewModel
 @Composable
 fun RecipeItem(
     recipe: Recipe,
-    patientViewModel: PatientViewModel,
     onClickAction: (Recipe) -> Unit
 ) {
-    val favoritedRecipes = patientViewModel.favoriteRecipeState.collectAsState()
-    val isRecipeInFavorites: Boolean = favoritedRecipes.value?.contains(recipe) ?: false
     Card(
         modifier = Modifier
             // The space between each card and the other
@@ -74,16 +71,6 @@ fun RecipeItem(
                 )
                 Spacer(modifier = Modifier.height(22.dp))
                 Row {
-
-                    if (isRecipeInFavorites) {
-                        Spacer(modifier = Modifier.height(28.dp).padding(top = 35.dp))
-                        Icon(
-                            imageVector = Icons.Filled.Favorite,
-                            contentDescription = "favorite icon",
-                            tint = Color.Red,
-                            modifier = Modifier.size(54.dp)
-                        )
-                    }
                     Spacer(modifier = Modifier.width(38.dp))
                     Button(
                         onClick = {
@@ -104,7 +91,7 @@ fun RecipeItem(
 }
 
 @Composable
-fun FavoritesButton(patientId: String, recipeId: String, patientViewModel: PatientViewModel, context: Context) {
+fun FavoritesButton(patientId: String, recipeId: String, patientViewModel: PatientViewModel = viewModel(), context: Context) {
     val strippedrecipeId = recipeId.replace("^\"|\"$", "")
     Log.d("strippedrecipeId", strippedrecipeId)
     var isFavorite by remember { mutableStateOf(false) }
