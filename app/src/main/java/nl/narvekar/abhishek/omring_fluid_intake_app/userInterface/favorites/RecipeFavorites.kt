@@ -12,6 +12,7 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -155,8 +156,8 @@ fun FavoriteRecipeItem(
                             patientViewModel.removeLikeRecipeByPatient(patientId, recipe.recipeId!!, context)
                         }) {
                         Icon(
-                            imageVector = Icons.Default.Delete,
-                            contentDescription = "delete icon",
+                            imageVector = Icons.Default.Close,
+                            contentDescription = "close icon",
                             modifier = Modifier.size(50.dp)
                         )
                     }

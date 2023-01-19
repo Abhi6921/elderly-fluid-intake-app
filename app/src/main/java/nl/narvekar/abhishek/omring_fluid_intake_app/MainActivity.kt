@@ -26,29 +26,7 @@ import nl.narvekar.abhishek.omring_fluid_intake_app.utils.AppSession
 import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.*
 
 class MainActivity : ComponentActivity() {
-
-
-    // TODO: paginate the drink records page
-    // TODO: fix annotations requiring a certain api level
-    // TODO: schedule notifications from the app
-
-//    The end-user should be able to log in to the application and create a new account/profile -> done
-//
-//    The end-user should be able to adjust their daily goal of fluid intake. DONE
-//
-//    Adjust the times during which they would like to receive notifications from the application
-//
-//    View the notification message on the screen
-//
-//    Enter the amount of fluid they drank into the app DONE
-//
-//    See their fluid intake overview for the day DONE
-//
-//    Check if they have met their goal of drinking fluids DONE
-//
-//    Able to check out new recipes of drinks that make drinking fluids more fun DONE
-//
-//    When half of the daily goal is achieved a complementary message will be given through the application. DONE
+    // TODO: add seperate viewmodels for appropriate sections
 
     private val recipeViewModel by viewModels<RecipeViewModel>()
 

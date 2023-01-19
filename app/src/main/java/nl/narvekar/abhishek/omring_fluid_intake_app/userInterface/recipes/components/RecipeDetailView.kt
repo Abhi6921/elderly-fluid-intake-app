@@ -31,13 +31,14 @@ import nl.narvekar.abhishek.omring_fluid_intake_app.data.tips
 import nl.narvekar.abhishek.omring_fluid_intake_app.navigation.recipeId
 import nl.narvekar.abhishek.omring_fluid_intake_app.utils.AppSession
 import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.PatientViewModel
+import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.RecipeDetailViewModel
 import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.RecipeViewModel
 
 
 
 @Composable
 fun RecipeDetailView(
-    recipeViewModel: RecipeViewModel,
+    recipeDetailViewModel: RecipeDetailViewModel = viewModel(),
     detailId: String,
     patientViewModel: PatientViewModel = viewModel(),
     navController: NavController
@@ -45,11 +46,11 @@ fun RecipeDetailView(
     Log.d(TAG, "RecipeDetailView passed from recipe list: $detailId")
     val scrollState = rememberScrollState()
     val patientId = AppSession.getPatientId()
+    val recipe by recipeDetailViewModel.mutableRecipeState.collectAsState()
 
-    recipeViewModel.getRecipeById(detailId)
-
-    val recipe by recipeViewModel.mutableRecipeState.collectAsState()
-
+    LaunchedEffect(key1 = Unit) {
+        recipeDetailViewModel.getRecipeById(detailId)
+    }
     Scaffold(
         topBar = {
             TopAppBar(
@@ -113,7 +114,7 @@ fun RecipeDetailScreen(
     Spacer(modifier = Modifier.height(30.dp))
 
     if (!isRecipeInFavorites) {
-        FavoritesButton(patientId = patientId, recipeId = recipe?.recipeId!!, patientViewModel = patientViewModel, context = context)
+        FavoritesButton(patientId = patientId, recipeId = recipe?.recipeId!!, context = context)
     }
     else if (isRecipeInFavorites) {
         Text(text = stringResource(id = R.string.recipe_in_favorites), fontSize = 29.sp)

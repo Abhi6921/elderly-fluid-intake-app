@@ -66,7 +66,6 @@ fun AppNavigation(
         ) { navBackStackEntry ->
 
             RecipeDetailView(
-                recipeViewModel,
                 detailId = navBackStackEntry.arguments!!.getString(recipeId.toString())!!,
                 navController = navController
             )

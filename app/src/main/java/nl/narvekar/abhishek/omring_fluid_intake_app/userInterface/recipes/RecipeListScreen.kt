@@ -41,6 +41,7 @@ fun RecipeList(
     patientViewModel: PatientViewModel = viewModel()
 ) {
     val recipes by recipeViewModel.recipeListState.collectAsState()
+
     Scaffold(
         topBar = {
             TopAppBar(

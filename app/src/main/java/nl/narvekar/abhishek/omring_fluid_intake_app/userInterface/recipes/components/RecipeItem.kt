@@ -9,6 +9,7 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
+import androidx.compose.material.icons.filled.Headphones
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -18,6 +19,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -31,8 +33,10 @@ import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.PatientViewModel
 @Composable
 fun RecipeItem(
     recipe: Recipe,
+    patientViewModel: PatientViewModel = viewModel(),
     onClickAction: (Recipe) -> Unit
 ) {
+    val isRecipeFavorited = patientViewModel.favoriteRecipeState.value?.contains(recipe) ?: false
     Card(
         modifier = Modifier
             // The space between each card and the other
@@ -48,7 +52,6 @@ fun RecipeItem(
         ) {
 
             AsyncImage(
-                //model = R.drawable.recipe_img,
                 model = recipe.imageLink,
                 contentDescription = "recipe image",
                 modifier = Modifier
@@ -71,6 +74,15 @@ fun RecipeItem(
                 )
                 Spacer(modifier = Modifier.height(22.dp))
                 Row {
+                    if (isRecipeFavorited) {
+                        Icon(
+                            imageVector = Icons.Filled.Favorite,
+                            contentDescription = null,
+                            modifier = Modifier
+                                .size(70.dp)
+                                .padding(top = 10.dp)
+                        )
+                    }
                     Spacer(modifier = Modifier.width(38.dp))
                     Button(
                         onClick = {

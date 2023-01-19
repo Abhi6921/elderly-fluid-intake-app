@@ -40,18 +40,4 @@ class RecipeViewModel : ViewModel() {
             }
         }
     }
-
-    //var recipeResponse: Recipe by mutableStateOf(Recipe())
-
-    private val mutableRecipe = MutableStateFlow<Recipe?>(null)
-    var mutableRecipeState: StateFlow<Recipe?> = mutableRecipe
-
-     fun getRecipeById(recipeId: String) : StateFlow<Recipe?> {
-        viewModelScope.launch(Dispatchers.IO) {
-            val recipeAuthApi = RecipeAuthApi.getInstance()
-            val recipe = recipeAuthApi.getRecipeById(recipeId)
-            mutableRecipe.emit(recipe)
-        }
-        return mutableRecipeState
-    }
 }
