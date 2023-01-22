@@ -80,7 +80,8 @@ fun RecipeItem(
                             contentDescription = null,
                             modifier = Modifier
                                 .size(70.dp)
-                                .padding(top = 10.dp)
+                                .padding(top = 10.dp),
+                            tint = Color.Red
                         )
                     }
                     Spacer(modifier = Modifier.width(38.dp))

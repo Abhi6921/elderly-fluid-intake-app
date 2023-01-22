@@ -25,10 +25,6 @@ object AppSession {
         val authToken = sharedPreferences.getString(AUTH_TOKEN_KEY, "") ?: ""
         return authToken
     }
-    fun isUserLoggedIn() : Boolean {
-        val loggedIn = sharedPreferences.getBoolean(IS_LOGGED_IN, false)
-        return loggedIn
-    }
 
     fun getFirstName() : String {
         val firstName = sharedPreferences.getString(FIRSTNAME, "") ?: ""
@@ -77,7 +73,6 @@ object AppSession {
             putInt(DAILYLIMIT, dailyLimit)
             putInt(DAILYGOAL, dailyGoal)
             putString(AUTH_TOKEN_KEY, authToken)
-            putBoolean(IS_LOGGED_IN, true)
         }.apply()
     }
 
@@ -91,7 +86,6 @@ object AppSession {
             putInt(DAILYLIMIT, 0)
             putInt(DAILYGOAL, 0)
             putString(AUTH_TOKEN_KEY, "")
-            putBoolean(IS_LOGGED_IN, false)
         }.apply()
     }
 }

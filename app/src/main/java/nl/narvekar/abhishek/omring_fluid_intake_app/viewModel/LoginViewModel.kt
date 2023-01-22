@@ -1,17 +1,13 @@
 package nl.narvekar.abhishek.omring_fluid_intake_app.viewModel
 
 import android.content.Context
-import android.content.SharedPreferences
 import android.widget.Toast
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import nl.narvekar.abhishek.omring_fluid_intake_app.utils.Constants.AUTH_TOKEN_KEY
 import nl.narvekar.abhishek.omring_fluid_intake_app.api.DrinkAuthApi
 import nl.narvekar.abhishek.omring_fluid_intake_app.data.Login
 import nl.narvekar.abhishek.omring_fluid_intake_app.data.LoginResponse

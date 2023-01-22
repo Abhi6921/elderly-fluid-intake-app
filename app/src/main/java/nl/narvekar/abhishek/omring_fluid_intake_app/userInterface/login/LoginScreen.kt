@@ -39,7 +39,7 @@ import nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.login.componen
 import nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.login.components.LoginFailureDialog
 import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.LoginViewModel
 
-//@Preview(showBackground = true, widthDp = 900, heightDp = 1280)
+
 @Composable
 fun LoginUI(
     navController: NavController,
@@ -108,7 +108,7 @@ fun LoginUI(
                     text = "+31",
                     color = Color.Black,
                     fontSize = 25.sp,
-                    modifier = Modifier.padding(start = 14.dp, top = 10.dp, bottom = 10.dp),
+                    modifier = Modifier.padding(start = 14.dp, top = 4.dp, bottom = 10.dp),
                     textAlign = TextAlign.Center
                 )
             },

@@ -1,5 +1,6 @@
 package nl.narvekar.abhishek.omring_fluid_intake_app.viewModel
 
+import android.annotation.SuppressLint
 import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -21,26 +22,25 @@ import nl.narvekar.abhishek.omring_fluid_intake_app.api.UsersAuthApi
 import nl.narvekar.abhishek.omring_fluid_intake_app.data.DrinkLogResponse
 import nl.narvekar.abhishek.omring_fluid_intake_app.data.Recipe
 import nl.narvekar.abhishek.omring_fluid_intake_app.utils.AppSession
+import java.text.SimpleDateFormat
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.time.format.DateTimeParseException
+import java.util.*
 
 
 class CardListViewModel : ViewModel() {
 
-    val drinkrecords = Pager(PagingConfig(pageSize = 1)) {
+    val drinkrecords = Pager(PagingConfig(pageSize = 1, enablePlaceholders = false)) {
         DrinkRecordsPager()
     }.flow.cachedIn(viewModelScope)
 
-    private val itemIdsList = MutableStateFlow(listOf<Int>())
-    val itemIds: StateFlow<List<Int>> get() = itemIdsList
-
-
-    fun onItemClicked(itemId: Int) {
-        itemIdsList.value = itemIdsList.value.toMutableList().also { list ->
-            if (list.contains(itemId)) {
-                list.remove(itemId)
-            } else {
-                list.add(itemId)
-            }
-        }
+    fun formatDateTimeForDrinkLogs(dateTime: String): String {
+        // remove unnecessary values after seconds section in datetime
+        val strippedDate = dateTime.dropLast(13)
+        val date = LocalDateTime.parse(strippedDate)
+        val formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm", Locale.getDefault())
+        val zonedDateTime = formatter.format(date)
+        return zonedDateTime
     }
-
 }

@@ -186,7 +186,7 @@ fun RegisterScreen(
                     text = "+31",
                     color = Color.Black,
                     fontSize = 25.sp,
-                    modifier = Modifier.padding(start = 14.dp, top = 10.dp, bottom = 10.dp),
+                    modifier = Modifier.padding(start = 14.dp, top = 4.dp, bottom = 10.dp),
                     textAlign = TextAlign.Center
                 )
             },

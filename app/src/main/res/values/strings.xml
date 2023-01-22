@@ -80,5 +80,13 @@
     <string name="drink_records_title">Your Drink Records</string>
     <string name="zero_target_achieved">Target achieved: 0%</string>
 
+    <!--Sharing Text-->
+    <string name="share_text">Hey, Download this drink app of Omring and stay hydrated!</string>
+    <string name="drink_subject_text">Drink App</string>
+    <string name="sharing_title">Share this app with friends and family!</string>
+    <string name="share_top_bar_title">Share</string>
+    <string name="profile_photo_text">Profile Photo</string>
+    <string name="ui_cannot_load_records_from_api">Error in loading records from api.</string>
+
 
 </resources>

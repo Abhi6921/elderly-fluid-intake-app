@@ -26,8 +26,6 @@ import nl.narvekar.abhishek.omring_fluid_intake_app.utils.AppSession
 import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.*
 
 class MainActivity : ComponentActivity() {
-    // TODO: add seperate viewmodels for appropriate sections
-
     private val recipeViewModel by viewModels<RecipeViewModel>()
 
     // username: +31612345678 password: Mona12345! ROLE: CAREGIVER, ADMIN

@@ -67,24 +67,8 @@ fun RecipeList(
                         }
                     }
                 },
-                backgroundColor =  Color(0xFF1BAEEE),
-                actions = {
-                    IconButton(
-                        onClick = {
-                            patientViewModel.getAllLikedRecipes()
-                        }
-                    ) {
-                        Icon(
-                            imageVector = Icons.Filled.Refresh,
-                            contentDescription = "refresh icon",
-                            modifier = Modifier
-                                .size(54.dp)
-                                .padding(end = 15.dp),
-                            tint = Color.White
-                        )
-                    }
-                }
-            )   
+                backgroundColor =  Color(0xFF1BAEEE)
+            )
         },
         content = { innerPadding ->
             if (recipes.isNullOrEmpty()) {

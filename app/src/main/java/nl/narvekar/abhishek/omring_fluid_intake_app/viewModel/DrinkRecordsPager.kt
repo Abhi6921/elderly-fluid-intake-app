@@ -8,7 +8,7 @@ import nl.narvekar.abhishek.omring_fluid_intake_app.data.LogDrinkResponse
 import nl.narvekar.abhishek.omring_fluid_intake_app.utils.AppSession
 
 const val NETWORK_PAGE_SIZE = 1
-private val INITIAL_LOAD_SIZE = 1
+private val INITIAL_LOAD_SIZE = 0
 class DrinkRecordsPager() : PagingSource<Int, DrinkLogResponse>() {
 
     val usersAuthApi = UsersAuthApi.getUsersAuthApiInstance()
@@ -22,7 +22,7 @@ class DrinkRecordsPager() : PagingSource<Int, DrinkLogResponse>() {
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, DrinkLogResponse> {
 
         // start refresh at position 1 if undefined
-        val position = params.key ?: 0
+        val position = (params.key ?: INITIAL_LOAD_SIZE)
         val offset = if (params.key != null) ((position - 1) * NETWORK_PAGE_SIZE) + 1 else INITIAL_LOAD_SIZE
         val adminToken = "eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOlsiQURNSU4iLCJDQVJFX0dJVkVSIl0sImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWUiOiIrMzE2NDU4MjYwMDAiLCJuYmYiOjE2NzE2NTgyNTEsImV4cCI6MTcwMzE5NDI1MSwiaWF0IjoxNjcxNjU4MjUxLCJpc3MiOiJEcmlua0FwcFJlY2lwZXMuYXp1cmV3ZWJzaXRlcy5uZXQiLCJhdWQiOiJEcmlua0FwcFVzZXJzIC8gUGF0aWVudHMgLyBDYXJlZ2l2ZXJzIC8gQWRtaW5zIn0.sgh_qAXL9GyQ_GLiXjPOBxZBQlaSaC91Cxc8iobF9XM"
         val patientId = AppSession.getPatientId()
@@ -30,7 +30,8 @@ class DrinkRecordsPager() : PagingSource<Int, DrinkLogResponse>() {
             val jsonResponse = usersAuthApi.getPatientDrinkLogs(
                 "Bearer ${adminToken}",
                 patientId,
-                "18/01/2023",
+                "22/01/2023",
+                "28/01/2023",
                 offset,
                 limit = params.loadSize
             )

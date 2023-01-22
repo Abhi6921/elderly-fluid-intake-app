@@ -32,7 +32,6 @@ class RecipeViewModel : ViewModel() {
             val recipeAuthApi = RecipeAuthApi.getInstance()
             try {
                 val recipeList = recipeAuthApi.getAllRecipes()
-                Log.d(TAG, "getRecipeList api: ${recipeList.count()}")
                 recipeListResponse = recipeList
                 mutableListRecipe.emit(recipeList)
             }catch (e: Exception) {

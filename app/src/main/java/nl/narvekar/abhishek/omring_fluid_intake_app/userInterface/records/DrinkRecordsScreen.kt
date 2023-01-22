@@ -24,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemsIndexed
 import nl.narvekar.abhishek.omring_fluid_intake_app.R
@@ -42,7 +43,7 @@ import java.time.format.DateTimeFormatter
 import java.util.*
 import kotlin.math.roundToInt
 
-//@Preview(showBackground = true, widthDp = 900, heightDp = 1280)
+
 // 9998259c-78ff-4c81-a66b-c3375efbd818
 @Composable
 fun DrinkRecords(
@@ -56,10 +57,7 @@ fun DrinkRecords(
 
     val currentFluidIntakeStatus = patientViewModel.getCurrentFluidIntakeStatus(patientId)
 
-    val itemIds by cardListViewModel.itemIds.collectAsState()
-
     val drinksLogs = cardListViewModel.drinkrecords.collectAsLazyPagingItems()
-
     val currentTargetAchieved = ((currentFluidIntakeStatus.Achieved?.toFloat()?.div(dailyLimit))?.times(100))?.roundToInt()
 
     Scaffold(
@@ -119,20 +117,33 @@ fun DrinkRecords(
             LazyColumn(
                 Modifier
                     .padding(start = 0.dp, top = 320.dp, end = 0.dp)
-                    .padding(innerPadding)) {
-                //drinksLogs?.let { allDrinkLogs ->
-                    itemsIndexed(drinksLogs) { index, drinkRecord ->
-                        if (drinkRecord != null) {
-                            ExpandableContainerView(
-                                drinklogResponse = drinkRecord,
-                                onClickItem = { cardListViewModel.onItemClicked(index) },
-                                expanded = itemIds.contains(index)
-                            )
+                    .padding(innerPadding)
+            ) {
+                itemsIndexed(drinksLogs) { index, drinkRecord ->
+                    if (drinkRecord != null) {
+                        ContainerView(
+                            drinklogResponse = drinkRecord,
+                            cardListViewModel = cardListViewModel
+                        )
+                    }
+                }
+            }
+            drinksLogs.apply {
+                when {
+                    loadState.append is LoadState.Loading -> {
+                        Row(Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.Center
+                        ) {
+                            Box(
+                                modifier = Modifier.fillMaxSize(),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                CircularProgressIndicator(color = Color.Blue)
+                            }
                         }
                     }
-                //}
+                }
             }
-
         },
         bottomBar = {
             AppBottomNav(navController = navController)
@@ -142,18 +153,13 @@ fun DrinkRecords(
 
 
 @Composable
-fun HeaderView(datetime: String, drinkAmount: String, onClickItem: () -> Unit) {
+fun DrinkRecordsView(datetime: String, drinkAmount: String) {
     Box(
         modifier = Modifier
             .background(recordsTitleColor)
             .height(100.dp)
             .fillMaxWidth()
             .border(BorderStroke(2.dp, Color.Blue))
-            .clickable(
-                indication = null,
-                interactionSource = remember { MutableInteractionSource() },
-                onClick = onClickItem
-            )
             .padding(8.dp)
     ) {
         Row(
@@ -184,99 +190,18 @@ fun HeaderView(datetime: String, drinkAmount: String, onClickItem: () -> Unit) {
 }
 
 @Composable
-fun ExpandableView(time: String, drinkAmount: String, isExpanded: Boolean) {
-    // Enter transition
-    val expandTransition = remember {
-        expandVertically(
-            expandFrom = Alignment.Top,
-            animationSpec = tween(300)
-        ) + fadeIn(
-            animationSpec = tween(300)
-        )
-    }
-
-    // Closing Animation
-    val collapseTransition = remember {
-        shrinkVertically(
-            shrinkTowards = Alignment.Top,
-            animationSpec = tween(300),
-        ) + fadeOut(animationSpec = tween(300))
-    }
-
-    AnimatedVisibility(
-        visible = isExpanded,
-        enter = expandTransition,
-        exit = collapseTransition
-    ) {
-        Box(
-            modifier = Modifier
-                .background(recordsExpandListColor)
-                .border(BorderStroke(2.dp, Color.Black))
-                .padding(15.dp)
-        ) {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Image(
-                    painter = painterResource(R.drawable.cup_image),
-                    contentDescription = null
-                )
-                Spacer(modifier = Modifier.width(20.dp))
-                Text(
-                    modifier = Modifier.weight(1f),
-                    text = time,
-                    fontSize = 25.sp,
-                    fontWeight = FontWeight.Normal,
-                    maxLines = 4,
-                    overflow = TextOverflow.Ellipsis,
-                )
-
-                Text(
-                    text = drinkAmount,
-                    fontSize = 25.sp,
-                    maxLines = 4,
-                    overflow = TextOverflow.Ellipsis,
-                    modifier = Modifier.weight(1f)
-                )
-                Spacer(modifier = Modifier.width(20.dp))
-                Button(
-                    modifier = Modifier.weight(0.5f),
-                    colors = ButtonDefaults.buttonColors(backgroundColor = omringButtonColor),
-                    onClick = {
-                        // edit drink on this action
-                    }
-                ) {
-                    Text(text = "Edit", color = Color.White)
-                }
-                Spacer(modifier = Modifier.width(20.dp))
-                Button(
-                    modifier = Modifier.weight(0.5f),
-                    colors = ButtonDefaults.buttonColors(backgroundColor = omringButtonColor),
-                    onClick = {
-                        // remove record on this action
-                    }) {
-                    Text(text = "Remove", color = Color.White)
-                }
-            }
-        }
-    }
-}
-
-
-
-@Composable
-fun ExpandableContainerView(
+fun ContainerView(
     drinklogResponse: DrinkLogResponse,
-    onClickItem: () -> Unit,
-    expanded: Boolean
+    cardListViewModel: CardListViewModel
 ) {
     Box(modifier = Modifier.background(Color.Green)) {
         Column {
-            //val drinkDateTime = formatDateTimeForDrinkLogs(drinklogResponse.dateTime.toString())
+            val drinkDateTime =  cardListViewModel.formatDateTimeForDrinkLogs(drinklogResponse.dateTime.toString()) //formatDateTimeForDrinkLogs(drinklogResponse.dateTime.toString())
 
-            val strippedDateTime  = drinklogResponse.dateTime?.dropLast(23)
+            //val strippedDateTime  = drinklogResponse.dateTime?.dropLast(23)
             // 2023-01-16T18:23:00.0790479+00:00
-
-            HeaderView(datetime = strippedDateTime.toString(), drinklogResponse.amount.toString(),onClickItem = onClickItem)
-            //ExpandableView(time = time, drinkAmount = drinklogResponse.amount.toString(), isExpanded = expanded)
+            // 2023-01-21T16:08:54.6132219+00:00
+            DrinkRecordsView(datetime = drinkDateTime, drinklogResponse.amount.toString())
         }
     }
 }

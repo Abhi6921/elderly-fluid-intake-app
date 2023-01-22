@@ -76,5 +76,14 @@
     <string name="drink_records_title">Uw drankrecords</string>
     <string name="zero_target_achieved">Doel behaald: 0%</string>
 
+    <!--Sharing Functionality-->
+
+    <string name="share_text">Hallo, download deze drank-app of Surround en blijf gehydrateerd!</string>
+    <string name="drink_subject_text">Drink App</string>
+    <string name="sharing_title">Deelen deze app met vrienden en familie!</string>
+    <string name="share_top_bar_title">Deelen</string>
+    <string name="profile_photo_text">Profielfoto</string>
+    <string name="ui_cannot_load_records_from_api">Fout bij het laden van records uit de database.</string>
+
 
 </resources>

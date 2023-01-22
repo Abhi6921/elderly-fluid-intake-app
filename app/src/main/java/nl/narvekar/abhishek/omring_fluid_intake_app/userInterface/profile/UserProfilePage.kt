@@ -65,9 +65,9 @@ fun UserProfilePage(navController: NavController) {
                         .size(364.dp)
                         .clip(CircleShape)
                         .border(1.dp, omringButtonColor, CircleShape),
-                    contentScale = ContentScale.Fit,
+                    contentScale = ContentScale.Crop,
                 )
-                Text(text = "Photo", fontSize = 24.sp)
+                Text(text = stringResource(id = R.string.profile_photo_text), fontSize = 34.sp)
             }
             
             Row(
