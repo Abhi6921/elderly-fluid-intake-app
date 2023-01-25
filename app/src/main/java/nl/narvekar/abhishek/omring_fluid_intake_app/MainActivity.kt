@@ -26,13 +26,8 @@ import nl.narvekar.abhishek.omring_fluid_intake_app.utils.AppSession
 import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.*
 
 class MainActivity : ComponentActivity() {
-    private val recipeViewModel by viewModels<RecipeViewModel>()
 
-    // username: +31612345678 password: Mona12345! ROLE: CAREGIVER, ADMIN
-    // username: +31246846878 password: Mona12345! ROLE: CAREGIVER
-    // patient in db-> username: +3165874123651 password: Mona12345!
-    // patient in db-> username: +3113579123579 password: Mona12345!, max
-
+//    private val recipeViewModel by viewModels<RecipeViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,10 +39,12 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                   AppNavigation(recipeViewModel)
+                   AppNavigation()
                 }
             }
         }
     }
 }
+
+//2345678982
 

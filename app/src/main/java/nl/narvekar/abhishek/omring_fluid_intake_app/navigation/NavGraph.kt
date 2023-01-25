@@ -28,9 +28,7 @@ import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.*
 
 const val recipeId = "recipeId"
 @Composable
-fun AppNavigation(
-    recipeViewModel: RecipeViewModel
-) {
+fun AppNavigation() {
     val navController = rememberNavController()
     val authToken = AppSession.getAuthToken()
     NavHost(
@@ -55,7 +53,7 @@ fun AppNavigation(
         }
 
         composable(Routes.Recipes.route) {
-            RecipeList(navController, recipeViewModel)
+            RecipeList(navController)
         }
 
         composable(

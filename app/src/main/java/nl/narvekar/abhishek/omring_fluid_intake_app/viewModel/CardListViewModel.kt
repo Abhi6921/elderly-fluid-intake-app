@@ -39,7 +39,7 @@ class CardListViewModel : ViewModel() {
         // remove unnecessary values after seconds section in datetime
         val strippedDate = dateTime.dropLast(13)
         val date = LocalDateTime.parse(strippedDate)
-        val formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm", Locale.getDefault())
+        val formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm a", Locale.getDefault())
         val zonedDateTime = formatter.format(date)
         return zonedDateTime
     }

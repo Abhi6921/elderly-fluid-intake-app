@@ -75,6 +75,7 @@
     <!--Drink Records Strings-->
     <string name="drink_records_title">Uw drankrecords</string>
     <string name="zero_target_achieved">Doel behaald: 0%</string>
+    <string name="no_drink_records">Er zijn geen drankrecords!</string>
 
     <!--Sharing Functionality-->
 

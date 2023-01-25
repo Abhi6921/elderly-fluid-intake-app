@@ -156,9 +156,9 @@ fun DashBoardScreen(
 
     if (currentTargetAchieved != null) {
         when(currentTargetAchieved) {
-            in (50..74) -> {
+            in (50..56) -> {
                 LaunchedEffect(key1 = Unit) {
-                    scaffoldState.snackbarHostState.showSnackbar("Great job you are half way there!")
+                    scaffoldState.snackbarHostState.showSnackbar("Great job! you are half way there!")
                 }
             }
         }

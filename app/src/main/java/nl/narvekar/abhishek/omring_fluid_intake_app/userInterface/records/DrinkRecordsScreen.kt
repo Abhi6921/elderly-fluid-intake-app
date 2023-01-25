@@ -44,7 +44,7 @@ import java.util.*
 import kotlin.math.roundToInt
 
 
-// 9998259c-78ff-4c81-a66b-c3375efbd818
+
 @Composable
 fun DrinkRecords(
     navController: NavController,
@@ -114,17 +114,30 @@ fun DrinkRecords(
                     DashBoardSpinnerAndQuote(drinkAmount = currentFluidIntakeStatus.Achieved.toFloat(), dailyLimit = dailyLimit)
                 }
             }
-            LazyColumn(
-                Modifier
-                    .padding(start = 0.dp, top = 320.dp, end = 0.dp)
-                    .padding(innerPadding)
-            ) {
-                itemsIndexed(drinksLogs) { index, drinkRecord ->
-                    if (drinkRecord != null) {
-                        ContainerView(
-                            drinklogResponse = drinkRecord,
-                            cardListViewModel = cardListViewModel
-                        )
+            if(drinksLogs.itemCount == 0) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(innerPadding),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Text(text = stringResource(id = R.string.no_drink_records), fontSize = 24.sp)
+                }
+            }
+            else {
+                LazyColumn(
+                    Modifier
+                        .padding(start = 0.dp, top = 320.dp, end = 0.dp)
+                        .padding(innerPadding)
+                ) {
+                    itemsIndexed(drinksLogs) { index, drinkRecord ->
+                        if (drinkRecord != null) {
+                            ContainerView(
+                                drinklogResponse = drinkRecord,
+                                cardListViewModel = cardListViewModel
+                            )
+                        }
                     }
                 }
             }
@@ -169,7 +182,7 @@ fun DrinkRecordsView(datetime: String, drinkAmount: String) {
             horizontalArrangement = Arrangement.Center,
         ) {
             Box(modifier = Modifier
-                .size(390.dp)
+                .size(490.dp)
 
             ) {
                 Text(

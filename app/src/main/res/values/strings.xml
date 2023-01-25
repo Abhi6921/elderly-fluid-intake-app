@@ -79,6 +79,7 @@
     <!--Drink Records Strings-->
     <string name="drink_records_title">Your Drink Records</string>
     <string name="zero_target_achieved">Target achieved: 0%</string>
+    <string name="no_drink_records">There are no drink records!</string>
 
     <!--Sharing Text-->
     <string name="share_text">Hey, Download this drink app of Omring and stay hydrated!</string>

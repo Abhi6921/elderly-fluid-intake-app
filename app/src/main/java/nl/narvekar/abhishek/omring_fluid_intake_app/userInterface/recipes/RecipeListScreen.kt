@@ -37,11 +37,10 @@ import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.RecipeViewModel
 @Composable
 fun RecipeList(
     navController: NavController,
-    recipeViewModel: RecipeViewModel,
-    patientViewModel: PatientViewModel = viewModel()
+    recipeViewModel: RecipeViewModel = viewModel()
 ) {
     val recipes by recipeViewModel.recipeListState.collectAsState()
-
+    val isRecipesLoading = recipeViewModel.isLoading.value
     Scaffold(
         topBar = {
             TopAppBar(
@@ -71,7 +70,7 @@ fun RecipeList(
             )
         },
         content = { innerPadding ->
-            if (recipes.isNullOrEmpty()) {
+            if (recipes?.isEmpty() == true) {
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
@@ -80,6 +79,17 @@ fun RecipeList(
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Text(text = stringResource(id = R.string.empty_recipe_text))
+                }
+            }
+            if (isRecipesLoading) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(innerPadding),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    CircularProgressIndicator(color = Color.Blue, modifier = Modifier.size(70.dp))
                 }
             }
             else {

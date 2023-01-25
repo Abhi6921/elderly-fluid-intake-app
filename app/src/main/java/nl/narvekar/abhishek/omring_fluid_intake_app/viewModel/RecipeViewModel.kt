@@ -22,18 +22,21 @@ class RecipeViewModel : ViewModel() {
     private val mutableListRecipe = MutableStateFlow<List<Recipe>?>(null)
     var recipeListState: StateFlow<List<Recipe>?> = mutableListRecipe
 
+    var isLoading = mutableStateOf(false)
+
     init {
         getRecipeList()
     }
 
     fun getRecipeList() {
+        isLoading.value = true
         viewModelScope.launch(Dispatchers.IO) {
-
             val recipeAuthApi = RecipeAuthApi.getInstance()
             try {
                 val recipeList = recipeAuthApi.getAllRecipes()
                 recipeListResponse = recipeList
                 mutableListRecipe.emit(recipeList)
+                isLoading.value = false
             }catch (e: Exception) {
                 errorMessage = e.message.toString()
             }
