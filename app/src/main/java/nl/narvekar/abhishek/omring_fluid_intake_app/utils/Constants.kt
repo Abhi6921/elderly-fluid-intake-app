@@ -11,6 +11,11 @@ object Constants {
     const val DAILYGOAL = "dailygoal"
     const val IS_LOGGED_IN = "isloggedin"
 
+    // api urls
+    const val LOGIN_BASE_URL = "https://da-authentication.azurewebsites.net/"
+    const val USERS_BASE_URL = ""
+    const val RECIPES_BASE_URL = ""
+
     // Fluid Intake Amounts
     const val HUNDRED_ML_INTAKE: Int = 100
     const val ONE_FIFTY_ML_INTAKE : Int = 150

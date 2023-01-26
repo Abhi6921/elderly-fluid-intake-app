@@ -12,6 +12,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -23,8 +24,14 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class PatientViewModel : ViewModel() {
-     // admin token
-    //   val authToken = "eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOlsiQURNSU4iLCJDQVJFX0dJVkVSIl0sImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWUiOiIrMzE2NDU4MjYwMDAiLCJuYmYiOjE2NzIxNjIxNzEsImV4cCI6MTcwMzY5ODE3MSwiaWF0IjoxNjcyMTYyMTcxLCJpc3MiOiJEcmlua0FwcFJlY2lwZXMuYXp1cmV3ZWJzaXRlcy5uZXQiLCJhdWQiOiJEcmlua0FwcFVzZXJzIC8gUGF0aWVudHMgLyBDYXJlZ2l2ZXJzIC8gQWRtaW5zIn0.J-oTRSjHrMNrzYiycMFXq4g5P6yyzpsLtTOJureX1uU"
+
+    var likedRecipeErrorMessage: String by mutableStateOf("")
+
+    private val mutablefavoriteRecipe = MutableStateFlow<List<Recipe>?>(null)
+    var favoriteRecipeState: StateFlow<List<Recipe>?> = mutablefavoriteRecipe
+
+    var isLikedRecipesLoading = mutableStateOf(false)
+    var norecipes = mutableStateOf(false)
 
     init {
         getAllLikedRecipes()
@@ -48,26 +55,34 @@ class PatientViewModel : ViewModel() {
         return logDrinkResponse
     }
 
-    var likedRecipeListResponse: List<Recipe> by mutableStateOf(listOf())
-    var likedRecipeErrorMessage by mutableStateOf("")
+
 
     fun getAllLikedRecipes() {
+        isLikedRecipesLoading.value = true
         viewModelScope.launch(Dispatchers.IO) {
+
             val usersAuthApi = UsersAuthApi.getUsersAuthApiInstance()
             try {
                 val authToken = AppSession.getAuthToken()
                 val patientId = AppSession.getPatientId()
 
-                val likedRecipes = usersAuthApi.fetchAllLikedRecipes("Bearer ${authToken}", patientId)
-                likedRecipeListResponse = likedRecipes
+                val response = usersAuthApi.fetchAllLikedRecipes("Bearer ${authToken}", patientId)
+                if (response.isSuccessful) {
+                    mutablefavoriteRecipe.tryEmit(response.body())
+                }
+                else if (response.code() == 400) {
+                    isLikedRecipesLoading.value = false
+                    norecipes.value = true
+                }
+
+                isLikedRecipesLoading.value = false
 
             } catch (ex: Exception) {
                 likedRecipeErrorMessage = ex.message.toString()
             }
         }
     }
-
-
+    
     fun likeRecipeByPatient(
         patientId: String,
         recipeId: String,

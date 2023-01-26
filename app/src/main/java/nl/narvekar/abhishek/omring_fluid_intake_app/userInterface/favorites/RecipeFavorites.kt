@@ -12,6 +12,7 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -23,6 +24,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import nl.narvekar.abhishek.omring_fluid_intake_app.R
@@ -36,18 +38,21 @@ import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.PatientViewModel
 
 
 @Composable
-fun RecipeFavorited(navController: NavController, recipes: List<Recipe>, patientViewModel: PatientViewModel) {
-    val context = LocalContext.current
-
-    patientViewModel.getAllLikedRecipes()
+fun RecipeFavorited(
+    navController: NavController,
+    patientViewModel: PatientViewModel = viewModel()
+) {
     val deletedItems = remember { mutableStateListOf<Recipe>() }
-    val patientId = AppSession.getPatientId()
+    val recipesFavorite by patientViewModel.favoriteRecipeState.collectAsState()
+
+    val isLoading = patientViewModel.isLikedRecipesLoading.value
+    val containNoLikedRecipe = patientViewModel.norecipes.value
     Scaffold(
         topBar = {
               FluidTopAppBar(topBarTitle = stringResource(id = R.string.favorite_title))
         },
         content = { innnerPadding ->
-            if (recipes.isEmpty()) {
+            if (containNoLikedRecipe) {
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
@@ -55,26 +60,40 @@ fun RecipeFavorited(navController: NavController, recipes: List<Recipe>, patient
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    Text(text = stringResource(id = R.string.no_favorites_text), fontSize = 35.sp)
+                    Text(text = stringResource(id = R.string.no_favorites_text), fontSize = 34.sp)
+                }
+            }
+            if (isLoading) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(innnerPadding),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    CircularProgressIndicator(color = Color.Blue, modifier = Modifier.size(60.dp))
                 }
             }
             else {
-                LazyColumn(Modifier.padding(innnerPadding)) {
-                      itemsIndexed(
-                          items =recipes,
-                          itemContent = {index, item ->
-                              AnimatedVisibility(
-                                  visible = !deletedItems.contains(item),
-                                  enter = expandVertically(),
-                                  exit = shrinkVertically(animationSpec = tween(durationMillis = 2000))
-                              ) {
-                                  FavoriteRecipeItem(recipe = item, patientViewModel = patientViewModel, deletedItems = deletedItems) {
-                                      navController.navigate(Routes.RecipeDetail.route + "/${it.recipeId}")
-                                  }
-                              }
-                          }
-                      )
+                recipesFavorite?.let { allFavoriteRecipes ->
+                    LazyColumn(Modifier.padding(innnerPadding)) {
+                        itemsIndexed(
+                            items = allFavoriteRecipes,
+                            itemContent = {index, item ->
+                                AnimatedVisibility(
+                                    visible = !deletedItems.contains(item),
+                                    enter = expandVertically(),
+                                    exit = shrinkVertically(animationSpec = tween(durationMillis = 2000))
+                                ) {
+                                    FavoriteRecipeItem(recipe = item, patientViewModel = patientViewModel, deletedItems = deletedItems) {
+                                        navController.navigate(Routes.RecipeDetail.route + "/${it.recipeId}")
+                                    }
+                                }
+                            }
+                        )
+                    }
                 }
+
             }
 
         },
@@ -87,7 +106,7 @@ fun RecipeFavorited(navController: NavController, recipes: List<Recipe>, patient
 @Composable
 fun FavoriteRecipeItem(
     recipe: Recipe,
-    patientViewModel: PatientViewModel,
+    patientViewModel: PatientViewModel = viewModel(),
     deletedItems: MutableList<Recipe>,
     onClickAction: (Recipe) -> Unit
 ) {
@@ -95,7 +114,6 @@ fun FavoriteRecipeItem(
     val context = LocalContext.current
     Card(
         modifier = Modifier
-            // The space between each card and the other
             .padding(10.dp)
             .fillMaxWidth()
             .wrapContentHeight(),
@@ -108,7 +126,6 @@ fun FavoriteRecipeItem(
         ) {
 
             AsyncImage(
-                //model = R.drawable.recipe_img,
                 model = recipe.imageLink,
                 contentDescription = "recipe image",
                 modifier = Modifier
@@ -116,7 +133,7 @@ fun FavoriteRecipeItem(
                     .height(350.dp)
                     .padding(8.dp),
                 contentScale = ContentScale.Fit,
-                error = painterResource(R.drawable.placeholder),
+                placeholder = painterResource(R.drawable.placeholder),
             )
 
             Column(Modifier.padding(8.dp)) {
@@ -152,8 +169,8 @@ fun FavoriteRecipeItem(
                             patientViewModel.removeLikeRecipeByPatient(patientId, recipe.recipeId!!, context)
                         }) {
                         Icon(
-                            imageVector = Icons.Default.Delete,
-                            contentDescription = "delete icon",
+                            imageVector = Icons.Default.Close,
+                            contentDescription = "close icon",
                             modifier = Modifier.size(50.dp)
                         )
                     }

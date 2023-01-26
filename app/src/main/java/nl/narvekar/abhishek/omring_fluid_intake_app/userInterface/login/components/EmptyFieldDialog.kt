@@ -24,7 +24,7 @@ import nl.narvekar.abhishek.omring_fluid_intake_app.navigation.Routes
 @Composable
 fun EmptyFieldMessageDialog(showMessageDialog: MutableState<Boolean>) {
     
-    Dialog(onDismissRequest = { /*TODO*/ }) {
+    Dialog(onDismissRequest = {  }) {
 
         Surface(
             shape = RoundedCornerShape(16.dp),
@@ -33,7 +33,6 @@ fun EmptyFieldMessageDialog(showMessageDialog: MutableState<Boolean>) {
             Box(modifier = Modifier.padding(30.dp)) {
                 Column(
                     modifier = Modifier.fillMaxWidth(),
-                    //horizontalArrangement = Arrangement.SpaceBetween,
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Image(painter = painterResource(R.drawable.warning),

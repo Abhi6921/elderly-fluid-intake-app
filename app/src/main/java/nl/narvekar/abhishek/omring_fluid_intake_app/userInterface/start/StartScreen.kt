@@ -21,7 +21,7 @@ import nl.narvekar.abhishek.omring_fluid_intake_app.navigation.Routes
 import nl.narvekar.abhishek.omring_fluid_intake_app.utils.AppSession
 import okhttp3.Route
 
-//@Preview(showBackground = true, widthDp = 1280, heightDp = 1500, backgroundColor = (0x39CCFF))
+
 @Composable
 fun StartScreen(navController: NavController) {
     Column(
@@ -57,11 +57,7 @@ fun StartScreen(navController: NavController) {
         //Spacer(modifier = Modifier.height(30.dp))
         Button(
             onClick = {
-                navController.navigate(Routes.Login.route) {
-                    popUpTo(Routes.Start.route) {
-                        inclusive = true
-                    }
-                }
+                navController.navigate(Routes.Login.route)
             },
             colors = ButtonDefaults.buttonColors(backgroundColor = Color(0xFF1B7D71)),
             modifier = Modifier
@@ -79,11 +75,7 @@ fun StartScreen(navController: NavController) {
         )
         Button(
             onClick = {
-                navController.navigate(Routes.Register.route) {
-                    popUpTo(Routes.Start.route) {
-                        inclusive = true
-                    }
-                }
+                navController.navigate(Routes.Register.route)
             },
             colors = ButtonDefaults.buttonColors(backgroundColor = Color(0xFF1B7D71)),
             modifier = Modifier

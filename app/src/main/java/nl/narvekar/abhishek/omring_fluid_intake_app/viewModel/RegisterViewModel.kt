@@ -23,10 +23,13 @@ class RegisterViewModel : ViewModel() {
 
     val showSuccessMessage =  mutableStateOf(false)
     val showFailureMessage = mutableStateOf(false)
+    var isProcessing = mutableStateOf(false)
+
     fun registerUser(
         context: Context,
         user: UserRequest
     ) {
+        isProcessing.value = true
         viewModelScope.launch(Dispatchers.IO) {
             val retrofitInstance = UsersAuthApi.getUsersAuthApiInstance()
             retrofitInstance.registerUser(user).enqueue(object :
@@ -37,13 +40,12 @@ class RegisterViewModel : ViewModel() {
 
                 override fun onResponse(call: Call<UserResponse>, response: Response<UserResponse>) {
                     if (response.isSuccessful || response.code() == 201) {
-                        //Toast.makeText(context, "Registration Successful! ${response.code().toString()}, ${response.message()} ${response.headers()}", Toast.LENGTH_LONG).show()
+                        isProcessing.value = false
                         showSuccessMessage.value = true
                     }
                     else {
-                        //Toast.makeText(context, "Registration failure!, ${response.code().toString()},  ${response.message()} ${response.headers()}", Toast.LENGTH_LONG).show()
+                        isProcessing.value = false
                         showFailureMessage.value = true
-                        Log.d("Register Failure!", "${response.code().toString()},  ${response.message()} ${response.headers()}")
                     }
                 }
             }

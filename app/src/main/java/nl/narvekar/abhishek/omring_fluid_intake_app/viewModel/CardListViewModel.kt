@@ -1,5 +1,6 @@
 package nl.narvekar.abhishek.omring_fluid_intake_app.viewModel
 
+import android.annotation.SuppressLint
 import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -21,52 +22,25 @@ import nl.narvekar.abhishek.omring_fluid_intake_app.api.UsersAuthApi
 import nl.narvekar.abhishek.omring_fluid_intake_app.data.DrinkLogResponse
 import nl.narvekar.abhishek.omring_fluid_intake_app.data.Recipe
 import nl.narvekar.abhishek.omring_fluid_intake_app.utils.AppSession
+import java.text.SimpleDateFormat
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.time.format.DateTimeParseException
+import java.util.*
 
 
 class CardListViewModel : ViewModel() {
 
-    private val itemIdsList = MutableStateFlow(listOf<Int>())
-    val itemIds: StateFlow<List<Int>> get() = itemIdsList
+    val drinkrecords = Pager(PagingConfig(pageSize = 1, enablePlaceholders = false)) {
+        DrinkRecordsPager()
+    }.flow.cachedIn(viewModelScope)
 
-    var errorMessage: String by mutableStateOf("")
-
-
-    private val mutableDrinkLogsListResponse = MutableStateFlow<List<DrinkLogResponse>?>(null)
-    var drinkLogsListState: StateFlow<List<DrinkLogResponse>?> = mutableDrinkLogsListResponse
-
-    init {
-        getAllDrinkDates()
+    fun formatDateTimeForDrinkLogs(dateTime: String): String {
+        // removes unnecessary values after seconds section in datetime, since the api returns the date in following format: 2023-01-16T18:23:00.0790479+00:00
+        val strippedDate = dateTime.dropLast(13)
+        val date = LocalDateTime.parse(strippedDate)
+        val formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm a", Locale.getDefault())
+        val zonedDateTime = formatter.format(date)
+        return zonedDateTime
     }
-
-     fun getAllDrinkDates() {
-        viewModelScope.launch(Dispatchers.IO) {
-            val usersAuthApi = UsersAuthApi.getUsersAuthApiInstance()
-            val adminToken = "eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOlsiQURNSU4iLCJDQVJFX0dJVkVSIl0sImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWUiOiIrMzE2NDU4MjYwMDAiLCJuYmYiOjE2NzE2NTgyNTEsImV4cCI6MTcwMzE5NDI1MSwiaWF0IjoxNjcxNjU4MjUxLCJpc3MiOiJEcmlua0FwcFJlY2lwZXMuYXp1cmV3ZWJzaXRlcy5uZXQiLCJhdWQiOiJEcmlua0FwcFVzZXJzIC8gUGF0aWVudHMgLyBDYXJlZ2l2ZXJzIC8gQWRtaW5zIn0.sgh_qAXL9GyQ_GLiXjPOBxZBQlaSaC91Cxc8iobF9XM"
-            val patientId = AppSession.getPatientId()
-            try {
-                val drinkLogs = usersAuthApi.getPatientDrinkLogs("Bearer ${adminToken}", patientId, "29/12/2022", "15/12/2023",0, 40)
-                if (drinkLogs.isSuccessful) {
-                   mutableDrinkLogsListResponse.emit(drinkLogs.body()!!)
-                    Log.d("Success!", "Drink logs are NOT empty")
-                }
-                else {
-                    Log.d("Failure!", "Drink logs are empty")
-                }
-            }
-            catch (ex: Exception) {
-                errorMessage = ex.message.toString()
-            }
-        }
-    }
-
-    fun onItemClicked(itemId: Int) {
-        itemIdsList.value = itemIdsList.value.toMutableList().also { list ->
-            if (list.contains(itemId)) {
-                list.remove(itemId)
-            } else {
-                list.add(itemId)
-            }
-        }
-    }
-
 }

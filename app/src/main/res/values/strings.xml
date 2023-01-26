@@ -13,8 +13,8 @@
     <string name="password_text">Password</string>
 
     <!--Empty Field Dialog Strings-->
-    <string name="empty_fields_title">Empty Field!</string>
-    <string name="empty_fields_text">One of the fields is empty!</string>
+    <string name="empty_fields_title">Empty Fields!</string>
+    <string name="empty_fields_text">Please fill all the fields</string>
     <string name="ok_text">OK</string>
 
     <!--Login Failure Strings-->
@@ -41,7 +41,7 @@
     <string name="register_success_description">Your Account is Registered!</string>
     <string name="login_text_string">Continue to Login</string>
     
-    <!--Dashbord Screen Strings-->
+    <!--Dashboard Screen Strings-->
     <string name="dashboard_title">Dashboard</string>
     <string name="welcome_text">Welcome</string>
     <string name="today_goal">Today\'s Goal:</string>
@@ -66,6 +66,7 @@
     <string name="profile_title">Profile</string>
     <string name="first_name_text">FirstName:</string>
     <string name="last_name_text">Lastname:</string>
+    <string name="phone_number_text">Phonenumber:</string>
     <string name="daily_limit_label">DailyLimit:</string>
     <string name="daily_goal_label">DailyGoal:</string>
 
@@ -75,10 +76,22 @@
     <string name="recipe_in_favorites">This recipe is in favorites!</string>
     <string name="ingredients_text">Ingredients</string>
     <string name="steps_text">Steps</string>
+    <string name="recipe_detail_text">Recipe Detail Screen</string>
 
     <!--Drink Records Strings-->
     <string name="drink_records_title">Your Drink Records</string>
     <string name="zero_target_achieved">Target achieved: 0%</string>
+    <string name="no_drink_records">There are no drink records!</string>
+
+    <!--Sharing Text-->
+    <string name="share_text">Hey, Download this drink app of Omring and stay hydrated!</string>
+    <string name="drink_subject_text">Drink App</string>
+    <string name="sharing_title">Share this app with friends and family!</string>
+    <string name="share_top_bar_title">Share</string>
+    <string name="profile_photo_text">Profile Photo</string>
+    <string name="ui_cannot_load_records_from_api">Error in loading records from api.</string>
+    <string name="show_half_way_message">Great job! you are half way there!</string>
+
 
 
 </resources>

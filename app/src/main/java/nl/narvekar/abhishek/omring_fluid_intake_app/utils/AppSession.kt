@@ -25,10 +25,6 @@ object AppSession {
         val authToken = sharedPreferences.getString(AUTH_TOKEN_KEY, "") ?: ""
         return authToken
     }
-    fun isUserLoggedIn() : Boolean {
-        val loggedIn = sharedPreferences.getBoolean(IS_LOGGED_IN, false)
-        return loggedIn
-    }
 
     fun getFirstName() : String {
         val firstName = sharedPreferences.getString(FIRSTNAME, "") ?: ""
@@ -57,6 +53,11 @@ object AppSession {
     fun getDailyGoal() : Int {
         val dailyGoal = sharedPreferences.getInt(DAILYGOAL, 0)
         return dailyGoal
+    }
+
+    fun isLoggedIn() : Boolean {
+        val loggedIn = sharedPreferences.getBoolean(IS_LOGGED_IN, false)
+        return loggedIn
     }
 
     fun saveUserData(username: String,

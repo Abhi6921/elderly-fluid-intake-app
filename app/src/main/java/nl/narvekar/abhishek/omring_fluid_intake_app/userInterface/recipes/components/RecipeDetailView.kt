@@ -22,6 +22,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import nl.narvekar.abhishek.omring_fluid_intake_app.R
@@ -30,26 +31,25 @@ import nl.narvekar.abhishek.omring_fluid_intake_app.data.tips
 import nl.narvekar.abhishek.omring_fluid_intake_app.navigation.recipeId
 import nl.narvekar.abhishek.omring_fluid_intake_app.utils.AppSession
 import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.PatientViewModel
+import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.RecipeDetailViewModel
 import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.RecipeViewModel
 
 
 
 @Composable
 fun RecipeDetailView(
-    recipeViewModel: RecipeViewModel,
+    recipeDetailViewModel: RecipeDetailViewModel = viewModel(),
     detailId: String,
-    patientViewModel: PatientViewModel,
+    patientViewModel: PatientViewModel = viewModel(),
     navController: NavController
 ) {
-    Log.d(TAG, "RecipeDetailView passed from recipe list: $detailId")
     val scrollState = rememberScrollState()
-    val phoneNumber = AppSession.getPhoneNumber()
     val patientId = AppSession.getPatientId()
+    val recipe by recipeDetailViewModel.mutableRecipeState.collectAsState()
 
-    recipeViewModel.getRecipeById(detailId)
-
-    val recipe by recipeViewModel.mutableRecipeState.collectAsState()
-
+    LaunchedEffect(key1 = Unit) {
+        recipeDetailViewModel.getRecipeById(detailId)
+    }
     Scaffold(
         topBar = {
             TopAppBar(
@@ -62,7 +62,7 @@ fun RecipeDetailView(
                         modifier = Modifier.fillMaxWidth(),
                         textAlign = TextAlign.Center,
                         maxLines = 1,
-                        text = "Recipe Detail Screen",
+                        text =  stringResource(id = R.string.recipe_detail_text),
                         color = Color.White,
                         fontSize = 34.sp
                     )
@@ -83,17 +83,21 @@ fun RecipeDetailView(
                     .padding(15.dp)
             ) {
                 recipe?.let { recipe ->
-                    RecipeDetailScreen(recipe = recipe, patientViewModel.likedRecipeListResponse, patientId, patientViewModel)
+                    RecipeDetailScreen(recipe = recipe, patientId, patientViewModel)
                 }
             }
         }
     )
 }
 
-@Composable
-fun RecipeDetailScreen(recipe: Recipe?, favoritedRecipeList: List<Recipe>, patientId: String, patientViewModel: PatientViewModel) {
 
-    val isRecipeInFavorites: Boolean = favoritedRecipeList.contains(recipe)
+@Composable
+fun RecipeDetailScreen(
+    recipe: Recipe?,
+    patientId: String,
+    patientViewModel: PatientViewModel
+) {
+    val isRecipeInFavorites: Boolean = patientViewModel.favoriteRecipeState.value?.contains(recipe) ?: false
     val context = LocalContext.current
 
     AsyncImage(
@@ -107,12 +111,13 @@ fun RecipeDetailScreen(recipe: Recipe?, favoritedRecipeList: List<Recipe>, patie
     )
     Text(text = recipe?.name ?: "recipe name", fontSize = 44.sp)
     Spacer(modifier = Modifier.height(30.dp))
-                if (!isRecipeInFavorites) {
-                    FavoritesButton(patientId = patientId, recipeId = recipe?.recipeId!!, patientViewModel = patientViewModel, context = context)
-                }
-                else if (isRecipeInFavorites) {
-                    Text(text = stringResource(id = R.string.recipe_in_favorites), fontSize = 29.sp)
-                }
+
+    if (!isRecipeInFavorites) {
+        FavoritesButton(patientId = patientId, recipeId = recipe?.recipeId!!, context = context)
+    }
+    else if (isRecipeInFavorites) {
+        Text(text = stringResource(id = R.string.recipe_in_favorites), fontSize = 29.sp)
+    }
 
     Spacer(modifier = Modifier.height(30.dp))
     Text(text = stringResource(id = R.string.ingredients_text), fontSize = 34.sp)

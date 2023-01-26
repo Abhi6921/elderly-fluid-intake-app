@@ -26,24 +26,8 @@ import nl.narvekar.abhishek.omring_fluid_intake_app.utils.AppSession
 import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.*
 
 class MainActivity : ComponentActivity() {
-    // for tomorrow
-    // todo todo fix the favorites delete
-    // todo  fix pagination and user-interface
 
-    // this commit is from fix-user-interface branch
-    private val loginViewModel by viewModels<LoginViewModel>()
-    private val registerViewModel by viewModels<RegisterViewModel>()
-    private val recipeViewModel by viewModels<RecipeViewModel>()
-    private val expandableListViewModel by viewModels<CardListViewModel>()
-    private val logDrinkViewModel by viewModels<LogDrinkViewModel>()
-    private val patientViewModel by viewModels<PatientViewModel>()
 
-    // username: +31612345678 password: Mona12345! ROLE: CAREGIVER, ADMIN
-    // username: +31246846878 password: Mona12345! ROLE: CAREGIVER
-    // patient in db-> username: +3165874123651 password: Mona12345!
-    // patient in db-> username: +3113579123579 password: Mona12345!, max
-
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -54,30 +38,11 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                   AppNavigation(
-                       loginViewModel = loginViewModel,
-                       registerViewModel,
-                       recipeViewModel,
-                       expandableListViewModel,
-                       logDrinkViewModel,
-                       patientViewModel
-                   )
+                   AppNavigation()
                 }
             }
         }
     }
 }
 
-@Composable
-fun Greeting(name: String) {
-    Text(text = "Hello $name!")
-}
-
-@Preview(showBackground = true, widthDp = 900)
-@Composable
-fun DefaultPreview() {
-    ElderlyfluidintakeappTheme {
-        //FluidIntakeCircularProgressBar()
-    }
-}
 

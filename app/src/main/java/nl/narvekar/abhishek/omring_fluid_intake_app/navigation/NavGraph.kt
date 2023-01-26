@@ -4,6 +4,7 @@ import android.content.SharedPreferences
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavType
 import androidx.navigation.compose.ComposeNavigator
@@ -26,21 +27,14 @@ import nl.narvekar.abhishek.omring_fluid_intake_app.utils.AppSession
 import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.*
 
 const val recipeId = "recipeId"
-@RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun AppNavigation(
-    loginViewModel: LoginViewModel,
-    registerViewModel: RegisterViewModel,
-    recipeViewModel: RecipeViewModel,
-    viewModel: CardListViewModel,
-    logDrinkViewModel: LogDrinkViewModel,
-    patientViewModel: PatientViewModel
-) {
+fun AppNavigation() {
     val navController = rememberNavController()
-    val authToken = AppSession.getAuthToken()
+
+    val isLoggedIn = AppSession.isLoggedIn()
     NavHost(
         navController = navController,
-        startDestination =  if (authToken.isEmpty()) { Routes.getDestination() } else { Routes.Home.route }
+        startDestination =  if (isLoggedIn) {Routes.Home.route } else { Routes.getStartDestination() } //if (authToken.isEmpty()) { Routes.getDestination() } else { Routes.Home.route }
     ) {
 
         composable(Routes.Start.route) {
@@ -48,19 +42,19 @@ fun AppNavigation(
         }
 
         composable(Routes.Login.route) {
-            LoginUI(loginViewModel, navController)
+            LoginUI(navController)
         }
 
         composable(Routes.Register.route) {
-            RegisterScreen(registerViewModel = registerViewModel, navController)
+            RegisterScreen(navController)
         }
 
         composable(Routes.Home.route) {
-            DashBoardScreen(navController, logDrinkViewModel, loginViewModel, patientViewModel)
+            DashBoardScreen(navController)
         }
 
         composable(Routes.Recipes.route) {
-            RecipeList( navController, recipeViewModel, patientViewModel)
+            RecipeList(navController)
         }
 
         composable(
@@ -71,17 +65,15 @@ fun AppNavigation(
         ) { navBackStackEntry ->
 
             RecipeDetailView(
-                recipeViewModel = recipeViewModel,
                 detailId = navBackStackEntry.arguments!!.getString(recipeId.toString())!!,
-                patientViewModel = patientViewModel,
                 navController = navController
             )
         }
         composable(Routes.Favorite.route) {
-            RecipeFavorited(navController, patientViewModel.likedRecipeListResponse, patientViewModel)
+            RecipeFavorited(navController)
         }
         composable(Routes.Drink.route) {
-            DrinkRecords(navController = navController, viewModel, patientViewModel)
+            DrinkRecords(navController = navController)
         }
 
         composable(Routes.Share.route) {

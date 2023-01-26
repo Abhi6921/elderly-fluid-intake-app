@@ -1,9 +1,15 @@
 package nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.dashboard
 
-import android.annotation.SuppressLint
-import android.content.SharedPreferences
+import android.R.attr.fontWeight
+import android.R.attr.text
+import android.text.SpannableStringBuilder
+import android.text.style.RelativeSizeSpan
 import android.util.Log
-import androidx.compose.foundation.*
+import android.widget.Toast
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.*
@@ -17,44 +23,44 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import nl.narvekar.abhishek.omring_fluid_intake_app.R
 import nl.narvekar.abhishek.omring_fluid_intake_app.data.MotivationalQuotes
-import nl.narvekar.abhishek.omring_fluid_intake_app.data.PatientResponse
-import nl.narvekar.abhishek.omring_fluid_intake_app.data.UserResponse
 import nl.narvekar.abhishek.omring_fluid_intake_app.navigation.AppBottomNav
 import nl.narvekar.abhishek.omring_fluid_intake_app.navigation.Routes
 import nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.dashboard.components.CircularProgressBar
 import nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.dashboard.components.SelectDrinkDialog
 import nl.narvekar.abhishek.omring_fluid_intake_app.utils.AppSession
-import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.LogDrinkViewModel
 import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.LoginViewModel
 import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.PatientViewModel
-import kotlin.math.log
+import kotlin.math.roundToInt
 import kotlin.random.Random
-
 
 
 @Composable
 fun DashBoardScreen(
     navController: NavController,
-    logDrinkViewModel: LogDrinkViewModel,
-    loginViewModel: LoginViewModel,
-    patientViewModel: PatientViewModel
+    patientViewModel: PatientViewModel = viewModel()
 ) {
     val fluidIntakeDialog = remember { mutableStateOf(false) }
+    val scaffoldState = rememberScaffoldState()
+
+    val context = LocalContext.current
+
     val patientId = AppSession.getPatientId()
     val firstName = AppSession.getFirstName()
     val lastName = AppSession.getLastName()
     val dailyLimit = AppSession.getDailyLimit()
 
-    Log.d("PatientId", patientId)
 
     val currentFluidintake = patientViewModel.getCurrentFluidIntakeStatus(patientId)
+    val currentTargetAchieved: Int? = ((currentFluidintake.Achieved?.toFloat()?.div(dailyLimit))?.times(100))?.roundToInt()
 
     if (fluidIntakeDialog.value) {
         SelectDrinkDialog(
-            logDrinkViewModel,
             navController,
             setShowDialog = {
                 fluidIntakeDialog.value = it
@@ -65,6 +71,7 @@ fun DashBoardScreen(
     }
 
     Scaffold(
+        scaffoldState = scaffoldState,
         topBar = {
             FluidTopAppBar(stringResource(id = R.string.dashboard_title))
         },
@@ -126,11 +133,7 @@ fun DashBoardScreen(
                                 .width(270.dp)
                                 .height(380.dp)
                                 .clickable {
-                                    navController.navigate(Routes.Recipes.route) {
-                                        popUpTo(Routes.Home.route) {
-                                            inclusive = true
-                                        }
-                                    }
+                                    navController.navigate(Routes.Recipes.route)
                                 },
                             horizontalAlignment = Alignment.CenterHorizontally,
                             verticalArrangement = Arrangement.SpaceBetween
@@ -148,7 +151,18 @@ fun DashBoardScreen(
             }
         }
     )
-    LogoutButton(navController, loginViewModel)
+    LogoutButton(navController)
+    
+    // if progress bar comes between 50..56 percentage, show a motivational message to keep going
+    if (currentTargetAchieved != null) {
+        when(currentTargetAchieved) {
+            in (50..56) -> {
+                LaunchedEffect(key1 = Unit) {
+                    scaffoldState.snackbarHostState.showSnackbar(context.getString(R.string.show_half_way_message))
+                }
+            }
+        }
+    }
 }
 
 @Composable
@@ -160,8 +174,6 @@ fun SetCircularProgress(achievedIntake: Float?, dailyLimit: Int) {
     else {
         DashBoardSpinnerAndQuote(drinkAmount = achievedIntake, dailyLimit = dailyLimit)
     }
-
-
 }
 
 @Composable
@@ -215,7 +227,7 @@ fun DashBoardSpinnerAndQuote(drinkAmount: Float, dailyLimit: Int) {
 @Composable
 fun LogoutButton(
     navController: NavController,
-    loginViewModel: LoginViewModel
+    loginViewModel: LoginViewModel = viewModel()
 ) {
     Column(
         modifier = Modifier
@@ -224,7 +236,7 @@ fun LogoutButton(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Spacer(modifier = Modifier.height(850.dp))
+        Spacer(modifier = Modifier.height(780.dp))
         Button(
             onClick = {
                 loginViewModel.logout(navController)
