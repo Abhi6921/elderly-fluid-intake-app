@@ -1,6 +1,7 @@
 package nl.narvekar.abhishek.omring_fluid_intake_app.viewModel
 
 import android.content.Context
+import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -32,7 +33,7 @@ class LogDrinkViewModel : ViewModel() {
                         response: Response<LogDrinkResponse>
                     ) {
                         if(response.isSuccessful || response.code() == 201) {
-                            Toast.makeText(context, "Drink logged in succesfully!", Toast.LENGTH_LONG).show()
+                            Log.d("DrinkLogSuccess", "Drink logged in succesfully!")
                         }
                         else {
                             Toast.makeText(context, "Error Logging in the drinks!", Toast.LENGTH_LONG).show()

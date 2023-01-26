@@ -99,7 +99,6 @@ class PatientViewModel : ViewModel() {
                         response: Response<LikeRecipeResponse>
                     ) {
                         if (response.isSuccessful) {
-                            Toast.makeText(context, "recipe added to favroites!", Toast.LENGTH_SHORT).show()
                             Log.d("recipe-LikeOnSuccess", "recipe liked successfully ${response.code().toString()}")
                         }
                         else {
@@ -127,7 +126,6 @@ class PatientViewModel : ViewModel() {
                         response: Response<LikeRecipeResponse>
                     ) {
                         if (response.isSuccessful || response.code() == 201) {
-                            Toast.makeText(context, "recipe removed from favroites!", Toast.LENGTH_SHORT).show()
                             Log.d("LikeOnSuccess", "recipe removed successfully ${response.code().toString()}")
                         }
                         else {
