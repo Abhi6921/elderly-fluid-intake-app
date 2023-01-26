@@ -209,11 +209,8 @@ fun ContainerView(
 ) {
     Box(modifier = Modifier.background(Color.Green)) {
         Column {
-            val drinkDateTime =  cardListViewModel.formatDateTimeForDrinkLogs(drinklogResponse.dateTime.toString()) //formatDateTimeForDrinkLogs(drinklogResponse.dateTime.toString())
+            val drinkDateTime =  cardListViewModel.formatDateTimeForDrinkLogs(drinklogResponse.dateTime.toString())
 
-            //val strippedDateTime  = drinklogResponse.dateTime?.dropLast(23)
-            // 2023-01-16T18:23:00.0790479+00:00
-            // 2023-01-21T16:08:54.6132219+00:00
             DrinkRecordsView(datetime = drinkDateTime, drinklogResponse.amount.toString())
         }
     }

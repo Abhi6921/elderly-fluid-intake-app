@@ -21,6 +21,7 @@ class LoginViewModel : ViewModel() {
 
     val showLoginFailureDialog = mutableStateOf(false)
     var isLoading = mutableStateOf(false)
+
      fun loginUser(
         context: Context,
         login: Login,
@@ -56,7 +57,6 @@ class LoginViewModel : ViewModel() {
                                 )
                             }
 
-                            Toast.makeText(context, "Login Successful", Toast.LENGTH_LONG).show()
                             navController.navigate(Routes.Home.route) {
                                 popUpTo(Routes.Login.route) {
                                     inclusive = true

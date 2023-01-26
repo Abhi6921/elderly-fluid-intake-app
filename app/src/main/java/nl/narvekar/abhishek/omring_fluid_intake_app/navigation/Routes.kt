@@ -9,13 +9,13 @@ sealed class Routes(val route: String) {
     object Home: Routes("Home")
     object Recipes: Routes("Recipe")
     object RecipeDetail: Routes("RecipeDetail")
-    object Favorite: Routes("Favorite")
+    object Favorite: Routes("Favorites")
     object Drink: Routes("Drink Record")
     object Share: Routes("Share")
     object Profile: Routes("Profile")
 
     companion object {
-        fun getDestination() = Start.route
+        fun getStartDestination() = Start.route
     }
 
 }

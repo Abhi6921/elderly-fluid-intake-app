@@ -18,25 +18,16 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import nl.narvekar.abhishek.omring_fluid_intake_app.utils.Constants.AUTH_TOKEN_KEY
-import nl.narvekar.abhishek.omring_fluid_intake_app.data.LogDrink
-import nl.narvekar.abhishek.omring_fluid_intake_app.data.LogDrinkResponse
 import nl.narvekar.abhishek.omring_fluid_intake_app.navigation.Routes
-import nl.narvekar.abhishek.omring_fluid_intake_app.ui.theme.omringButtonColor
-import nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.dashboard.SetCircularProgress
-import nl.narvekar.abhishek.omring_fluid_intake_app.utils.AppSession
 import nl.narvekar.abhishek.omring_fluid_intake_app.utils.Constants.HUNDRED_ML_INTAKE
 import nl.narvekar.abhishek.omring_fluid_intake_app.utils.Constants.ONE_FIFTY_ML_INTAKE
 import nl.narvekar.abhishek.omring_fluid_intake_app.utils.Constants.TWO_HUNDRED_ML_INTAKE
 import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.LogDrinkViewModel
-import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.PatientViewModel
-
 
 
 @Composable
@@ -97,14 +88,12 @@ fun SelectDrinkDialog(
                     Box(modifier = Modifier.padding(start = 20.dp, top = 50.dp, bottom = 0.dp)) {
                         Button(
                             onClick = {
-                                //val drinkAmount = 100
                                 logDrinkViewModel.postANewDrink(context, HUNDRED_ML_INTAKE)
                                 setShowDialog(false)
                                 navController.navigate(Routes.Home.route)
                             },
                             shape = RoundedCornerShape(50.dp),
                             modifier = Modifier
-                                //.fillMaxWidth()
                                 .height(100.dp)
                                 .width(500.dp),
                             colors = ButtonDefaults.buttonColors(backgroundColor = Color(0xFF007B85))

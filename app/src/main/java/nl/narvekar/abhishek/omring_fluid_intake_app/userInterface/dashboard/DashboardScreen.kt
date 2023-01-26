@@ -48,14 +48,13 @@ fun DashBoardScreen(
     val fluidIntakeDialog = remember { mutableStateOf(false) }
     val scaffoldState = rememberScaffoldState()
 
+    val context = LocalContext.current
+
     val patientId = AppSession.getPatientId()
     val firstName = AppSession.getFirstName()
     val lastName = AppSession.getLastName()
     val dailyLimit = AppSession.getDailyLimit()
 
-    val context = LocalContext.current
-
-    Log.d("PatientId", patientId)
 
     val currentFluidintake = patientViewModel.getCurrentFluidIntakeStatus(patientId)
     val currentTargetAchieved: Int? = ((currentFluidintake.Achieved?.toFloat()?.div(dailyLimit))?.times(100))?.roundToInt()
@@ -153,12 +152,13 @@ fun DashBoardScreen(
         }
     )
     LogoutButton(navController)
-
+    
+    // if progress bar comes between 50..56 percentage, show a motivational message to keep going
     if (currentTargetAchieved != null) {
         when(currentTargetAchieved) {
             in (50..56) -> {
                 LaunchedEffect(key1 = Unit) {
-                    scaffoldState.snackbarHostState.showSnackbar("Great job! you are half way there!")
+                    scaffoldState.snackbarHostState.showSnackbar(context.getString(R.string.show_half_way_message))
                 }
             }
         }

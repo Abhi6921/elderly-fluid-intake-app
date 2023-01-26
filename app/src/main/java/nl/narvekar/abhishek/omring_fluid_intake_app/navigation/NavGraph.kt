@@ -30,10 +30,11 @@ const val recipeId = "recipeId"
 @Composable
 fun AppNavigation() {
     val navController = rememberNavController()
-    val authToken = AppSession.getAuthToken()
+
+    val isLoggedIn = AppSession.isLoggedIn()
     NavHost(
         navController = navController,
-        startDestination =  if (authToken.isEmpty()) { Routes.getDestination() } else { Routes.Home.route }
+        startDestination =  if (isLoggedIn) {Routes.Home.route } else { Routes.getStartDestination() } //if (authToken.isEmpty()) { Routes.getDestination() } else { Routes.Home.route }
     ) {
 
         composable(Routes.Start.route) {

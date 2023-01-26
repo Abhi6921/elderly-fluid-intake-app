@@ -1,6 +1,8 @@
 package nl.narvekar.abhishek.omring_fluid_intake_app.api
 
 import nl.narvekar.abhishek.omring_fluid_intake_app.data.*
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Call
 import retrofit2.Response
 import retrofit2.Retrofit
@@ -12,6 +14,7 @@ import retrofit2.http.Headers
 import retrofit2.http.POST
 import retrofit2.http.Path
 import retrofit2.http.Query
+import java.util.concurrent.TimeUnit
 
 interface UsersAuthApi {
 
@@ -37,7 +40,7 @@ interface UsersAuthApi {
     ) : Response<List<DrinkLogResponse>>
 
     @GET("api/v1/patients/recipes/{id}")
-    suspend fun fetchAllLikedRecipes(@Header("Authorization") authToken: String, @Path("id") patientId: String) : List<Recipe>
+    suspend fun fetchAllLikedRecipes(@Header("Authorization") authToken: String, @Path("id") patientId: String) : Response<List<Recipe>>
 
     @Headers("Content-Type:application/json")
     @POST("api/v1/patients/{patientId}/likeRecipe")
@@ -49,10 +52,22 @@ interface UsersAuthApi {
     companion object {
         var apiUserService: UsersAuthApi? = null
         fun getUsersAuthApiInstance() : UsersAuthApi {
+
+            var httpLoggingInterceptor = HttpLoggingInterceptor()
+                .setLevel(HttpLoggingInterceptor.Level.BODY)
+
+            var mOkHttpClient = OkHttpClient.Builder()
+                .callTimeout(2, TimeUnit.MINUTES)
+                .connectTimeout(20, TimeUnit.SECONDS)
+                .readTimeout(30, TimeUnit.SECONDS)
+                .addInterceptor(httpLoggingInterceptor)
+                .build()
+
             if (apiUserService == null) {
                 apiUserService = Retrofit.Builder()
                     .baseUrl("https://da-users.azurewebsites.net/")
                     .addConverterFactory(GsonConverterFactory.create())
+                    .client(mOkHttpClient)
                     .build().create(UsersAuthApi::class.java)
             }
             return apiUserService!!

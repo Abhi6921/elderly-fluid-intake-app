@@ -105,8 +105,11 @@ fun RecipeItem(
 
 @Composable
 fun FavoritesButton(patientId: String, recipeId: String, patientViewModel: PatientViewModel = viewModel(), context: Context) {
+
+    // remove the double-quotes around the string of recipe id,
+    // apprently the api does not favorite the recipe unless you remove the double quotes around it
     val strippedrecipeId = recipeId.replace("^\"|\"$", "")
-    Log.d("strippedrecipeId", strippedrecipeId)
+
     var isFavorite by remember { mutableStateOf(false) }
     IconButton(
         onClick = {

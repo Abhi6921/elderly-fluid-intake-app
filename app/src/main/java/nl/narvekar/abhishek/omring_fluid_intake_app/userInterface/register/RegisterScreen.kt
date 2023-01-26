@@ -41,7 +41,6 @@ import nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.register.compo
 import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.RegisterViewModel
 import kotlin.math.log
 
-//@Preview(showBackground = true, widthDp = 900, heightDp = 1280)
 @Composable
 fun RegisterScreen(
     navController: NavController,

@@ -33,7 +33,6 @@ fun EmptyFieldMessageDialog(showMessageDialog: MutableState<Boolean>) {
             Box(modifier = Modifier.padding(30.dp)) {
                 Column(
                     modifier = Modifier.fillMaxWidth(),
-                    //horizontalArrangement = Arrangement.SpaceBetween,
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Image(painter = painterResource(R.drawable.warning),

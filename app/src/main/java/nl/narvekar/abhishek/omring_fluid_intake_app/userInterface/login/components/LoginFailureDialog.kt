@@ -22,6 +22,7 @@ import nl.narvekar.abhishek.omring_fluid_intake_app.R
 
 @Composable
 fun LoginFailureDialog(showLoginFailureDialog: MutableState<Boolean>) {
+
     Dialog(onDismissRequest = {  }) {
         Surface(
             shape = RoundedCornerShape(16.dp),
@@ -30,7 +31,6 @@ fun LoginFailureDialog(showLoginFailureDialog: MutableState<Boolean>) {
             Box(modifier = Modifier.padding(35.dp)) {
                 Column(
                     modifier = Modifier.fillMaxWidth(),
-                    //horizontalArrangement = Arrangement.SpaceBetween,
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Image(

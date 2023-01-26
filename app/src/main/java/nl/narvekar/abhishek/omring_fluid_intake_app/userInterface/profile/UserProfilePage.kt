@@ -92,7 +92,7 @@ fun UserProfilePage(navController: NavController) {
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier.padding(start = 39.dp, top = 693.dp)
             ) {
-                Text(text = stringResource(id = R.string.phonenumber_text), fontSize = 44.sp)
+                Text(text = stringResource(id = R.string.phone_number_text), fontSize = 44.sp)
                 Spacer(modifier = Modifier.width(103.dp))
                 Text(text = phoneNumber, fontSize = 44.sp)
             }

@@ -16,7 +16,7 @@ class DrinkRecordsPager() : PagingSource<Int, DrinkLogResponse>() {
 
     override val keyReuseSupported: Boolean = true
     override fun getRefreshKey(state: PagingState<Int, DrinkLogResponse>): Int? {
-        return state.anchorPosition
+        return null
     }
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, DrinkLogResponse> {
@@ -24,8 +24,10 @@ class DrinkRecordsPager() : PagingSource<Int, DrinkLogResponse>() {
         // start refresh at position 1 if undefined
         val position = (params.key ?: INITIAL_LOAD_SIZE)
         val offset = if (params.key != null) ((position - 1) * NETWORK_PAGE_SIZE) + 1 else INITIAL_LOAD_SIZE
-        //val adminToken = "eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOlsiQURNSU4iLCJDQVJFX0dJVkVSIl0sImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWUiOiIrMzE2NDU4MjYwMDAiLCJuYmYiOjE2NzE2NTgyNTEsImV4cCI6MTcwMzE5NDI1MSwiaWF0IjoxNjcxNjU4MjUxLCJpc3MiOiJEcmlua0FwcFJlY2lwZXMuYXp1cmV3ZWJzaXRlcy5uZXQiLCJhdWQiOiJEcmlua0FwcFVzZXJzIC8gUGF0aWVudHMgLyBDYXJlZ2l2ZXJzIC8gQWRtaW5zIn0.sgh_qAXL9GyQ_GLiXjPOBxZBQlaSaC91Cxc8iobF9XM"
-        // this endpoint works only on admintoken, for some reason so we hardcode the token
+
+        // this endpoint works only on admintoken, so I had to hardcode the admin token
+        // there was no endpoint in the api for retriving the drink logs, for that paticular day for the patient using their token
+        // and since the admin endpoint works a bit differently so had to hardcode some values here
         val adminToken = "eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOlsiQURNSU4iLCJDQVJFX0dJVkVSIl0sImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWUiOiIrMzE2NDU4MjYwMDAiLCJuYmYiOjE2NzQ0OTk4MDYsImV4cCI6MTcwNjAzNTgwNiwiaWF0IjoxNjc0NDk5ODA2LCJpc3MiOiJEcmlua0FwcFJlY2lwZXMuYXp1cmV3ZWJzaXRlcy5uZXQiLCJhdWQiOiJEcmlua0FwcFVzZXJzIC8gUGF0aWVudHMgLyBDYXJlZ2l2ZXJzIC8gQWRtaW5zIn0.hSt385jrkqYfBirmZQaToX5DbRx0h5m0SJuzqBG4ZVk"
         val patientId = AppSession.getPatientId()
         return try {
@@ -33,7 +35,7 @@ class DrinkRecordsPager() : PagingSource<Int, DrinkLogResponse>() {
                 "Bearer ${adminToken}",
                 patientId,
                 "22/01/2023",
-                "28/01/2023",
+                "28/01/2025",
                 offset,
                 limit = params.loadSize
             )

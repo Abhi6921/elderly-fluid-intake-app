@@ -43,7 +43,6 @@ fun RecipeDetailView(
     patientViewModel: PatientViewModel = viewModel(),
     navController: NavController
 ) {
-    Log.d(TAG, "RecipeDetailView passed from recipe list: $detailId")
     val scrollState = rememberScrollState()
     val patientId = AppSession.getPatientId()
     val recipe by recipeDetailViewModel.mutableRecipeState.collectAsState()
@@ -63,7 +62,7 @@ fun RecipeDetailView(
                         modifier = Modifier.fillMaxWidth(),
                         textAlign = TextAlign.Center,
                         maxLines = 1,
-                        text = "Recipe Detail Screen",
+                        text =  stringResource(id = R.string.recipe_detail_text),
                         color = Color.White,
                         fontSize = 34.sp
                     )

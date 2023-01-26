@@ -36,7 +36,7 @@ class CardListViewModel : ViewModel() {
     }.flow.cachedIn(viewModelScope)
 
     fun formatDateTimeForDrinkLogs(dateTime: String): String {
-        // remove unnecessary values after seconds section in datetime
+        // removes unnecessary values after seconds section in datetime, since the api returns the date in following format: 2023-01-16T18:23:00.0790479+00:00
         val strippedDate = dateTime.dropLast(13)
         val date = LocalDateTime.parse(strippedDate)
         val formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm a", Locale.getDefault())

@@ -43,13 +43,16 @@ fun RecipeFavorited(
     patientViewModel: PatientViewModel = viewModel()
 ) {
     val deletedItems = remember { mutableStateListOf<Recipe>() }
-    val recipes1 by patientViewModel.favoriteRecipeState.collectAsState()
+    val recipesFavorite by patientViewModel.favoriteRecipeState.collectAsState()
+
+    val isLoading = patientViewModel.isLikedRecipesLoading.value
+    val containNoLikedRecipe = patientViewModel.norecipes.value
     Scaffold(
         topBar = {
               FluidTopAppBar(topBarTitle = stringResource(id = R.string.favorite_title))
         },
         content = { innnerPadding ->
-            if (recipes1.isNullOrEmpty()) {
+            if (containNoLikedRecipe) {
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
@@ -57,28 +60,40 @@ fun RecipeFavorited(
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    Text(text = stringResource(id = R.string.no_favorites_text), fontSize = 35.sp)
+                    Text(text = stringResource(id = R.string.no_favorites_text), fontSize = 34.sp)
+                }
+            }
+            if (isLoading) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(innnerPadding),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    CircularProgressIndicator(color = Color.Blue, modifier = Modifier.size(60.dp))
                 }
             }
             else {
-                LazyColumn(Modifier.padding(innnerPadding)) {
-                     recipes1?.let { allFavoriteRecipes ->
-                         itemsIndexed(
-                             items = allFavoriteRecipes,
-                             itemContent = {index, item ->
-                                 AnimatedVisibility(
-                                     visible = !deletedItems.contains(item),
-                                     enter = expandVertically(),
-                                     exit = shrinkVertically(animationSpec = tween(durationMillis = 2000))
-                                 ) {
-                                     FavoriteRecipeItem(recipe = item, patientViewModel = patientViewModel, deletedItems = deletedItems) {
-                                         navController.navigate(Routes.RecipeDetail.route + "/${it.recipeId}")
-                                     }
-                                 }
-                             }
-                         )
-                     }
+                recipesFavorite?.let { allFavoriteRecipes ->
+                    LazyColumn(Modifier.padding(innnerPadding)) {
+                        itemsIndexed(
+                            items = allFavoriteRecipes,
+                            itemContent = {index, item ->
+                                AnimatedVisibility(
+                                    visible = !deletedItems.contains(item),
+                                    enter = expandVertically(),
+                                    exit = shrinkVertically(animationSpec = tween(durationMillis = 2000))
+                                ) {
+                                    FavoriteRecipeItem(recipe = item, patientViewModel = patientViewModel, deletedItems = deletedItems) {
+                                        navController.navigate(Routes.RecipeDetail.route + "/${it.recipeId}")
+                                    }
+                                }
+                            }
+                        )
+                    }
                 }
+
             }
 
         },
@@ -99,7 +114,6 @@ fun FavoriteRecipeItem(
     val context = LocalContext.current
     Card(
         modifier = Modifier
-            // The space between each card and the other
             .padding(10.dp)
             .fillMaxWidth()
             .wrapContentHeight(),
@@ -112,7 +126,6 @@ fun FavoriteRecipeItem(
         ) {
 
             AsyncImage(
-                //model = R.drawable.recipe_img,
                 model = recipe.imageLink,
                 contentDescription = "recipe image",
                 modifier = Modifier

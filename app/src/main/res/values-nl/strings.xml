@@ -14,8 +14,8 @@
     <string name="password_text">Wachtwoord</string>
 
     <!--Empty Field Dialog Strings-->
-    <string name="empty_fields_title">Leeg veld!</string>
-    <string name="empty_fields_text">Een van de velden is leeg!</string>
+    <string name="empty_fields_title">Lege velden!</string>
+    <string name="empty_fields_text">Vul alle tekstvakken in</string>
     <string name="ok_text">Oke</string>
 
     <!--Login Failure Strings-->
@@ -64,6 +64,7 @@
     <string name="last_name_text">Achternaam:</string>
     <string name="daily_limit_label">Dagelijkse limiet:</string>
     <string name="daily_goal_label">Dagelijks doel:</string>
+    <string name="phone_number_text">Telefoonnummer:</string>
 
     <!--Recipe Screen Strings-->
     <string name="recipe_title">Recepten</string>
@@ -71,6 +72,7 @@
     <string name="recipe_in_favorites">Dit recept staat bij favorieten!</string>
     <string name="ingredients_text">Ingrediënten</string>
     <string name="steps_text">Recept stappen</string>
+    <string name="recipe_detail_text">Recept informatie</string>
 
     <!--Drink Records Strings-->
     <string name="drink_records_title">Uw drankrecords</string>
@@ -85,6 +87,9 @@
     <string name="share_top_bar_title">Deelen</string>
     <string name="profile_photo_text">Profielfoto</string>
     <string name="ui_cannot_load_records_from_api">Fout bij het laden van records uit de database.</string>
+
+    <string name="show_half_way_message">Goed werk! je bent halverwege!</string>
+
 
 
 </resources>

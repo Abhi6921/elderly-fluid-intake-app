@@ -46,7 +46,6 @@ class RegisterViewModel : ViewModel() {
                     else {
                         isProcessing.value = false
                         showFailureMessage.value = true
-                        Log.d("Register Failure!", "${response.code().toString()},  ${response.message()} ${response.headers()}")
                     }
                 }
             }

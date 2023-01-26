@@ -16,7 +16,7 @@ import nl.narvekar.abhishek.omring_fluid_intake_app.api.RecipeAuthApi
 import nl.narvekar.abhishek.omring_fluid_intake_app.data.Recipe
 
 class RecipeViewModel : ViewModel() {
-    var recipeListResponse: List<Recipe> by mutableStateOf(listOf())
+    //var recipeListResponse: List<Recipe> by mutableStateOf(listOf())
     var errorMessage: String by mutableStateOf("")
 
     private val mutableListRecipe = MutableStateFlow<List<Recipe>?>(null)
@@ -34,7 +34,7 @@ class RecipeViewModel : ViewModel() {
             val recipeAuthApi = RecipeAuthApi.getInstance()
             try {
                 val recipeList = recipeAuthApi.getAllRecipes()
-                recipeListResponse = recipeList
+                //recipeListResponse = recipeList
                 mutableListRecipe.emit(recipeList)
                 isLoading.value = false
             }catch (e: Exception) {

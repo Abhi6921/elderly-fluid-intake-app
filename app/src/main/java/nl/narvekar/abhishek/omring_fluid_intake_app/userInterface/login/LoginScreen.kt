@@ -51,7 +51,7 @@ fun LoginUI(
     val showEmptyFieldDialog = remember { mutableStateOf(false) }
     val showLoginFailureDialog = loginViewModel.showLoginFailureDialog.value
 
-    val isProcessing = loginViewModel.isLoading.value
+    val isAuthenticating = loginViewModel.isLoading.value
 
     if (showEmptyFieldDialog.value) {
         EmptyFieldMessageDialog(showEmptyFieldDialog)
@@ -169,7 +169,7 @@ fun LoginUI(
         }
         Spacer(modifier = Modifier.height(33.dp))
 
-        if (isProcessing) {
+        if (isAuthenticating) {
             CircularProgressIndicator(modifier = Modifier.then(Modifier.size(62.dp)), color = Color.White)
         }
     }
