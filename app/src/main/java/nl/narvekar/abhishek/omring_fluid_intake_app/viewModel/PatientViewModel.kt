@@ -41,7 +41,6 @@ class PatientViewModel : ViewModel() {
         viewModelScope.launch(Dispatchers.IO) {
             val usersAuthApi = UsersAuthApi.getUsersAuthApiInstance()
             val authToken = AppSession.getAuthToken()
-            Log.d("Authtokenpatient", authToken)
             try {
                 val currentStatus = usersAuthApi.getCurrentFluidStatus("Bearer ${authToken}", patientId)
                 logDrinkResponse = currentStatus
@@ -89,8 +88,6 @@ class PatientViewModel : ViewModel() {
         viewModelScope.launch(Dispatchers.IO) {
             val retrofitInstance = UsersAuthApi.getUsersAuthApiInstance()
             val authToken = AppSession.getAuthToken()
-            Log.d("likerecipe-patientId", patientId)
-            Log.d("likerecipe-recipeId", recipeId)
             retrofitInstance.likeRecipeByPatient("Bearer $authToken", patientId, recipeId).enqueue(object :
                 Callback<LikeRecipeResponse> {
                     override fun onFailure(call: Call<LikeRecipeResponse>, t: Throwable) {
