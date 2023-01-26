@@ -19,7 +19,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import nl.narvekar.abhishek.omring_fluid_intake_app.R
-import nl.narvekar.abhishek.omring_fluid_intake_app.navigation.Routes
 
 @Composable
 fun EmptyFieldMessageDialog(showMessageDialog: MutableState<Boolean>) {

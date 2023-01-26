@@ -1,13 +1,7 @@
 package nl.narvekar.abhishek.omring_fluid_intake_app.navigation
 
-import android.content.SharedPreferences
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
-import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavController
 import androidx.navigation.NavType
-import androidx.navigation.compose.ComposeNavigator
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -20,11 +14,9 @@ import nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.recipes.Recipe
 import nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.recipes.components.RecipeDetailView
 import nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.records.DrinkRecords
 import nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.register.RegisterScreen
-import nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.register.components.RegisterConfirmDialog
 import nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.share.ShareScreen
 import nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.start.StartScreen
 import nl.narvekar.abhishek.omring_fluid_intake_app.utils.AppSession
-import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.*
 
 const val recipeId = "recipeId"
 @Composable

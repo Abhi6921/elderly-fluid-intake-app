@@ -1,23 +1,21 @@
 package nl.narvekar.abhishek.omring_fluid_intake_app.viewModel
 
-import android.content.ClipData.Item
 import android.content.Context
 import android.util.Log
 import android.widget.Toast
-import androidx.compose.material.Text
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import nl.narvekar.abhishek.omring_fluid_intake_app.api.UsersAuthApi
-import nl.narvekar.abhishek.omring_fluid_intake_app.data.*
+import nl.narvekar.abhishek.omring_fluid_intake_app.data.LikeRecipeResponse
+import nl.narvekar.abhishek.omring_fluid_intake_app.data.LogDrinkResponse
+import nl.narvekar.abhishek.omring_fluid_intake_app.data.Recipe
 import nl.narvekar.abhishek.omring_fluid_intake_app.utils.AppSession
 import retrofit2.Call
 import retrofit2.Callback

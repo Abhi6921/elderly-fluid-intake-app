@@ -1,19 +1,16 @@
 package nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.recipes.components
 
-import android.annotation.SuppressLint
-import android.content.ContentValues.TAG
-import android.util.Log
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
-import androidx.compose.runtime.*
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -27,13 +24,10 @@ import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import nl.narvekar.abhishek.omring_fluid_intake_app.R
 import nl.narvekar.abhishek.omring_fluid_intake_app.data.Recipe
-import nl.narvekar.abhishek.omring_fluid_intake_app.data.tips
-import nl.narvekar.abhishek.omring_fluid_intake_app.navigation.recipeId
+import nl.narvekar.abhishek.omring_fluid_intake_app.data.placeholderText
 import nl.narvekar.abhishek.omring_fluid_intake_app.utils.AppSession
 import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.PatientViewModel
 import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.RecipeDetailViewModel
-import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.RecipeViewModel
-
 
 
 @Composable
@@ -124,7 +118,7 @@ fun RecipeDetailScreen(
     Spacer(modifier = Modifier.height(30.dp))
 
 
-    for((key, value) in recipe?.ingredients ?: tips) {
+    for((key, value) in recipe?.ingredients ?: placeholderText) {
         Text(text = "$key: $value", fontSize = 24.sp)
     }
 

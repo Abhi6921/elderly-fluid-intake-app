@@ -1,23 +1,18 @@
 package nl.narvekar.abhishek.omring_fluid_intake_app.viewModel
 
-import android.content.ContentValues.TAG
 import android.content.Context
-import android.util.Log
-import android.util.Patterns
 import android.widget.Toast
-import androidx.compose.runtime.*
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.navigation.NavController
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import nl.narvekar.abhishek.omring_fluid_intake_app.api.UsersAuthApi
-import nl.narvekar.abhishek.omring_fluid_intake_app.data.*
-import nl.narvekar.abhishek.omring_fluid_intake_app.navigation.Routes
+import nl.narvekar.abhishek.omring_fluid_intake_app.data.UserRequest
+import nl.narvekar.abhishek.omring_fluid_intake_app.data.UserResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import kotlin.math.log
 
 class RegisterViewModel : ViewModel() {
 

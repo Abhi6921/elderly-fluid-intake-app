@@ -1,7 +1,5 @@
 package nl.narvekar.abhishek.omring_fluid_intake_app.navigation
 
-import okhttp3.Route
-
 sealed class Routes(val route: String) {
     object Start: Routes("Start")
     object Login: Routes("Login")

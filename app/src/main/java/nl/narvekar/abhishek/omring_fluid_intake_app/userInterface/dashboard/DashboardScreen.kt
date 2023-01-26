@@ -1,11 +1,5 @@
 package nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.dashboard
 
-import android.R.attr.fontWeight
-import android.R.attr.text
-import android.text.SpannableStringBuilder
-import android.text.style.RelativeSizeSpan
-import android.util.Log
-import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
@@ -25,8 +19,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import nl.narvekar.abhishek.omring_fluid_intake_app.R
 import nl.narvekar.abhishek.omring_fluid_intake_app.data.MotivationalQuotes
 import nl.narvekar.abhishek.omring_fluid_intake_app.navigation.AppBottomNav

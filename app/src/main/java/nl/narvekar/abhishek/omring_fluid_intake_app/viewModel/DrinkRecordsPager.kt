@@ -4,7 +4,6 @@ import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import nl.narvekar.abhishek.omring_fluid_intake_app.api.UsersAuthApi
 import nl.narvekar.abhishek.omring_fluid_intake_app.data.DrinkLogResponse
-import nl.narvekar.abhishek.omring_fluid_intake_app.data.LogDrinkResponse
 import nl.narvekar.abhishek.omring_fluid_intake_app.utils.AppSession
 
 const val NETWORK_PAGE_SIZE = 1

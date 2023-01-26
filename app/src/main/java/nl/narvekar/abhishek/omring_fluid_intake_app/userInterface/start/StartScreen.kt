@@ -3,7 +3,9 @@ package nl.narvekar.abhishek.omring_fluid_intake_app.userInterface.start
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.*
+import androidx.compose.material.Button
+import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -18,9 +20,6 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import nl.narvekar.abhishek.omring_fluid_intake_app.R
 import nl.narvekar.abhishek.omring_fluid_intake_app.navigation.Routes
-import nl.narvekar.abhishek.omring_fluid_intake_app.utils.AppSession
-import okhttp3.Route
-
 
 @Composable
 fun StartScreen(navController: NavController) {
