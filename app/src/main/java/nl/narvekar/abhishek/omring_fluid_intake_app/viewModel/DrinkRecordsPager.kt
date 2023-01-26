@@ -25,8 +25,8 @@ class DrinkRecordsPager() : PagingSource<Int, DrinkLogResponse>() {
         val position = (params.key ?: INITIAL_LOAD_SIZE)
         val offset = if (params.key != null) ((position - 1) * NETWORK_PAGE_SIZE) + 1 else INITIAL_LOAD_SIZE
 
-        // this endpoint works only on admintoken, so I had to hardcode the admin token
-        // there was no endpoint in the api for retriving the drink logs, for that paticular day for the patient using their token
+        // this endpoint works only on admin token, so I had to hardcode the admin token
+        // there was no endpoint in the api for retrieving the drink logs, for that particular day for the patient using their token
         // and since the admin endpoint works a bit differently so had to hardcode some values here
         val adminToken = "eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOlsiQURNSU4iLCJDQVJFX0dJVkVSIl0sImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWUiOiIrMzE2NDU4MjYwMDAiLCJuYmYiOjE2NzQ0OTk4MDYsImV4cCI6MTcwNjAzNTgwNiwiaWF0IjoxNjc0NDk5ODA2LCJpc3MiOiJEcmlua0FwcFJlY2lwZXMuYXp1cmV3ZWJzaXRlcy5uZXQiLCJhdWQiOiJEcmlua0FwcFVzZXJzIC8gUGF0aWVudHMgLyBDYXJlZ2l2ZXJzIC8gQWRtaW5zIn0.hSt385jrkqYfBirmZQaToX5DbRx0h5m0SJuzqBG4ZVk"
         val patientId = AppSession.getPatientId()
