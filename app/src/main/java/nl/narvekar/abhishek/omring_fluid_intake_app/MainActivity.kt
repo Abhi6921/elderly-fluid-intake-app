@@ -27,7 +27,6 @@ import nl.narvekar.abhishek.omring_fluid_intake_app.viewModel.*
 
 class MainActivity : ComponentActivity() {
 
-//    private val recipeViewModel by viewModels<RecipeViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,5 +45,4 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-//2345678982
 
