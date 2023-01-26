@@ -34,7 +34,7 @@ fun AppNavigation() {
     val isLoggedIn = AppSession.isLoggedIn()
     NavHost(
         navController = navController,
-        startDestination =  if (isLoggedIn) {Routes.Home.route } else { Routes.getStartDestination() } //if (authToken.isEmpty()) { Routes.getDestination() } else { Routes.Home.route }
+        startDestination =  if (isLoggedIn) {Routes.Home.route } else { Routes.getStartDestination() }
     ) {
 
         composable(Routes.Start.route) {
